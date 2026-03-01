@@ -10,6 +10,24 @@ Format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 > Changes staged here move to a versioned release once reviewed and merged.
 
+### Added
+- Claude Opus 4.6 model profile in `docs/01-model-comparison.md` — with internal observation noting degraded real-world SWE performance compared to 4.5
+- Claude Sonnet 4.6 model profile in `docs/01-model-comparison.md` — now the recommended model for most SWE work
+- Gemini 3.1 Pro model profile in `docs/01-model-comparison.md` — Google's latest flagship with 80.6% SWE-bench Verified
+- Google and Zoho credential setup guides in `docs/07-openclaw-integration.md` — step-by-step OAuth configuration
+- "Connecting Credentials to Embee" section in `docs/07-openclaw-integration.md` — authorization workflow and troubleshooting
+- Zoho-Related Operations section in `prompts/03-embee-system-prompt.md` — API documentation references for People, Mail, and Projects
+- Authorization section in `prompts/03-embee-system-prompt.md` — auth scope URL for Zoho re-authorization flow
+
+### Changed
+- Updated Decision Guide table in `docs/01-model-comparison.md` to reflect Sonnet 4.6 as the new default recommendation
+- Updated Embee system prompt with Zoho API documentation and authorization handling
+- Updated `CLAUDE.md` repository structure to reflect v0.2 files
+- Added deprecation notice to Gemini 3 Pro — scheduled for deprecation March 9, 2026
+
+### Fixed
+- Fixed broken code fences in `agents/wp-module-builder.md` and `agents/wp-page-builder.md` — changed outer fence from triple to quadruple backticks to support nested code blocks
+
 ---
 
 ## [v0.2]

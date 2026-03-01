@@ -88,7 +88,7 @@ Tasks are grouped into three tiers that drive model selection, prompting style, 
 |-----------|--------|
 | IDE | VS Code |
 | Coding Companion | GitHub Copilot (autocompletion + chat + agents) |
-| Primary LLM | Claude Opus 4.5 (T3) / Claude Sonnet 4.5 (T1–T2) |
+| Primary LLM | Claude Sonnet 4.6 (T1–T3) / Claude Opus 4.5 (complex T3) |
 | Code Quality MCP | SonarQube |
 | Library Standards MCP | Context7 |
 | Design MCP | Figma *(frontend only)* |
@@ -103,13 +103,16 @@ The table below covers the models currently recommended for SWE-related work. Us
 
 | Model | Description | Pros | Cons | Ideal Use Case | Tier | Cost (input / output per 1M tokens) |
 |-------|-------------|------|------|----------------|------|--------------------------------------|
-| **Claude Opus 4.5** | Top-tier Claude model built for complex reasoning and SWE work | Strong architecture/design thinking; excellent deep debugging and refactors; handles ambiguity well | Higher cost per token; slower on routine tasks; overkill for simple tickets | System design decisions; complex refactors/migrations; hard-to-reproduce bugs | T3 | $5 / $25 |
-| **GPT 5.2** | OpenAI flagship in the GPT-5 family | Fast implementation output; strong tool/agent workflows; good breadth across tasks | Needs tight verification for risky changes; can be "too confident" without tests | MVP builds and iteration; multi-step coding tasks; mixed coding + docs + tests | T2–T3 | $1.75 / $14 |
-| **Claude Sonnet 4.5** | Balanced Claude model — the daily driver for SWE | Best cost-to-performance balance; strong coding and reasoning; fast enough for daily work | Less peak performance than Opus; still needs tests/review gates | Most feature tickets; moderate refactors; PR-ready drafts and fixes | T1–T2 | $3 / $15 |
-| **GPT 5.1** | GPT-5 family "everyday" option | Solid coding assistant; faster and cheaper than top tier; good for rapid iteration | Less reliable on hardest architecture tasks; requires validation like any LLM | Standard feature dev; debugging with quick turnaround; test scaffolding and cleanup | T1–T2 | $1.25 / $10 |
-| **Gemini 3 Pro** | Google Gemini "Pro" tier — strong long-context and multimodal | Very large context window; strong multimodal reasoning; good for reading lots of docs/code | Model/plan details can shift; tooling ecosystem differs; currently extremely low usage cap (almost unusable) | Large-repo comprehension; long specs/multi-doc synthesis; multimodal debugging with screenshots/diagrams | T2–T3 | $2 / $12 |
+| **Claude Sonnet 4.6** ⭐ | New default — near-Opus capability at Sonnet cost | 79.6% SWE-bench; strong multi-step execution; less overengineering than predecessors | Still needs validation gates; no 1M context window | Most SWE work across all tiers; agent pipeline; full codebase analysis | T1–T3 | $3 / $15 |
+| **Claude Opus 4.5** | Top-tier Claude model for complex reasoning | Strong architecture/design thinking; excellent deep debugging; handles ambiguity well | Higher cost; slower on routine tasks; overkill for simple tickets | System design decisions; complex refactors/migrations; hard-to-reproduce bugs | T3 | $5 / $25 |
+| **Claude Opus 4.6** | Latest Opus with 1M context and 128K output | Largest context window; extended output length | Prone to context drift; can hallucinate outside initial instructions | Tasks requiring 1M context window; experimental agentic workflows | T3 | $5 / $25 |
+| **Claude Sonnet 4.5** | Previous daily driver for SWE | Good cost-to-performance balance; fast for daily work | Superseded by Sonnet 4.6 for most use cases | Legacy workflows; cost-sensitive T1–T2 work | T1–T2 | $3 / $15 |
+| **GPT 5.2** | OpenAI flagship in the GPT-5 family | Fast implementation output; strong tool/agent workflows | Needs tight verification; can be "too confident" without tests | MVP builds and iteration; multi-step coding tasks | T2–T3 | $1.75 / $14 |
+| **GPT 5.1** | GPT-5 family "everyday" option | Solid coding assistant; faster and cheaper than top tier | Less reliable on hardest architecture tasks | Standard feature dev; debugging with quick turnaround | T1–T2 | $1.25 / $10 |
+| **Gemini 3.1 Pro** | Google's latest flagship — strong agentic performance | 80.6% SWE-bench; 1M context window; improved reasoning | Usage caps still apply; Claude models more reliable for production | Large-repo comprehension; agentic workflows; multimodal debugging | T2–T3 | $2.50 / $15 |
+| **Gemini 3 Pro** ⚠️ | Previous Google Pro tier — deprecated March 9, 2026 | Large context window; strong multimodal reasoning | Extremely low usage cap; deprecated soon | Migrate to 3.1 Pro | T2–T3 | $2 / $12 |
 
-**Note:** GPT 5.2 is stronger as a general-purpose base model, but Claude Opus 4.5 remains the better companion specifically for software development work. This will be monitored as the landscape changes.
+**Note:** Claude Sonnet 4.6 is now the recommended default for most SWE work. GPT 5.2 remains strong for general-purpose tasks, but Claude models continue to excel at the structured, context-heavy reasoning SWE work demands. Opus 4.5 is preferred over 4.6 when you need reliable, focused execution.
 
 **Internal observations on model selection:**
 - Junior developers tend to see larger productivity gains from stronger models (Opus) on T3 tasks
@@ -151,9 +154,9 @@ Code Complete → Test Writer → Documentation → Code Reviewer → PR
 
 | Agent | Recommended Model | When to Use | Full Instructions |
 |-------|------------------|-------------|------------------|
-| **Test Writer** | Claude Sonnet 4.5 | Before PR; when adding behavior to critical modules (auth, billing, payments, permissions, data pipeline, infra); PoC → MVP transitions | [`agents/test-writer-agent.md`](agents/test-writer-agent.md) |
-| **Code Reviewer** | Claude Sonnet 4.5 | Pre-PR structured review — correctness, edge cases, security risks, pattern consistency, test coverage gaps | [`agents/code-reviewer-agent.md`](agents/code-reviewer-agent.md) |
-| **Documentation** | Claude Sonnet 4.5 | After every coding session (pre-PR) for endpoints/configs/models; or end-of-day to preserve context mid-feature | [`agents/documentation-agent.md`](agents/documentation-agent.md) |
+| **Test Writer** | Claude Sonnet 4.6 | Before PR; when adding behavior to critical modules (auth, billing, payments, permissions, data pipeline, infra); PoC → MVP transitions | [`agents/test-writer-agent.md`](agents/test-writer-agent.md) |
+| **Code Reviewer** | Claude Sonnet 4.6 | Pre-PR structured review — correctness, edge cases, security risks, pattern consistency, test coverage gaps | [`agents/code-reviewer-agent.md`](agents/code-reviewer-agent.md) |
+| **Documentation** | Claude Sonnet 4.6 | After every coding session (pre-PR) for endpoints/configs/models; or end-of-day to preserve context mid-feature | [`agents/documentation-agent.md`](agents/documentation-agent.md) |
 
 ### WordPress CMS Agents
 
@@ -169,8 +172,8 @@ Page Requirements → WP Page Builder → (Missing modules?) → WP Module Build
 
 | Agent | Recommended Model | When to Use | Full Instructions |
 |-------|------------------|-------------|------------------|
-| **WP Module Builder** | Claude Sonnet 4.5 | Creating new ACF block modules — hero sections, card grids, CTAs, banners; converting Figma designs to reusable blocks | [`agents/wp-module-builder.md`](agents/wp-module-builder.md) |
-| **WP Page Builder** | Claude Sonnet 4.5 | Assembling full WordPress pages using existing modules; planning page structure; configuring module instances with content | [`agents/wp-page-builder.md`](agents/wp-page-builder.md) |
+| **WP Module Builder** | Claude Sonnet 4.6 | Creating new ACF block modules — hero sections, card grids, CTAs, banners; converting Figma designs to reusable blocks | [`agents/wp-module-builder.md`](agents/wp-module-builder.md) |
+| **WP Page Builder** | Claude Sonnet 4.6 | Assembling full WordPress pages using existing modules; planning page structure; configuring module instances with content | [`agents/wp-page-builder.md`](agents/wp-page-builder.md) |
 
 ---
 
