@@ -6,6 +6,16 @@ This playbook is **not** about enforcing identical coding styles or replacing en
 
 ---
 
+## What's New
+
+**v0.1 — March 1, 2026 — Initial Release**
+
+This is the first version of the AI Excellence Playbook. No changes to report yet — this is the baseline everything will be measured against going forward.
+
+For full version history → [`CHANGELOG.md`](CHANGELOG.md)
+
+---
+
 ## Why This Exists
 
 Without a consistent approach to AI tooling, there's no opportunity for knowledge sharing, no compounding improvements when someone finds a better workflow, and no predictable quality baseline across teams. This playbook addresses that by:
