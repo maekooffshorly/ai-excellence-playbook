@@ -23,6 +23,17 @@ This guide walks through setting up the full General toolset from scratch — Cl
 
 > Claude Code includes built-in access to Claude Sonnet 4.6 and Claude Opus 4.5 — no separate API key configuration needed with the Team Plan.
 
+### Model Selection
+
+Claude Code defaults to Opus 4.6, but **we recommend Opus 4.5 for complex T3 tasks** due to better focus and less context drift. To switch models during a session, use the `/model` command:
+
+```
+/model claude-opus-4-5-20251101    # Use Opus 4.5 (recommended for T3)
+/model claude-sonnet-4-6-20260101  # Use Sonnet 4.6 (default for T1-T3)
+```
+
+The model selection persists for the current session. For most daily work, the default Sonnet 4.6 is appropriate.
+
 ---
 
 ## Step 2: Configure MCPs

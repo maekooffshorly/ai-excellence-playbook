@@ -19,6 +19,15 @@ Format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 - Zoho-Related Operations section in `prompts/03-embee-system-prompt.md` — API documentation references for People, Mail, and Projects
 - Authorization section in `prompts/03-embee-system-prompt.md` — auth scope URL for Zoho re-authorization flow
 - `prompts/01-claude-md-generator.md` — prompt for generating CLAUDE.md files (replaces copilot-instructions-generator)
+- `agents/security-reviewer-agent.md` — dedicated security review agent for OWASP Top 10, auth/authz gaps, and vulnerability scanning
+- `agents/build-error-resolver-agent.md` — agent for diagnosing and fixing CI/CD failures, dependency conflicts, and build errors
+- `agents/planner-agent.md` — planning agent for task breakdown, implementation sequencing, and T2/T3 scope definition
+- `agents/architect-agent.md` — system architecture design agent for T3 tasks, component design, and technical decisions
+- Additional Slash Commands section in `docs/04-coding-techniques.md` — `/plan`, `/build-fix`, `/tdd`, `/checkpoint`, `/verify` with installation instructions
+- Planning & Architecture Agents section in README — new agent category for pre-implementation planning
+- Utility Agents section in README — new agent category for situational tools like Build Error Resolver
+- Pipeline disclaimer note in README — clarifies that agent pipelines are suggested workflows, not mandatory sequences
+- Model selection guidance in README, setup guide, and coding techniques — `/model claude-opus-4-5-20251101` command for switching to Opus 4.5 (recommended over default Opus 4.6 for T3 tasks)
 
 ### Changed
 - **MAJOR: Migrated from GitHub Copilot to Claude Code as primary coding companion** — reflects cost efficiency and better agentic capabilities

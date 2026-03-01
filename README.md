@@ -53,6 +53,10 @@ ai-excellence-playbook/
     ├── test-writer-agent.md                     # Test Writer agent instruction sheet
     ├── code-reviewer-agent.md                   # Code Reviewer agent instruction sheet
     ├── documentation-agent.md                   # Documentation agent instruction sheet
+    ├── security-reviewer-agent.md               # Security Reviewer agent instruction sheet
+    ├── build-error-resolver-agent.md            # Build Error Resolver agent instruction sheet
+    ├── planner-agent.md                         # Planner agent instruction sheet
+    ├── architect-agent.md                       # Architect agent instruction sheet
     ├── wp-module-builder.md                     # WP Module Builder agent for ACF blocks
     └── wp-page-builder.md                       # WP Page Builder agent for WordPress pages
 ```
@@ -114,6 +118,12 @@ The table below covers the models currently recommended for SWE-related work. Us
 
 **Note:** Claude Sonnet 4.6 is now the recommended default for most SWE work. GPT 5.2 remains strong for general-purpose tasks, but Claude models continue to excel at the structured, context-heavy reasoning SWE work demands. Opus 4.5 is preferred over 4.6 when you need reliable, focused execution.
 
+> **Model Selection in Claude Code:** Claude Code defaults to Opus 4.6, but we recommend Opus 4.5 for complex T3 tasks due to better focus and less context drift. To switch models, use the `/model` command:
+> ```
+> /model claude-opus-4-5-20251101    # Use Opus 4.5 (recommended for T3)
+> /model claude-sonnet-4-6-20260101  # Use Sonnet 4.6 (default for T1-T3)
+> ```
+
 **Internal observations on model selection:**
 - Junior developers tend to see larger productivity gains from stronger models (Opus) on T3 tasks
 - More experienced developers often see smaller marginal gains from Opus vs. Sonnet, where clarity of requirements and strong local context matters more than raw model output
@@ -141,9 +151,26 @@ The table below covers the tools in the current recommended stack and their alte
 
 Agents are implemented as Claude Code slash commands — full instruction sheets and setup steps are in [`agents/`](agents/).
 
-### Standard Pipeline Agents
+> **Note:** The pipelines shown below are *suggested workflows*, not mandatory sequences. Actual agentic workflow depends on user preference, task complexity, and project phase. For simple T1 tasks, running the full pipeline may be overkill. For complex T3 features, you may need multiple planning passes or additional security review. Adapt the pipeline to fit the task.
 
-Once coding is complete, these three agents form the quality and documentation pipeline before a PR is raised.
+### Planning & Architecture Agents
+
+For T2/T3 tasks, start with planning before implementation.
+
+```
+Requirements → Planner → [Approval] → Implementation
+                 ↓
+         (Complex T3?) → Architect → Planner → Implementation
+```
+
+| Agent | Recommended Model | When to Use | Full Instructions |
+|-------|------------------|-------------|------------------|
+| **Planner** | Claude Sonnet 4.6 | T2/T3 tasks; multi-day features; unclear scope; sprint planning | [`agents/planner-agent.md`](agents/planner-agent.md) |
+| **Architect** | Claude Opus 4.5 | T3 architectural decisions; new services; major refactors; system design | [`agents/architect-agent.md`](agents/architect-agent.md) |
+
+### Quality Pipeline Agents
+
+Once coding is complete, these agents form the quality and documentation pipeline before a PR is raised.
 
 ```
 Code Complete → Test Writer → Documentation → Code Reviewer → PR
@@ -155,8 +182,17 @@ Code Complete → Test Writer → Documentation → Code Reviewer → PR
 | Agent | Recommended Model | When to Use | Full Instructions |
 |-------|------------------|-------------|------------------|
 | **Test Writer** | Claude Sonnet 4.6 | Before PR; when adding behavior to critical modules (auth, billing, payments, permissions, data pipeline, infra); PoC → MVP transitions | [`agents/test-writer-agent.md`](agents/test-writer-agent.md) |
-| **Code Reviewer** | Claude Sonnet 4.6 | Pre-PR structured review — correctness, edge cases, security risks, pattern consistency, test coverage gaps | [`agents/code-reviewer-agent.md`](agents/code-reviewer-agent.md) |
 | **Documentation** | Claude Sonnet 4.6 | After every coding session (pre-PR) for endpoints/configs/models; or end-of-day to preserve context mid-feature | [`agents/documentation-agent.md`](agents/documentation-agent.md) |
+| **Code Reviewer** | Claude Sonnet 4.6 | Pre-PR structured review — correctness, edge cases, security risks, pattern consistency, test coverage gaps | [`agents/code-reviewer-agent.md`](agents/code-reviewer-agent.md) |
+| **Security Reviewer** | Claude Sonnet 4.6 | Pre-merge security gate for auth, payments, data handling; compliance-sensitive projects | [`agents/security-reviewer-agent.md`](agents/security-reviewer-agent.md) |
+
+### Utility Agents
+
+These agents handle specific situations as they arise during development.
+
+| Agent | Recommended Model | When to Use | Full Instructions |
+|-------|------------------|-------------|------------------|
+| **Build Error Resolver** | Claude Sonnet 4.6 | CI/CD failures; dependency conflicts; compilation errors; Docker build issues | [`agents/build-error-resolver-agent.md`](agents/build-error-resolver-agent.md) |
 
 ### WordPress CMS Agents
 
