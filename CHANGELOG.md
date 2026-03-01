@@ -11,6 +11,32 @@ Format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 > Changes staged here move to a versioned release once reviewed and merged.
 
 ### Added
+-
+
+### Changed
+-
+
+### Removed
+-
+
+### Fixed
+-
+
+---
+
+## [v1.1] — 2026-03-02
+
+### Added
+- `docs/10-design-handoff.md` — design → dev → AI handoff standards for Figma prep, assets, and prompting
+- `prompts/04-design-system-generator.md` — prompt for generating design-system.md from Figma design system pages
+
+### Changed
+- Updated `docs/04-coding-techniques.md` — added Design → Dev → AI handoff reference
+- Updated `agents/wp-module-builder.md` — added Figma handoff guidance and link
+- Updated `agents/wp-page-builder.md` — added Figma handoff guidance and link
+- Updated `README.md` — repository structure and coding techniques summary updated with design handoff section
+- Updated `CLAUDE.md` repository structure to include the new design handoff doc
+- Updated `docs/10-design-handoff.md` — added link to the design system prompt
 
 ---
 
@@ -120,5 +146,7 @@ Format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 -
 
 -->
+
+
 
 

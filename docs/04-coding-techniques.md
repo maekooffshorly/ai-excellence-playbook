@@ -471,6 +471,16 @@ For rollout guidance and adoption constraints, see [`docs/09-experimental-techni
 
 ---
 
+## Design → Dev → AI Handoff (Figma)
+
+For design-driven workflows (Figma MCP, UIkit, WP modules/pages), use the shared handoff standards in:
+
+> [`docs/10-design-handoff.md`](10-design-handoff.md)
+
+This includes Figma prep rules, asset/SVG policies, prompt templates, and boilerplate-first guidance.
+
+---
+
 ## Language-Specific Prompt Extensions (Optional)
 
 In addition to project-specific CLAUDE.md instructions, you can add language- or framework-specific rules to your `/CLAUDE.md` file. These help standardise coding patterns, reduce common mistakes, and provide a stronger baseline when working in unfamiliar territory.

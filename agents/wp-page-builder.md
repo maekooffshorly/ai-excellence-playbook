@@ -135,6 +135,19 @@ lando wp eval-file web/app/themes/boilerplate/scripts/create-{page-slug}-page.ph
 
 ---
 
+## Design Handoff Notes (Figma MCP)
+
+When assembling pages from Figma designs, follow the shared handoff standard:
+
+- Use the design system page as the style anchor
+- Reference the homepage style for secondary pages
+- Provide a minimal brief for non-home pages (sections, layout intent, content bullets)
+- Use approved assets only; never invent SVGs
+
+Full guidance: [`docs/10-design-handoff.md`](../docs/10-design-handoff.md)
+
+---
+
 ## Handoffs
 
 | Action | What It Does |

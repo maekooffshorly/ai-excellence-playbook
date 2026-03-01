@@ -8,11 +8,11 @@ This playbook is **not** about enforcing identical coding styles or replacing en
 
 ## What's New
 
-**v1.0 — Claude Code Migration and Workflow Expansion**
+**v1.1 — Design Handoff Standard (Figma → Dev → AI)**
 
-Major release: migrated the playbook from GitHub Copilot to Claude Code, added planning/security/utility/orchestration agents, introduced dedicated Basic and Experimental techniques docs, and updated model/tool guidance around Sonnet 4.6 and Opus 4.5 usage.
+Added a dedicated design handoff standard for Figma-driven workflows, including asset rules, prompting templates, and cross-team handoff checklists for WP Module/Page builder usage.
 
-For full version history → [`CHANGELOG.md`](CHANGELOG.md)
+For full version history → [CHANGELOG.md](CHANGELOG.md)
 
 ---
 
@@ -44,12 +44,14 @@ ai-excellence-playbook/
 |   |-- 06-advanced-techniques.md                # Multi-repo workspaces, context seeding, three-phase refactors
 |   |-- 07-openclaw-integration.md               # OpenClaw/Embee AI assistant integration guide
 |   |-- 08-basic-techniques.md                   # Day-to-day Claude Code usage: context references and shortcuts
-|   `-- 09-experimental-techniques.md            # Experimental workflows under evaluation (orchestrate, multi-plan)
+|   |-- 09-experimental-techniques.md            # Experimental workflows under evaluation (orchestrate, multi-plan)
+|   `-- 10-design-handoff.md                     # Design-to-dev-to-AI handoff standards for Figma workflows
 |
 |-- prompts/
 |   |-- 01-claude-md-generator.md                # Prompt for generating CLAUDE.md
 |   |-- 02-security-guardrail.md                 # Security guardrail prompt extension
-|   `-- 03-embee-system-prompt.md                # Embee system prompt for OpenClaw
+|   |-- 03-embee-system-prompt.md                # Embee system prompt for OpenClaw
+|   `-- 04-design-system-generator.md            # Prompt for generating design-system.md
 |
 `-- agents/
     |-- test-writer-agent.md                     # Test Writer agent instruction sheet
@@ -287,6 +289,16 @@ For workflows under evaluation before standard adoption:
 
 > -> [`docs/09-experimental-techniques.md`](docs/09-experimental-techniques.md)
 
+### Design Handoff
+
+For cross-discipline workflows (Design → Dev → AI), Figma prep, assets, and prompting rules:
+
+- **Design system source of truth** - branding page, tokens, and naming rules
+- **AI-friendly design rules** - simplify nesting and vector complexity
+- **Prompting and assets** - strict SVG rules and boilerplate-first strategy
+
+> -> [`docs/10-design-handoff.md`](docs/10-design-handoff.md)
+
 ---
 
 ## OpenClaw Integration
@@ -307,6 +319,7 @@ This playbook is a living document. When you discover a better workflow, prompt 
 
 ---
 
-*Version: v1.0 — Claude Code migration and workflow expansion*
+*Version: v1.1 — Design handoff standard*
+
 
 
