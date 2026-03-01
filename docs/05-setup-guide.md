@@ -202,6 +202,15 @@ Once setup is complete, confirm the following:
 
 ---
 
+## Next Step: Basic Usage Techniques
+
+After setup is complete, review [`docs/08-basic-techniques.md`](08-basic-techniques.md) for day-to-day usage patterns:
+
+- `@` context references (`@file`, `@folder`, `@codebase`, `@web`, `@terminal`)
+- Keyboard shortcuts for panel and code actions
+- Basic context management tips for faster sessions
+
+---
 ## Troubleshooting
 
 **Claude Code not signing in**
@@ -239,3 +248,4 @@ Once setup is complete, confirm the following:
   ```
 - Set the environment variable in your shell profile or `.env` file
 - Never commit `settings.json` files containing real tokens to version control
+

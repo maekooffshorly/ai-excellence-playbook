@@ -32,33 +32,37 @@ Without a consistent approach to AI tooling, there's no opportunity for knowledg
 
 ```
 ai-excellence-playbook/
-├── README.md                                    # This file — overview and quick reference
-├── CHANGELOG.md                                 # Version history of the playbook
-│
-├── docs/
-│   ├── 01-model-comparison.md                   # Extended AI model notes and decision guidance
-│   ├── 02-tools-comparison.md                   # Extended tool notes and decision guidance
-│   ├── 03-mcp-servers.md                        # MCP server ecosystem and integration
-│   ├── 04-coding-techniques.md                  # Tier-based workflows, prompting patterns, agent usage
-│   ├── 05-setup-guide.md                        # Step-by-step toolset setup with screenshots
-│   ├── 06-experimental-techniques.md            # Multi-repo workspaces, security guardrails, advanced features
-│   └── 07-openclaw-integration.md               # OpenClaw/Embee AI assistant integration guide
-│
-├── prompts/
-│   ├── 01-claude-md-generator.md                # Prompt for generating CLAUDE.md
-│   ├── 02-security-guardrail.md                 # Security guardrail prompt extension
-│   └── 03-embee-system-prompt.md                # Embee system prompt for OpenClaw
-│
-└── agents/
-    ├── test-writer-agent.md                     # Test Writer agent instruction sheet
-    ├── code-reviewer-agent.md                   # Code Reviewer agent instruction sheet
-    ├── documentation-agent.md                   # Documentation agent instruction sheet
-    ├── security-reviewer-agent.md               # Security Reviewer agent instruction sheet
-    ├── build-error-resolver-agent.md            # Build Error Resolver agent instruction sheet
-    ├── planner-agent.md                         # Planner agent instruction sheet
-    ├── architect-agent.md                       # Architect agent instruction sheet
-    ├── wp-module-builder.md                     # WP Module Builder agent for ACF blocks
-    └── wp-page-builder.md                       # WP Page Builder agent for WordPress pages
+|-- README.md                                    # This file - overview and quick reference
+|-- CHANGELOG.md                                 # Version history of the playbook
+|
+|-- docs/
+|   |-- 01-model-comparison.md                   # Extended AI model notes and decision guidance
+|   |-- 02-tools-comparison.md                   # Extended tool notes and decision guidance
+|   |-- 03-mcp-servers.md                        # MCP server ecosystem and integration
+|   |-- 04-coding-techniques.md                  # Tier-based workflows, prompting patterns, agent usage
+|   |-- 05-setup-guide.md                        # Step-by-step toolset setup with screenshots
+|   |-- 06-advanced-techniques.md                # Multi-repo workspaces, context seeding, three-phase refactors
+|   |-- 07-openclaw-integration.md               # OpenClaw/Embee AI assistant integration guide
+|   |-- 08-basic-techniques.md                   # Day-to-day Claude Code usage: context references and shortcuts
+|   `-- 09-experimental-techniques.md            # Experimental workflows under evaluation (orchestrate, multi-plan)
+|
+|-- prompts/
+|   |-- 01-claude-md-generator.md                # Prompt for generating CLAUDE.md
+|   |-- 02-security-guardrail.md                 # Security guardrail prompt extension
+|   `-- 03-embee-system-prompt.md                # Embee system prompt for OpenClaw
+|
+`-- agents/
+    |-- test-writer-agent.md                     # Test Writer agent instruction sheet
+    |-- code-reviewer-agent.md                   # Code Reviewer agent instruction sheet
+    |-- documentation-agent.md                   # Documentation agent instruction sheet
+    |-- security-reviewer-agent.md               # Security Reviewer agent instruction sheet
+    |-- build-error-resolver-agent.md            # Build Error Resolver agent instruction sheet
+    |-- planner-agent.md                         # Planner agent instruction sheet
+    |-- architect-agent.md                       # Architect agent instruction sheet
+    |-- orchestrator-agent.md                    # Orchestrator agent instruction sheet
+    |-- multi-plan-agent.md                      # Multi-Plan agent instruction sheet
+    |-- wp-module-builder.md                     # WP Module Builder agent for ACF blocks
+    `-- wp-page-builder.md                       # WP Page Builder agent for WordPress pages
 ```
 
 ---
@@ -67,10 +71,11 @@ ai-excellence-playbook/
 
 **New to the playbook?** Follow these steps to get set up:
 
-1. **Install the toolset** → [`docs/05-setup-guide.md`](docs/05-setup-guide.md)
-2. **Generate your project's `CLAUDE.md`** → [`prompts/01-claude-md-generator.md`](prompts/01-claude-md-generator.md)
-3. **Configure the slash command agents** (Test Writer, Code Reviewer, Documentation) → [`agents/`](agents/)
-4. **Reference the tier guide** when deciding how to prompt for a task → [`docs/04-coding-techniques.md`](docs/04-coding-techniques.md)
+1. **Install the toolset** -> [`docs/05-setup-guide.md`](docs/05-setup-guide.md)
+2. **Review basic Claude Code usage** -> [`docs/08-basic-techniques.md`](docs/08-basic-techniques.md)
+3. **Generate your project's `CLAUDE.md`** -> [`prompts/01-claude-md-generator.md`](prompts/01-claude-md-generator.md)
+4. **Configure the slash command agents** (Test Writer, Code Reviewer, Documentation) -> [`agents/`](agents/)
+5. **Reference the tier guide** when deciding how to prompt for a task -> [`docs/04-coding-techniques.md`](docs/04-coding-techniques.md)
 
 ---
 
@@ -194,6 +199,15 @@ These agents handle specific situations as they arise during development.
 |-------|------------------|-------------|------------------|
 | **Build Error Resolver** | Claude Sonnet 4.6 | CI/CD failures; dependency conflicts; compilation errors; Docker build issues | [`agents/build-error-resolver-agent.md`](agents/build-error-resolver-agent.md) |
 
+### Experimental Orchestration Agents
+
+These agents are under evaluation and should be piloted first on complex workflows.
+
+| Agent | Recommended Model | When to Use | Full Instructions |
+|-------|------------------|-------------|------------------|
+| **Orchestrator** | Claude Sonnet 4.6 / Claude Opus 4.5 | Coordinate multi-agent workflows with structured handoffs across planning, implementation quality, and security checks | [`agents/orchestrator-agent.md`](agents/orchestrator-agent.md) |
+| **Multi-Plan** | Claude Sonnet 4.6 / Claude Opus 4.5 | Generate planning-only implementation plans using collaborative analysis before execution | [`agents/multi-plan-agent.md`](agents/multi-plan-agent.md) |
+
 ### WordPress CMS Agents
 
 For teams using the Offshorly WP Boilerplate, these agents handle ACF block modules and page assembly.
@@ -243,16 +257,35 @@ The full section covers tier-based prompting patterns, the PLAN workflow, agent 
 
 > → [`docs/04-coding-techniques.md`](docs/04-coding-techniques.md)
 
+### Basic Techniques
+
+For daily usage patterns and quick references:
+
+- **`@` context references** - files, folders, codebase, web, and terminal context
+- **Keyboard shortcuts** - panel and code action shortcuts
+- **Lightweight command flow** - `/plan`, `/test`, `/review`, `/doc`
+
+> -> [`docs/08-basic-techniques.md`](docs/08-basic-techniques.md)
+
+### Advanced Techniques
+
+For power users and complex development scenarios:
+
+- **Multi-repo workspace context** - working across multiple repositories simultaneously
+- **Context seeding** - establishing patterns before complex work
+- **Three-phase refactors** - safe refactoring with rollback points
+- **Plan mode for T3** - explicit planning before implementation
+
+> -> [`docs/06-advanced-techniques.md`](docs/06-advanced-techniques.md)
+
 ### Experimental Techniques
 
-For teams ready to explore beyond the core workflow:
+For workflows under evaluation before standard adoption:
 
-- **Multi-repo workspace context** — working across multiple repositories simultaneously
-- **Security guardrails** — enforcing credential safety in AI-generated code
-- **`@` symbol references** — using Claude Code's context reference system effectively
-- **Slash commands and keyboard shortcuts** — accelerating common Claude Code operations
+- **Multi-agent orchestration** - coordinated workflows across specialized agents
+- **Multi-model collaborative planning** - planning-only workflows with session handoffs
 
-> → [`docs/06-experimental-techniques.md`](docs/06-experimental-techniques.md)
+> -> [`docs/09-experimental-techniques.md`](docs/09-experimental-techniques.md)
 
 ---
 
@@ -275,3 +308,4 @@ This playbook is a living document. When you discover a better workflow, prompt 
 ---
 
 *Version: v0.2 — Experimental techniques, WordPress agents, and OpenClaw*
+

@@ -439,6 +439,38 @@ Present a verification report:
 
 ---
 
+## Experimental Orchestration Commands
+
+These commands are under evaluation and should be piloted on complex tasks before broad rollout.
+
+### /orchestrate - Multi-Agent Workflow Coordination
+
+Coordinates a structured chain of specialized agents with handoff documents between each stage.
+
+```
+/orchestrate feature "Add user authentication"
+/orchestrate bugfix "Fix checkout timeout in payment flow"
+```
+
+**Installation:** Create `.claude/commands/orchestrate.md` with the instruction sheet from [`agents/orchestrator-agent.md`](../agents/orchestrator-agent.md)
+
+---
+
+### /multi-plan - Multi-Model Collaborative Planning
+
+Creates a planning-only implementation plan using collaborative analysis, then saves the plan to `.claude/plan/`.
+
+```
+/multi-plan Plan migration from session auth to JWT for API and frontend.
+Include rollout steps, fallback strategy, and test approach.
+```
+
+**Installation:** Create `.claude/commands/multi-plan.md` with the instruction sheet from [`agents/multi-plan-agent.md`](../agents/multi-plan-agent.md)
+
+For rollout guidance and adoption constraints, see [`docs/09-experimental-techniques.md`](09-experimental-techniques.md).
+
+---
+
 ## Language-Specific Prompt Extensions (Optional)
 
 In addition to project-specific CLAUDE.md instructions, you can add language- or framework-specific rules to your `/CLAUDE.md` file. These help standardise coding patterns, reduce common mistakes, and provide a stronger baseline when working in unfamiliar territory.
@@ -451,3 +483,4 @@ In addition to project-specific CLAUDE.md instructions, you can add language- or
 - Developers with strong domain experience tend to see limited added value from these extensions
 - The biggest benefit is when working **outside your primary domain** — e.g. a backend developer building frontend components
 - In those cases, the instruction sheets act as guardrails for conventions, reminders of common pitfalls, and a quick way to align AI outputs to the expected ecosystem patterns
+
