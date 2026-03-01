@@ -9,7 +9,7 @@ This guide walks through setting up the full General toolset from scratch — Cl
 ## Prerequisites
 
 - VS Code installed
-- Access to Claude Code Team Plan (provided by your team lead)
+- Access to Claude Code Team Plan (provided by admin)
 
 ---
 
@@ -91,7 +91,7 @@ Add the following to your `settings.json`:
 
 ### SonarQube MCP
 
-1. Get your SonarQube instance URL and token from your team lead
+1. Get your SonarQube instance URL and token from admin or use free tier
 2. Add the `sonarqube` entry to your MCP configuration as shown above
 3. Replace the placeholder values with your actual credentials
 
