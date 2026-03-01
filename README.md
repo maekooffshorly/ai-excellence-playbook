@@ -16,6 +16,17 @@ For full version history → [CHANGELOG.md](CHANGELOG.md)
 
 ---
 
+## TLDR (Start Here)
+
+If you just cloned the repo and want the fastest path to relevant docs, use:
+
+`/internal/tldr-agent.md`
+
+It routes you to the most important sections based on role and task.
+
+Quick use: open your AI chat UI and type `start internal/tldr-agent`.
+
+---
 ## Why This Exists
 
 Without a consistent approach to AI tooling, there's no opportunity for knowledge sharing, no compounding improvements when someone finds a better workflow, and no predictable quality baseline across teams. This playbook addresses that by:
@@ -46,6 +57,9 @@ ai-excellence-playbook/
 |   |-- 08-basic-techniques.md                   # Day-to-day Claude Code usage: context references and shortcuts
 |   |-- 09-experimental-techniques.md            # Experimental workflows under evaluation (orchestrate, multi-plan)
 |   `-- 10-design-handoff.md                     # Design-to-dev-to-AI handoff standards for Figma workflows
+|
+|-- internal/
+|   `-- tldr-agent.md                            # TLDR navigation script for role-based doc routing
 |
 |-- prompts/
 |   |-- 01-claude-md-generator.md                # Prompt for generating CLAUDE.md
@@ -320,6 +334,9 @@ This playbook is a living document. When you discover a better workflow, prompt 
 ---
 
 *Version: v1.1 — Design handoff standard*
+
+
+
 
 
 
