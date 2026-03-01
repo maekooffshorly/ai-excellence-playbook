@@ -12,7 +12,7 @@ Format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ---
 
-## [v0.1] — 2026-03-01
+## [v0.1]
 
 ### Added
 - Initial playbook outline and structure
