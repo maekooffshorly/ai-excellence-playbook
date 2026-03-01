@@ -23,7 +23,7 @@ OpenClaw is **not** a replacement for IDE-based coding tools like Copilot or Cla
 
 | Component | Details |
 |-----------|---------|
-| Hosting | Google Cloud E2 VM instance |
+| Hosting | Google Cloud E2-small VM instance |
 | Model | Claude Sonnet 4.5 / Claude Opus 4.5 |
 | Interface | Telegram Bot |
 | Access | Via Telegram access code |
@@ -35,13 +35,171 @@ OpenClaw is **not** a replacement for IDE-based coding tools like Copilot or Cla
 ### For End Users
 
 1. Install Telegram (mobile or desktop) if not already installed
-2. Start a conversation with `@EmbeeBot` (or the designated bot name)
+2. Start a conversation with `@EmbeeBot` (or the designated bot name to be given by admin)
 3. Give your access code to the developer to connect to the OpenClaw instance
 4. Send "Hello, I'm {your name}" to start the conversation
 
 ### For Administrators
 
 Contact the AI Excellence team for deployment and configuration details.
+
+---
+
+## Setting Up Integration Credentials
+
+OpenClaw connects to Google and Zoho services for calendar, email, and HR operations. Administrators need to create OAuth credentials for these integrations.
+
+### Google Credentials
+
+#### Step 1: Create or Select a Project
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com/)
+2. Click the **project dropdown** (top left)
+3. Click **New Project** (or select an existing project)
+4. Give it a name (e.g., `Embee-OpenClaw Integration`)
+5. Click **Create**
+6. Make sure the newly created project is selected
+
+#### Step 2: Enable Required Google APIs
+
+1. Navigate to **APIs & Services → Library**
+2. Search for and enable the APIs your deployment needs:
+   - Gmail API
+   - Google Drive API
+   - Google Docs API
+   - Google Sheets API
+   - Google Slides API
+   - Google Calendar API
+
+For each API: click the API, then click **Enable**.
+
+#### Step 3: Configure the OAuth Consent Screen
+
+1. Go to **APIs & Services → OAuth consent screen**
+2. Click **Get Started** (if first time)
+3. Choose your **User Type**:
+   - **Internal** (select this one) — Only users in your Google Workspace organization
+   - **External** — Anyone with a Google account
+4. Fill in required details (app name, support email, etc. -- use <youremail@offshorly.com>)
+5. Continue through the setup steps
+6. On the final step, accept the **Google API Services User Data Policy** and click **Create**
+
+#### Step 4: Create OAuth Client Credentials
+
+1. Go to **APIs & Services → Credentials**
+2. Click **Create Credentials → OAuth client ID**
+3. Set **Application Type** to **Web application**
+4. Enter a **Name** for your client
+5. Add **Authorized JavaScript Origins**:
+   ```
+   https://localhost
+   ```
+6. Add **Authorized Redirect URIs**:
+   ```
+   https://localhost/oauth/callback
+   ```
+7. Click **Create**
+
+#### Step 5: Download the Credentials JSON File
+
+After creation:
+
+1. A popup will display your Client ID and Client Secret
+2. Click **Download JSON**
+3. Save the file securely (outside version control)
+
+This downloaded file (`google_credentials.json`) contains:
+- `client_id`
+- `client_secret`
+- `redirect_uris`
+- `auth_uri`
+- `token_uri`
+
+---
+
+### Zoho Credentials
+
+#### Step 1: Go to Zoho API Console
+
+1. Navigate to [Zoho API Console](https://api-console.zoho.com/)
+   - Regional accounts may use: `api-console.zoho.eu`, `api-console.zoho.in`, etc.
+2. Log in with your Zoho account
+
+#### Step 2: Create a New Client
+
+1. Click **Add Client**
+2. Choose **Client Type**: **Server-based Applications**
+3. Click **Create Now**
+
+#### Step 3: Fill in Application Details
+
+Enter the following:
+
+| Field | Example Value |
+|-------|---------------|
+| Client Name | `Embee-OpenClaw Integration` |
+| Homepage URL | `http://localhost` |
+| Authorized Redirect URI | `http://localhost/oauth` |
+
+Click **Create**.
+
+#### Step 4: Retrieve Client Credentials
+
+After creation, Zoho will generate:
+
+- **Client ID**
+- **Client Secret**
+
+These are displayed on the application details page. You can return to this page later to view them.
+
+#### Step 5: Save Your Credentials Securely
+
+Store the following securely as a text file:
+
+```
+Client ID: <your_client_id>
+Client Secret: <your_client_secret>
+Redirect URI: <your_redirect_uri>
+Refresh Token: <your_refresh_token>
+```
+
+---
+
+## Connecting Credentials to Embee
+
+Once you have your credential files ready, you need to send them to Embee for authorization. Complete each integration one at a time.
+
+### Step 1: Authorize Google Integration
+
+1. Open your conversation with Embee in Telegram
+2. Send your `google_credentials.json` file to Embee
+3. Send this message or something similar to it:
+   ```
+   Please help me authorize Google integration using the credentials file I just sent.
+   Give me step-by-step instructions on what to do.
+   ```
+4. Follow Embee's instructions to complete the OAuth flow
+5. Confirm authorization is successful before proceeding
+
+### Step 2: Authorize Zoho Integration
+
+1. Send your Zoho credentials text file to Embee
+2. Send this message or something similar to it:
+   ```
+   Please help me authorize Zoho integration using the credentials I just sent.
+   Give me step-by-step instructions on what to do.
+   ```
+3. Follow Embee's instructions to complete the OAuth flow
+4. Confirm authorization is successful
+
+### Troubleshooting Authorization
+
+| Issue | Solution |
+|-------|----------|
+| Authorization fails | Embee will provide a re-authorization URL with step-by-step guidance |
+| Token expired | Request Embee to refresh the token or guide you through re-authorization |
+| Wrong redirect URI | Ensure the redirect URI in your credentials matches your Zoho/Google app settings |
+| Scope errors | Contact the AI Excellence team to verify the required scopes are configured |
 
 ---
 
