@@ -12,6 +12,26 @@ Format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ---
 
+## [v0.2]
+
+### Added
+- `docs/06-experimental-techniques.md` — multi-repo workspace context, security guardrails, `#` symbol references, slash commands, keyboard shortcuts, and advanced situational techniques
+- `docs/07-openclaw-integration.md` — OpenClaw/Embee AI assistant integration guide with installation, usage guidelines, and troubleshooting
+- `prompts/02-security-guardrail.md` — security guardrail prompt extension for credential safety in AI-generated code
+- `prompts/03-embee-system-prompt.md` — system prompt reference for OpenClaw Embee configuration
+- `agents/wp-module-builder.md` — WP Module Builder agent for creating ACF block modules in the Offshorly WP Boilerplate
+- `agents/wp-page-builder.md` — WP Page Builder agent for assembling WordPress pages using existing modules
+- WordPress CMS Agents section in README with pipeline diagram
+- Experimental Techniques section in README
+- OpenClaw Integration section in README
+
+### Changed
+- Updated repository structure in README to reflect new files
+- Renamed "The Three Agents" section to "The Agents" with subsections for Standard Pipeline and WordPress CMS agents
+- Updated agent file references in README (test-writer.md → test-writer-agent.md, etc.)
+
+---
+
 ## [v0.1]
 
 ### Added

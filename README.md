@@ -8,9 +8,9 @@ This playbook is **not** about enforcing identical coding styles or replacing en
 
 ## What's New
 
-**v0.1 — Initial Release**
+**v0.2 — Experimental Techniques, WordPress Agents, and OpenClaw**
 
-This is the first version of the AI Excellence Playbook. No changes to report yet — this is the baseline everything will be measured against going forward.
+Added experimental techniques (multi-repo workspaces, security guardrails, advanced Copilot features), WordPress-specific agents (WP Module Builder, WP Page Builder), OpenClaw/Embee integration guide, and new prompts for security and system configuration.
 
 For full version history → [`CHANGELOG.md`](CHANGELOG.md)
 
@@ -40,15 +40,21 @@ ai-excellence-playbook/
 │   ├── 02-tools-comparison.md                   # Extended tool notes and decision guidance
 │   ├── 03-mcp-servers.md                        # MCP server ecosystem and integration
 │   ├── 04-coding-techniques.md                  # Tier-based workflows, prompting patterns, agent usage
-│   └── 05-setup-guide.md                        # Step-by-step toolset setup with screenshots
+│   ├── 05-setup-guide.md                        # Step-by-step toolset setup with screenshots
+│   ├── 06-experimental-techniques.md            # Multi-repo workspaces, security guardrails, advanced features
+│   └── 07-openclaw-integration.md               # OpenClaw/Embee AI assistant integration guide
 │
 ├── prompts/
-│   └── 01-copilot-instructions-generator.md     # Prompt for generating copilot-instructions.md
+│   ├── 01-copilot-instructions-generator.md     # Prompt for generating copilot-instructions.md
+│   ├── 02-security-guardrail.md                 # Security guardrail prompt extension
+│   └── 03-embee-system-prompt.md                # Embee system prompt for OpenClaw
 │
 └── agents/
-    ├── test-writer.md                            # Test Writer agent instruction sheet
-    ├── code-reviewer.md                          # Code Reviewer agent instruction sheet
-    └── documentation.md                          # Documentation agent instruction sheet
+    ├── test-writer-agent.md                     # Test Writer agent instruction sheet
+    ├── code-reviewer-agent.md                   # Code Reviewer agent instruction sheet
+    ├── documentation-agent.md                   # Documentation agent instruction sheet
+    ├── wp-module-builder.md                     # WP Module Builder agent for ACF blocks
+    └── wp-page-builder.md                       # WP Page Builder agent for WordPress pages
 ```
 
 ---
@@ -128,9 +134,13 @@ The table below covers the tools in the current recommended stack and their alte
 
 ---
 
-## The Three Agents
+## The Agents
 
-Once coding is complete, these three agents form the quality and documentation pipeline before a PR is raised. Install them via Copilot's **Configure Custom Agents** menu — full instruction sheets and setup steps are in [`agents/`](agents/).
+Install agents via Copilot's **Configure Custom Agents** menu — full instruction sheets and setup steps are in [`agents/`](agents/).
+
+### Standard Pipeline Agents
+
+Once coding is complete, these three agents form the quality and documentation pipeline before a PR is raised.
 
 ```
 Code Complete → Test Writer → Documentation → Code Reviewer → PR
@@ -141,9 +151,26 @@ Code Complete → Test Writer → Documentation → Code Reviewer → PR
 
 | Agent | Recommended Model | When to Use | Full Instructions |
 |-------|------------------|-------------|------------------|
-| **Test Writer** | Claude Sonnet 4.5 | Before PR; when adding behavior to critical modules (auth, billing, payments, permissions, data pipeline, infra); PoC → MVP transitions | [`agents/test-writer.md`](agents/test-writer.md) |
-| **Code Reviewer** | Claude Sonnet 4.5 | Pre-PR structured review — correctness, edge cases, security risks, pattern consistency, test coverage gaps | [`agents/code-reviewer.md`](agents/code-reviewer.md) |
-| **Documentation** | Claude Sonnet 4.5 | After every coding session (pre-PR) for endpoints/configs/models; or end-of-day to preserve context mid-feature | [`agents/documentation.md`](agents/documentation.md) |
+| **Test Writer** | Claude Sonnet 4.5 | Before PR; when adding behavior to critical modules (auth, billing, payments, permissions, data pipeline, infra); PoC → MVP transitions | [`agents/test-writer-agent.md`](agents/test-writer-agent.md) |
+| **Code Reviewer** | Claude Sonnet 4.5 | Pre-PR structured review — correctness, edge cases, security risks, pattern consistency, test coverage gaps | [`agents/code-reviewer-agent.md`](agents/code-reviewer-agent.md) |
+| **Documentation** | Claude Sonnet 4.5 | After every coding session (pre-PR) for endpoints/configs/models; or end-of-day to preserve context mid-feature | [`agents/documentation-agent.md`](agents/documentation-agent.md) |
+
+### WordPress CMS Agents
+
+For teams using the Offshorly WP Boilerplate, these agents handle ACF block modules and page assembly.
+
+```
+Page Requirements → WP Page Builder → (Missing modules?) → WP Module Builder
+                          ↓                                       ↓
+                   Configure content ←─────────────────────────────┘
+                          ↓
+                   Standard Pipeline → PR
+```
+
+| Agent | Recommended Model | When to Use | Full Instructions |
+|-------|------------------|-------------|------------------|
+| **WP Module Builder** | Claude Sonnet 4.5 | Creating new ACF block modules — hero sections, card grids, CTAs, banners; converting Figma designs to reusable blocks | [`agents/wp-module-builder.md`](agents/wp-module-builder.md) |
+| **WP Page Builder** | Claude Sonnet 4.5 | Assembling full WordPress pages using existing modules; planning page structure; configuring module instances with content | [`agents/wp-page-builder.md`](agents/wp-page-builder.md) |
 
 ---
 
@@ -177,6 +204,25 @@ The full section covers tier-based prompting patterns, the PLAN workflow, agent 
 
 > → [`docs/04-coding-techniques.md`](docs/04-coding-techniques.md)
 
+### Experimental Techniques
+
+For teams ready to explore beyond the core workflow:
+
+- **Multi-repo workspace context** — working across multiple repositories simultaneously
+- **Security guardrails** — enforcing credential safety in AI-generated code
+- **`#` symbol references** — using Copilot's context reference system effectively
+- **Slash commands and keyboard shortcuts** — accelerating common Copilot operations
+
+> → [`docs/06-experimental-techniques.md`](docs/06-experimental-techniques.md)
+
+---
+
+## OpenClaw Integration
+
+OpenClaw is Offshorly's internal AI assistant deployment running on Telegram. It uses a custom-configured Claude model (Embee) with mandatory confirmation protocols for safe action execution.
+
+> → [`docs/07-openclaw-integration.md`](docs/07-openclaw-integration.md)
+
 ---
 
 ## Contributing
@@ -189,4 +235,4 @@ This playbook is a living document. When you discover a better workflow, prompt 
 
 ---
 
-*Version: v0.1 — Initial playbook outline*
+*Version: v0.2 — Experimental techniques, WordPress agents, and OpenClaw*
