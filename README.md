@@ -8,7 +8,7 @@ This playbook is **not** about enforcing identical coding styles or replacing en
 
 ## What's New
 
-**v0.1 — March 1, 2026 — Initial Release**
+**v0.1 — Initial Release**
 
 This is the first version of the AI Excellence Playbook. No changes to report yet — this is the baseline everything will be measured against going forward.
 
