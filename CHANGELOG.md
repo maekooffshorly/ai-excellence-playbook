@@ -18,12 +18,24 @@ Format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 - "Connecting Credentials to Embee" section in `docs/07-openclaw-integration.md` — authorization workflow and troubleshooting
 - Zoho-Related Operations section in `prompts/03-embee-system-prompt.md` — API documentation references for People, Mail, and Projects
 - Authorization section in `prompts/03-embee-system-prompt.md` — auth scope URL for Zoho re-authorization flow
+- `prompts/01-claude-md-generator.md` — prompt for generating CLAUDE.md files (replaces copilot-instructions-generator)
 
 ### Changed
+- **MAJOR: Migrated from GitHub Copilot to Claude Code as primary coding companion** — reflects cost efficiency and better agentic capabilities
+- Rewrote `docs/05-setup-guide.md` — Claude Code VS Code extension install, MCP config via `settings.json`, CLAUDE.md generation
+- Rewrote `docs/06-experimental-techniques.md` — replaced `#` context references with `@` mentions, updated slash commands and keyboard shortcuts for Claude Code
+- Updated `docs/02-tools-comparison.md` — Claude Code now primary, GitHub Copilot moved to alternative
+- Updated `docs/03-mcp-servers.md` — MCP installation via Claude Code `settings.json` instead of VS Code extensions
+- Updated `docs/04-coding-techniques.md` — Copilot references changed to Claude Code, instruction file references updated
+- Updated all agent files to use Claude Code slash commands instead of Copilot custom agents
+- Updated `README.md` — Recommended Toolset, agent install references, tool comparison table
 - Updated Decision Guide table in `docs/01-model-comparison.md` to reflect Sonnet 4.6 as the new default recommendation
 - Updated Embee system prompt with Zoho API documentation and authorization handling
-- Updated `CLAUDE.md` repository structure to reflect v0.2 files
+- Updated `CLAUDE.md` repository structure to reflect new prompt file and agent format
 - Added deprecation notice to Gemini 3 Pro — scheduled for deprecation March 9, 2026
+
+### Removed
+- `prompts/01-copilot-instructions-generator.md` — replaced by `prompts/01-claude-md-generator.md`
 
 ### Fixed
 - Fixed broken code fences in `agents/wp-module-builder.md` and `agents/wp-page-builder.md` — changed outer fence from triple to quadruple backticks to support nested code blocks

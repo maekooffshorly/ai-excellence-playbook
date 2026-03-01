@@ -14,13 +14,28 @@ MCPs are what make the agent pipeline genuinely useful rather than just code-awa
 
 ## Setup
 
-MCPs are installed as VS Code extensions:
+MCPs in Claude Code are configured via JSON settings files:
 
-1. Go to the **Extensions** tab in VS Code
-2. Search `@mcp {name of mcp}` — e.g. `@mcp context7`
-3. Install the MCP server
+- **User-level:** `~/.claude/settings.json` — applies to all projects
+- **Project-level:** `.claude/settings.json` in your project root — applies to specific project only
 
-Some MCPs require API keys for higher rate limits or authenticated access. Configuration is done via a JSON file — each MCP's dashboard or documentation will provide the specific steps.
+### Basic Configuration Structure
+
+```json
+{
+  "mcpServers": {
+    "server-name": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/mcp-server-name"],
+      "env": {
+        "API_KEY": "your-key-here"
+      }
+    }
+  }
+}
+```
+
+For full setup instructions, see [`docs/05-setup-guide.md`](05-setup-guide.md#step-2-configure-mcps).
 
 ---
 
@@ -63,8 +78,12 @@ Keeps code suggestions aligned with current library versions, up-to-date practic
 1. Go to [https://context7.com/dashboard](https://context7.com/dashboard)
 2. Sign up and connect your Offshorly GitHub account
 3. Generate your API key
-4. Open the Context7 configuration JSON file in VS Code
-5. Replace the `CONTEXT7_API_KEY` environment variable with your key, or follow the instructions in the Context7 dashboard
+4. Add to your `~/.claude/settings.json` under the context7 MCP config:
+   ```json
+   "env": {
+     "CONTEXT7_API_KEY": "your-key-here"
+   }
+   ```
 
 ---
 
@@ -133,6 +152,6 @@ The following MCPs have been identified as valuable but have not yet been evalua
 When you or your team evaluates and decides to adopt one of the MCPs above:
 
 1. **Validate it** — test the MCP on a real task and confirm it adds genuine value
-2. **Document the setup** — add installation and configuration steps to this file under a new "Currently Active" entry, following the same format as SonarQube, Context7, and Figma
-3. **Update agent instruction sheets** if the new MCP should be included in any agent's tool list — the relevant agent files are in [`agents/`](../agents/)
+2. **Document the setup** — add the JSON configuration snippet and any required credentials to this file under a new "Currently Active" entry, following the same format as SonarQube, Context7, and Figma
+3. **Update agent slash commands** if the new MCP should be referenced in any agent's workflow — the relevant agent files are in [`agents/`](../agents/)
 4. **Log the decision** in `CHANGELOG.md`

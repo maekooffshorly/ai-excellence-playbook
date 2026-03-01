@@ -2,7 +2,7 @@
 
 ## What This Does
 
-This prompt extends your `copilot-instructions.md` with enterprise-grade security guardrails. It enforces a zero-tolerance policy for credential exposure, ensuring that AI tools never display, echo, log, or hardcode sensitive information.
+This prompt extends your `CLAUDE.md` with enterprise-grade security guardrails. It enforces a zero-tolerance policy for credential exposure, ensuring that AI tools never display, echo, log, or hardcode sensitive information.
 
 ---
 
@@ -10,7 +10,7 @@ This prompt extends your `copilot-instructions.md` with enterprise-grade securit
 
 | Situation | Action |
 |-----------|--------|
-| After generating `copilot-instructions.md` on any project | Append this prompt to the instructions file |
+| After generating `CLAUDE.md` on any project | Append this prompt to the instructions file |
 | Working on projects that handle credentials, API keys, or secrets | Required |
 | Enterprise or client projects with security compliance requirements | Required |
 
@@ -18,7 +18,7 @@ This prompt extends your `copilot-instructions.md` with enterprise-grade securit
 
 ## How to Apply
 
-1. Generate `copilot-instructions.md` using the generator prompt
+1. Generate `CLAUDE.md` using the generator prompt
 2. Open the generated file
 3. Append the security guardrail prompt below to the end of the file
 4. Save changes
@@ -37,7 +37,7 @@ This prompt extends your `copilot-instructions.md` with enterprise-grade securit
 ## The Prompt
 
 ```markdown
-# Copilot Enterprise Security Guardrails
+# Claude Code Enterprise Security Guardrails
 # Zero-Tolerance Policy for Credential Exposure
 
 

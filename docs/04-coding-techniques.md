@@ -24,15 +24,15 @@ Both tracks share the same core principles:
 | Component | Choice |
 |-----------|--------|
 | IDE | VS Code |
-| Coding Companion | GitHub Copilot (autocompletion + chat) |
-| Primary LLM | Claude Opus 4.5 |
+| Coding Companion | Claude Code (VS Code extension + agentic workflows) |
+| Primary LLM | Claude Sonnet 4.6 (T1–T3) / Claude Opus 4.5 (complex T3) |
 | MCPs | SonarQube, Context7, Figma *(frontend only)* |
 
 ### Why This Toolset
 
-Most developers rely heavily on autocompletion as their default productivity multiplier. Copilot delivers high-speed, workable suggestions for T1 work and solid boilerplate for T2 tasks. Copilot chat with agentic use adds a planning and multi-step execution layer with full codebase context.
+Claude Code provides the best balance of agentic capability and cost efficiency for SWE work. It understands your entire repo, handles multi-file changes naturally, and integrates with MCPs for quality checks and library standards. The VS Code extension brings these capabilities directly into your IDE workflow.
 
-Claude Opus 4.5 is the primary model for high-complexity tasks because of its strong reasoning and planning capabilities. That said, **Opus can be overkill for small changes, maintenance work, and mature codebases** — see the model guidance below.
+Claude Sonnet 4.6 is now the primary model for most SWE work — it offers near-Opus capability at Sonnet pricing. Claude Opus 4.5 remains the choice for complex T3 tasks requiring deep reasoning. **Opus can be overkill for small changes, maintenance work, and mature codebases** — see the model guidance below.
 
 ### Model Guidance
 
@@ -45,17 +45,18 @@ Claude Opus 4.5 is the primary model for high-complexity tasks because of its st
 
 ---
 
-## Required Setup: Copilot Custom Instructions
+## Required Setup: CLAUDE.md
 
-Before any development work on a new project, the first step is always to generate `/.github/copilot-instructions.md`. This file is what makes Copilot context-aware for your specific codebase.
+Before any development work on a new project, the first step is always to generate `/CLAUDE.md`. This file is what makes Claude Code context-aware for your specific codebase.
 
-> ⚠️ Do **not** use Copilot's built-in "Generate Chat Instructions" command for this. While it generally works, the output is often inconsistent and incomplete. It's acceptable for personal projects or quick one-offs, but not for team standardisation.
+Claude Code automatically reads `CLAUDE.md` files from your project root or `.claude/` directory, providing project-specific context for all interactions.
 
 **Steps:**
 
-1. Open the Copilot chat window
-2. Ensure the selected model is **Claude Opus 4.5**
-3. Run the prompt from [`prompts/01-copilot-instructions-generator.md`](../prompts/01-copilot-instructions-generator.md)
+1. Open your project in VS Code with Claude Code
+2. Open the Claude Code panel
+3. Run the prompt from [`prompts/01-claude-md-generator.md`](../prompts/01-claude-md-generator.md)
+4. Review and approve the generated content
 
 ---
 
@@ -107,7 +108,7 @@ Then implement in phases, with each phase producing a runnable state.
 
 ## Agent-Based Techniques
 
-These agents extend the workflow beyond code generation into testing, review, and documentation. All three are built on Claude Sonnet 4.5 and use SonarQube and/or Context7 MCPs.
+These agents extend the workflow beyond code generation into testing, review, and documentation. All three are built on Claude Sonnet 4.6 and use SonarQube and/or Context7 MCPs. In Claude Code, agents are invoked via slash commands.
 
 For full agent instruction sheets and installation steps, see [`agents/`](../agents/).
 
@@ -124,7 +125,7 @@ Code Complete → Test Writer → Documentation → Code Reviewer → PR
 
 ### Test Writer Agent
 
-**Model:** Claude Sonnet 4.5
+**Model:** Claude Sonnet 4.6
 **MCPs:** SonarQube, Context7
 
 #### When to Use
@@ -153,7 +154,7 @@ behavior. Include also tests for edge cases that I might have missed.
 
 ### Code Reviewer Agent
 
-**Model:** Claude Sonnet 4.5
+**Model:** Claude Sonnet 4.6
 **MCPs:** SonarQube, CodeRabbit *(if available)*
 
 #### When to Use
@@ -186,7 +187,7 @@ for test cases.
 
 ### Documentation Agent
 
-**Model:** Claude Sonnet 4.5
+**Model:** Claude Sonnet 4.6
 **MCPs:** Context7
 
 #### When to Use
@@ -214,14 +215,11 @@ for changes made today. Reference #changes and commits done today.
 
 ## Language-Specific Prompt Extensions (Optional)
 
-In addition to project-specific Copilot instructions, you can add language- or framework-specific instruction sheets to `/.github/copilot-instructions.md`. These help standardise coding patterns, reduce common mistakes, and provide a stronger baseline when working in unfamiliar territory.
-
-**Reference library:**
-[https://github.com/Vishavjeet6/awesome-copilot-instructions/tree/master](https://github.com/Vishavjeet6/awesome-copilot-instructions/tree/master)
+In addition to project-specific CLAUDE.md instructions, you can add language- or framework-specific rules to your `/CLAUDE.md` file. These help standardise coding patterns, reduce common mistakes, and provide a stronger baseline when working in unfamiliar territory.
 
 **How to apply:**
-1. From the repository, pick the relevant framework or language
-2. In `/.github/copilot-instructions.md`, add a `## Language-Specific Rules` section and paste the chosen instructions
+1. Identify the relevant framework or language patterns for your project
+2. In `/CLAUDE.md`, add a `## Language-Specific Rules` section with the appropriate conventions
 
 **Internal observations:**
 - Developers with strong domain experience tend to see limited added value from these extensions

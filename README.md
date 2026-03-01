@@ -10,7 +10,7 @@ This playbook is **not** about enforcing identical coding styles or replacing en
 
 **v0.2 — Experimental Techniques, WordPress Agents, and OpenClaw**
 
-Added experimental techniques (multi-repo workspaces, security guardrails, advanced Copilot features), WordPress-specific agents (WP Module Builder, WP Page Builder), OpenClaw/Embee integration guide, and new prompts for security and system configuration.
+Added experimental techniques (multi-repo workspaces, security guardrails, advanced Claude Code features), WordPress-specific agents (WP Module Builder, WP Page Builder), OpenClaw/Embee integration guide, and new prompts for security and system configuration.
 
 For full version history → [`CHANGELOG.md`](CHANGELOG.md)
 
@@ -45,7 +45,7 @@ ai-excellence-playbook/
 │   └── 07-openclaw-integration.md               # OpenClaw/Embee AI assistant integration guide
 │
 ├── prompts/
-│   ├── 01-copilot-instructions-generator.md     # Prompt for generating copilot-instructions.md
+│   ├── 01-claude-md-generator.md                # Prompt for generating CLAUDE.md
 │   ├── 02-security-guardrail.md                 # Security guardrail prompt extension
 │   └── 03-embee-system-prompt.md                # Embee system prompt for OpenClaw
 │
@@ -64,8 +64,8 @@ ai-excellence-playbook/
 **New to the playbook?** Follow these steps to get set up:
 
 1. **Install the toolset** → [`docs/05-setup-guide.md`](docs/05-setup-guide.md)
-2. **Generate your project's `copilot-instructions.md`** → [`prompts/01-copilot-instructions-generator.md`](prompts/01-copilot-instructions-generator.md)
-3. **Install the three agents** (Test Writer, Code Reviewer, Documentation) → [`agents/`](agents/)
+2. **Generate your project's `CLAUDE.md`** → [`prompts/01-claude-md-generator.md`](prompts/01-claude-md-generator.md)
+3. **Configure the slash command agents** (Test Writer, Code Reviewer, Documentation) → [`agents/`](agents/)
 4. **Reference the tier guide** when deciding how to prompt for a task → [`docs/04-coding-techniques.md`](docs/04-coding-techniques.md)
 
 ---
@@ -87,7 +87,7 @@ Tasks are grouped into three tiers that drive model selection, prompting style, 
 | Component | Choice |
 |-----------|--------|
 | IDE | VS Code |
-| Coding Companion | GitHub Copilot (autocompletion + chat + agents) |
+| Coding Companion | Claude Code (VS Code extension + agentic workflows) |
 | Primary LLM | Claude Sonnet 4.6 (T1–T3) / Claude Opus 4.5 (complex T3) |
 | Code Quality MCP | SonarQube |
 | Library Standards MCP | Context7 |
@@ -123,15 +123,15 @@ The table below covers the models currently recommended for SWE-related work. Us
 
 ## AI Tools Comparison
 
-The table below covers the tools in the current recommended stack and their alternatives. The General toolset (VS Code + Copilot) is the default for most teams.
+The table below covers the tools in the current recommended stack and their alternatives. The General toolset (VS Code + Claude Code) is the default for most teams.
 
 > For extended setup notes and decision guidance per tool, see [`docs/02-tools-comparison.md`](docs/02-tools-comparison.md).
 
 | Tool | Description | Pros | Cons | Ideal Use Case | Cost |
 |------|-------------|------|------|----------------|------|
-| **GitHub Copilot** | AI pair-programmer integrated into IDEs (autocomplete + chat + coding assistance) | Very low friction; great boilerplate and patterns; strong day-to-day speedup; custom agents | Can produce plausible wrong code; risk of over-acceptance without tests | Routine implementation; small refactors; quick scaffolding; agents | Individual: $10/mo or $100/yr. Business: $19/user/mo. Enterprise: $39/user/mo |
+| **Claude Code** ⭐ | Anthropic's agentic coding tool — VS Code extension + CLI with full repo understanding | Excellent "do X across repo"; strong plan/execute loops; native MCP support; slash command agents | Guardrails needed for commands | Most SWE work; large refactors/migrations; test + lint loops; release automation | Team Plan: $30/user/mo (recommended) |
+| **GitHub Copilot** | AI pair-programmer integrated into IDEs (autocomplete + chat + coding assistance) | Very low friction; great boilerplate and patterns; strong day-to-day speedup; custom agents | Can produce plausible wrong code; risk of over-acceptance without tests | Routine implementation; small refactors; quick scaffolding | Individual: $10/mo or $100/yr. Business: $19/user/mo. Enterprise: $39/user/mo |
 | **Cline** | Agentic coding tool (VS Code + CLI) with BYOK/credits; open-source, pay only for inference | Strong multi-step agent workflows; more control over model/provider; good transparency on work done | Inference costs can spike; needs permissions/guardrails discipline | Repo-wide changes; task plans → implement → run checks; teams wanting provider flexibility | Free (individuals); Teams free through 2025, then $20/mo/user + inference |
-| **Claude Code** | Anthropic's agentic coding tool in your terminal — understands repo, handles git workflows | Excellent "do X across repo"; strong plan/execute loops; fits CLI-heavy workflows | Guardrails needed for commands | Large refactors/migrations; test + lint loops; release chores/automation | Included with Claude Pro ($17/mo annual / $20/mo monthly) |
 | **Cursor** | AI-first code editor focused on agentic coding and chat-driven edits across files | Very strong "edit across files"; great for shipping features fast; good context handling in editor | Subscription cost; still needs strong review/testing gates | Mid-sized features; refactors across modules; PR drafts and follow-up iterations | Subscription — see [Cursor pricing](https://cursor.com/pricing) |
 | **Windsurf** | AI-native IDE with "Cascade" agentic workflow — multi-step edits integrating editor/terminal context | Agent-forward UX; strong multi-step task execution; usage visible via credits | Credit limits/cost variability; plan details can change | Multi-step repo tasks; broad codebase edits | Free: $0 (25 credits/mo). Pro: $15/mo (500 credits). Teams: $30/user/mo |
 
@@ -139,7 +139,7 @@ The table below covers the tools in the current recommended stack and their alte
 
 ## The Agents
 
-Install agents via Copilot's **Configure Custom Agents** menu — full instruction sheets and setup steps are in [`agents/`](agents/).
+Agents are implemented as Claude Code slash commands — full instruction sheets and setup steps are in [`agents/`](agents/).
 
 ### Standard Pipeline Agents
 
@@ -203,7 +203,7 @@ The playbook defines two tracks — **General** (optimized for speed and new bui
 - Prefer small, reversible changes
 - Always validate outputs through tests, linters, and review gates
 
-The full section covers tier-based prompting patterns, the PLAN workflow, agent prompting templates with real examples, and optional language-specific Copilot instruction extensions.
+The full section covers tier-based prompting patterns, the PLAN workflow, agent prompting templates with real examples, and optional language-specific CLAUDE.md extensions.
 
 > → [`docs/04-coding-techniques.md`](docs/04-coding-techniques.md)
 
@@ -213,8 +213,8 @@ For teams ready to explore beyond the core workflow:
 
 - **Multi-repo workspace context** — working across multiple repositories simultaneously
 - **Security guardrails** — enforcing credential safety in AI-generated code
-- **`#` symbol references** — using Copilot's context reference system effectively
-- **Slash commands and keyboard shortcuts** — accelerating common Copilot operations
+- **`@` symbol references** — using Claude Code's context reference system effectively
+- **Slash commands and keyboard shortcuts** — accelerating common Claude Code operations
 
 > → [`docs/06-experimental-techniques.md`](docs/06-experimental-techniques.md)
 

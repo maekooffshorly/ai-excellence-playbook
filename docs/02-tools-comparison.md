@@ -11,37 +11,61 @@ For the quick-reference table, see the [README](../README.md#ai-tools-comparison
 The recommended starting point for all teams is:
 
 - **IDE:** VS Code
-- **Coding Companion:** GitHub Copilot
+- **Coding Companion:** Claude Code (VS Code extension + agentic workflows)
 
-This combination is the default because it has the lowest setup friction, covers the widest range of tasks through autocompletion and chat, and supports the full agent pipeline defined in this playbook. Deviation from this stack should be deliberate and team-aligned, not ad-hoc.
+This combination is the default because it provides the best balance of agentic capability and cost efficiency for SWE work, has native MCP support for quality checks and library standards, and supports the full slash command agent pipeline defined in this playbook. Deviation from this stack should be deliberate and team-aligned, not ad-hoc.
 
 ---
 
 ## Tool Profiles
 
+### Claude Code
+
+**Role:** Primary coding companion (VS Code extension + agentic workflows)
+**Cost:** Team Plan $30/user/mo (recommended)
+
+The backbone of the recommended workflow. Claude Code provides deep repo understanding, multi-file editing, and native MCP support — all integrated into VS Code. Slash command agents (Test Writer, Code Reviewer, Documentation) run directly in the Claude Code panel.
+
+**Strengths:**
+- Excellent for "do X across repo" tasks — refactors, migrations, multi-file changes
+- Strong plan/execute loops with repo-level context
+- Native MCP support for SonarQube, Context7, and other quality tools
+- Slash command agents for structured workflows
+- Built-in Claude Sonnet 4.6 and Opus 4.5 — no separate API key needed with Team Plan
+
+**Limitations:**
+- Guardrails are essential — Claude Code can run terminal commands, so unchecked use on production-adjacent environments carries real risk
+- Quality of agentic output depends heavily on the quality of `CLAUDE.md` and your prompts
+
+**Best practices:**
+- Always generate and maintain `/CLAUDE.md` before starting work on any project
+- Use inline comments (`TODO:`, `NOTE:`, `Example:`) to guide suggestions for T1 tasks
+- Use PLAN mode before implementing for anything T2 and above
+- Configure MCPs in `~/.claude/settings.json` for quality checks and library standards
+
+---
+
 ### GitHub Copilot
 
-**Role:** Primary coding companion (autocompletion + chat + agents)
+**Role:** Alternative coding companion (autocompletion + chat)
 **Cost:** Individual $10/mo or $100/yr · Business $19/user/mo · Enterprise $39/user/mo
 
-The backbone of the recommended workflow. Copilot operates at two levels: inline autocompletion as the default productivity multiplier for T1 work, and chat with agentic capability for T2–T3 planning, multi-step changes, and the full agent pipeline.
+A solid alternative for teams that prefer traditional autocompletion-first workflows. Copilot operates at two levels: inline autocompletion as the default productivity multiplier for T1 work, and chat with agentic capability for T2–T3 planning.
 
 **Strengths:**
 - Very low friction — autocompletion is always on, no prompting required for routine work
 - Excellent for boilerplate, patterns, and repetitive implementation
 - Chat with full codebase context for planning and structured changes
-- Custom agents (Test Writer, Code Reviewer, Documentation) run directly in the chat interface
 - Model-selectable — can be pointed at Claude Sonnet/Opus or GPT models via API key
 
 **Limitations:**
 - Can produce plausible but incorrect code — never accept suggestions without understanding them
 - Risk of over-acceptance without validation gates in place
-- Quality of agentic output depends heavily on the quality of `copilot-instructions.md` and your prompts
+- MCP support less mature than Claude Code
 
-**Best practices:**
-- Always generate and maintain `/.github/copilot-instructions.md` before starting work on any project
-- Use inline comments (`TODO:`, `NOTE:`, `Example:`) to guide autocompletion for T1 tasks
-- Switch to chat for anything T2 and above — use PLAN mode before implementing
+**When to use:**
+- Teams already invested in GitHub Copilot workflows
+- Developers who prefer autocompletion-first interaction over agentic chat
 
 ---
 
@@ -66,29 +90,6 @@ An open-source agentic tool that runs multi-step tasks via VS Code and the comma
 - Your team wants model provider flexibility and is comfortable managing inference costs
 - The task involves a large, planned repo-wide change that benefits from Cline's transparency on steps taken
 - You're already operating a CLI-heavy workflow
-
----
-
-### Claude Code
-
-**Role:** Anthropic's agentic coding tool, terminal-native
-**Cost:** Included with Claude Pro ($17/mo annual / $20/mo monthly)
-
-Claude Code runs in your terminal and understands your repository at a structural level — it can handle git workflows, run commands, and execute multi-step plans across the codebase. Best suited for developers comfortable in the terminal who want a plan/execute loop with strong repo awareness.
-
-**Strengths:**
-- Excellent for "do X across the entire repo" tasks — refactors, migrations, test runs
-- Strong plan/execute loops with repo-level context
-- Handles release chores and automation naturally in a CLI-heavy workflow
-
-**Limitations:**
-- Guardrails are essential — Claude Code can run terminal commands, so unchecked use on production-adjacent environments carries real risk
-- Less suited for developers who prefer an IDE-first workflow
-
-**When to reach for it:**
-- Large-scale refactors or migrations that are best driven from the terminal
-- Test and lint loop automation
-- Release chore automation (version bumps, changelog generation, tag creation)
 
 ---
 
@@ -144,10 +145,10 @@ An AI-native IDE built around "Cascade" — a multi-step agentic workflow that i
 
 | Situation | Recommended Tool | Notes |
 |-----------|-----------------|-------|
-| Default daily development | GitHub Copilot | Lowest friction, covers T1–T3 with the right setup |
-| Agent pipeline (Test Writer, Code Reviewer, Docs) | GitHub Copilot | Agents are built for the Copilot interface |
+| Default daily development | Claude Code | Best balance of capability and cost for SWE work |
+| Agent pipeline (Test Writer, Code Reviewer, Docs) | Claude Code | Slash command agents built for Claude Code |
+| Autocompletion-first workflow | GitHub Copilot | Alternative for teams invested in Copilot |
 | Repo-wide changes, provider flexibility needed | Cline | Set up guardrails first |
-| Large refactors / migrations from terminal | Claude Code | Guardrails essential for command execution |
 | Multi-file feature work, fast iteration | Cursor | Align as a team before adopting |
 | Multi-step tasks with integrated editor + terminal context | Windsurf | Verify credit limits for your workload |
 
@@ -155,9 +156,9 @@ An AI-native IDE built around "Cascade" — a multi-step agentic workflow that i
 
 ## Switching Away from the Default Stack
 
-The General toolset (VS Code + Copilot) is the default for good reason — shared tooling creates compounding benefits through knowledge sharing, consistent onboarding, and predictable workflows. Switching tools individually creates fragmentation.
+The General toolset (VS Code + Claude Code) is the default for good reason — shared tooling creates compounding benefits through knowledge sharing, consistent onboarding, and predictable workflows. Switching tools individually creates fragmentation.
 
-If you're considering adopting Cursor, Windsurf, Cline, or Claude Code:
+If you're considering adopting Cursor, Windsurf, Cline, or GitHub Copilot:
 
 1. **Validate the need** — identify a specific gap in the current stack that the new tool addresses
 2. **Align with your team** — individual adoption reduces the knowledge-sharing benefit

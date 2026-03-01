@@ -21,24 +21,26 @@ This agent is **write-only on script files**. It will never modify module code d
 
 ## Installation
 
-1. Open the Copilot chat window in VS Code
-2. At the bottom of the chat window, navigate to **Agent** → **Configure Custom Agents...**
-3. Click **Create new custom agent...**
-4. Choose `.github/agents` to scope it to the current project, or **User Data** for global access
-5. Name the agent: `WP Page Builder`
-6. Replace the generated instruction sheet with the full contents of the [Instruction Sheet](#instruction-sheet) section below
+1. Create the commands directory in your project:
+   ```bash
+   mkdir -p .claude/commands
+   ```
+
+2. Create `.claude/commands/wp-page-builder.md` with the contents from the [Instruction Sheet](#instruction-sheet) section below
+
+3. The command will be available as `/wp-page-builder` in Claude Code
 
 ---
 
 ## How to Use
 
-**Recommended Model:** Claude Sonnet 4.5
+**Recommended Model:** Claude Sonnet 4.6
 
 **Required MCPs:** Context7
 
 **Prompt template:**
 ```
-WP PAGE BUILDER mode. Plan a "{page-name}" page.
+/wp-page-builder Plan a "{page-name}" page.
 
 Sections needed:
 1. {section description}
@@ -57,7 +59,7 @@ For new modules, provide specs for WP Module Builder.
 
 **Example prompt:**
 ```
-WP PAGE BUILDER mode. Plan a "Services" landing page.
+/wp-page-builder Plan a "Services" landing page.
 
 Sections needed:
 1. Hero with headline "Our Services" and subtext, CTA to contact form

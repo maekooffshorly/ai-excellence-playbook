@@ -1,10 +1,10 @@
-# Prompt: `copilot-instructions.md` Generator
+# Prompt: `CLAUDE.md` Generator
 
 ## What This Does
 
-This prompt generates or updates `/.github/copilot-instructions.md` — the file that makes GitHub Copilot context-aware for your specific project. It instructs the AI to analyze your codebase and produce a structured instruction file that coding agents can use to become productive immediately in that repo.
+This prompt generates or updates `/CLAUDE.md` — the file that makes Claude Code context-aware for your specific project. It instructs the AI to analyze your codebase and produce a structured instruction file that Claude Code can use to become productive immediately in that repo.
 
-Running this is **the required first step** on any new project before doing any development work with Copilot.
+Running this is **the required first step** on any new project before doing any development work with Claude Code.
 
 ---
 
@@ -20,35 +20,33 @@ Running this is **the required first step** on any new project before doing any 
 
 ## How to Use
 
-1. Open the **Copilot chat window** in VS Code
-2. Set the model to **Claude Opus 4.5**
-3. Copy the prompt below and paste it into the chat
-4. Review the generated `<project-context>` section when Copilot asks for confirmation
+1. Open your project in VS Code with Claude Code
+2. Open the Claude Code panel
+3. Copy the prompt below and paste it into Claude Code
+4. Review the generated `<project-context>` section when Claude asks for confirmation
 5. Approve or request corrections, then proceed with the suggested development routes
-
-> ⚠️ Do **not** use Copilot's built-in "Generate Chat Instructions" command instead of this prompt. That command's output is often inconsistent and incomplete — acceptable for personal one-offs, but not for team standardisation.
 
 ---
 
 ## What to Expect Back
 
-After running the prompt, Copilot will:
+After running the prompt, Claude Code will:
 
-1. Analyze your codebase and generate the full `/.github/copilot-instructions.md` file
+1. Analyze your codebase and generate the full `/CLAUDE.md` file
 2. Pause and ask you to review the `<project-context>` section specifically
 3. Once approved, suggest three development routes to proceed from
 
-If the tech stack, primary runtime, or build/test commands are not discoverable from the codebase, Copilot will explicitly list what's missing and ask you to confirm before proceeding.
+If the tech stack, primary runtime, or build/test commands are not discoverable from the codebase, Claude will explicitly list what's missing and ask you to confirm before proceeding.
 
 ---
 
 ## The Prompt
 
 ````
-You are generating or updating `.github/copilot-instructions.md`.
+You are generating or updating `CLAUDE.md`.
 
 Your goal is to create a **consistent, structured, and maintainable
-instruction file** that helps AI coding agents become productive
+instruction file** that helps Claude Code become productive
 immediately in THIS codebase.
 
 The output MUST follow the exact structure defined below.
@@ -92,9 +90,10 @@ Include:
 - Critical developer workflows (builds, tests, debugging) — especially
   commands that aren't obvious from file inspection alone
 - Source existing AI conventions from
-  **/{.github/copilot-instructions.md,AGENT.md,AGENTS.md,CLAUDE.md,
-  .cursorrules,.windsurfrules,.clinerules,.cursor/rules/**,
-  .windsurf/rules/**,.clinerules/**,README.md}**
+  **/{CLAUDE.md,.claude/CLAUDE.md,AGENT.md,AGENTS.md,
+  .github/copilot-instructions.md,.cursorrules,.windsurfrules,
+  .clinerules,.cursor/rules/**,.windsurf/rules/**,
+  .clinerules/**,README.md}**
   (do one glob search)
 
 If any of the following are NOT discoverable from the codebase:
@@ -153,7 +152,7 @@ Include exactly the following guidance:
 
 Include exactly the following guidance:
 
-- Use `// TODO:` or `# TODO:` for Copilot to generate implementations
+- Use `// TODO:` or `# TODO:` to indicate where implementations are needed
 - Use `// Example:` or `# Example:` to guide expected output format
 - Use `// Note:` or `# Note:` for important constraints and considerations
 
@@ -174,10 +173,9 @@ Include exactly the following guidance:
 
 Include exactly the following guidance:
 
-- Always use context7 and sonarqube.
-- Update <project-context> section in the
-  `.github/copilot-instructions.md` file to reflect any changes in tech
-  stack, project structure, or critical commands.
+- Always use context7 and sonarqube MCPs when available.
+- Update <project-context> section in the `CLAUDE.md` file to reflect any
+  changes in tech stack, project structure, or critical commands.
 - Ensure functions and components are grouped logically into specific
   modules, files, or folders based on their purpose.
 - In each file or module, include a brief comment at the top summarizing
@@ -202,9 +200,10 @@ Include exactly the following guidance:
 
 - Analyze the codebase to populate ONLY the `<project-context>` section.
 - Source existing AI conventions from:
-  **/{.github/copilot-instructions.md,AGENT.md,AGENTS.md,CLAUDE.md,
-  .cursorrules,.windsurfrules,.clinerules,.cursor/rules/**,
-  .windsurf/rules/**,.clinerules/**,README.md}**
+  **/{CLAUDE.md,.claude/CLAUDE.md,AGENT.md,AGENTS.md,
+  .github/copilot-instructions.md,.cursorrules,.windsurfrules,
+  .clinerules,.cursor/rules/**,.windsurf/rules/**,
+  .clinerules/**,README.md}**
   (single glob search)
 - Merge intelligently if a file already exists:
   - Preserve structure
@@ -233,7 +232,7 @@ Then, suggest three development routes to proceed from.
 
 ## Output Structure Reference
 
-The generated `/.github/copilot-instructions.md` will always follow this structure:
+The generated `/CLAUDE.md` will always follow this structure:
 
 ```
 <project-context>

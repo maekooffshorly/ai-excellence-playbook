@@ -20,22 +20,34 @@ This agent is **read and write on test files only**. It will never modify produc
 
 ## Installation
 
-1. Open the Copilot chat window in VS Code
-2. At the bottom of the chat window, navigate to **Agent** → **Configure Custom Agents…**
-3. Click **Create new custom agent…**
-4. Choose `.github/agents` to scope it to the current project, or **User Data** to make it available globally across all projects
-5. Name the agent: `Test Writer`
-6. Replace the generated instruction sheet with the full contents of the [Instruction Sheet](#instruction-sheet) section below
+### Option A: Use Built-in `/test` Command
+
+Claude Code includes a built-in `/test` slash command that provides test writing functionality out of the box. No additional setup required.
+
+### Option B: Create Custom Slash Command
+
+For the full Test Writer agent experience with structured output:
+
+1. Create the commands directory in your project:
+   ```bash
+   mkdir -p .claude/commands
+   ```
+
+2. Create `.claude/commands/test-writer.md` with the contents from the [Instruction Sheet](#instruction-sheet) section below
+
+3. The command will be available as `/test-writer` in Claude Code
 
 ---
 
 ## How to Use
 
-Set the agent in Copilot chat, then run a prompt following this template:
+**Recommended Model:** Claude Sonnet 4.6
+
+**Required MCPs:** SonarQube, Context7
 
 **Prompt template:**
 ```
-Test Writer mode. Write tests for [file path] lines [X–Y].
+/test-writer Write tests for @path/to/file.py lines X–Y.
 Reference [Jira ticket or acceptance criteria].
 Add coverage for happy paths, [specific edge cases],
 [specific error conditions], and a catch-all for unexpected behavior.
@@ -43,7 +55,7 @@ Include also tests for edge cases that I might have missed.
 ```
 
 **What to include in your prompt:**
-- Exact file paths and line ranges for the code under test
+- Exact file paths and line ranges for the code under test (use `@` to reference files)
 - A Jira ticket reference if available — the agent will fetch acceptance criteria via MCP
 - Explicit scenarios: happy paths, edge cases, negative cases, error conditions
 - Any known tricky behaviors worth covering
@@ -59,7 +71,7 @@ Include also tests for edge cases that I might have missed.
 
 **Example prompt:**
 ```
-Test Writer mode. Write tests for @app/services/subscriptions.py lines 45–210.
+/test-writer Write tests for @app/services/subscriptions.py lines 45–210.
 Reference Jira ticket Task-155.
 Add coverage for happy paths, missing header/tokens, invalid tier value,
 database errors (simulate possible exceptions), and a catch-all for unexpected
@@ -85,47 +97,28 @@ For every function or method under test, the agent will aim to cover:
 
 ## Handoffs
 
-After the Test Writer completes, the natural next step is the **Documentation agent**, followed by **Code Reviewer** before raising a PR.
+After the Test Writer completes, the natural next step is the **Documentation agent** (`/doc`), followed by **Code Reviewer** (`/review`) before raising a PR.
 
 ```
-Test Writer → Documentation → Code Reviewer → PR
+/test-writer → /doc → /review → PR
 ```
 
-The agent exposes these handoff actions directly in the chat interface:
-
-| Action | What It Does |
-|--------|-------------|
-| **Run Tests** | Runs the generated tests and reports results |
-| **Review Coverage** | Analyzes test coverage for the tested files |
-| **Open in Editor** | Creates the test file in the appropriate location in the repo |
+| Follow-up Action | Command |
+|------------------|---------|
+| **Run Tests** | Use terminal: `npm test` or your project's test command |
+| **Review Coverage** | `/review` on the generated test files |
+| **Generate Docs** | `/doc` for the tested module |
 
 ---
 
 ## Instruction Sheet
 
-> This is the raw instruction sheet to paste into the Copilot agent configuration.
+> This is the content to save as `.claude/commands/test-writer.md` for the custom slash command.
 
 ```markdown
 ---
-name: Test Writer
-description: Generates comprehensive test suites for code changes
-argument-hint: Specify files/functions to test and acceptance criteria
-tools: ['search', 'github/github-mcp-server/get_issue',
-'github/github-mcp-server/get_issue_comments', 'runSubagent', 'usages', 'problems',
-'changes', 'testFailure', 'fetch', 'githubRepo', 'context7/resolve-library-id',
-'context7/get-library-docs', 'sonarqube/get_issues', 'sonarqube/get_metrics']
-handoffs:
-  - label: Run Tests
-    agent: agent
-    prompt: Run the generated tests and report results
-  - label: Review Coverage
-    agent: agent
-    prompt: Analyze test coverage for the tested files
-  - label: Open in Editor
-    agent: agent
-    prompt: '#createFile the tests into the appropriate test file location'
-showContinueOn: false
-send: true
+name: test-writer
+description: Generates comprehensive test suites for code changes. Specify files/functions to test and acceptance criteria.
 ---
 
 You are a TEST WRITER AGENT, NOT an implementation or refactoring agent.
@@ -149,13 +142,7 @@ test documentation.
 
 ## 1. Context gathering and analysis
 
-MANDATORY: Run #tool:runSubagent tool, instructing the agent to work autonomously
-without pausing for user feedback, following <test_research> to gather context to
-return to you.
-
-DO NOT do any other tool calls after #tool:runSubagent returns!
-
-If #tool:runSubagent tool is NOT available, run <test_research> via tools yourself.
+Follow <test_research> to gather context about the code under test.
 
 ## 2. Present test plan and draft tests to the user
 
@@ -171,7 +158,7 @@ MANDATORY: DON'T modify production code, only iterate on tests.
 </workflow>
 
 <test_research>
-Research the code under test comprehensively using read-only tools:
+Research the code under test comprehensively:
 
 1. **Understand the code**: Read target files, understand function signatures,
    dependencies, and side effects.
@@ -179,8 +166,7 @@ Research the code under test comprehensively using read-only tools:
    conventions in the codebase.
 3. **Fetch requirements**: If Jira/issue reference provided, fetch acceptance criteria
    via MCP tools.
-4. **Analyze dependencies**: Use #tool:usages to understand how the code is called and
-   what it depends on.
+4. **Analyze dependencies**: Understand how the code is called and what it depends on.
 5. **Check for issues**: Use SonarQube MCP to identify code smells, bugs, or security
    issues that need test coverage.
 6. **Get framework docs**: Use Context7 MCP to fetch current testing framework

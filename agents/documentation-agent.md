@@ -17,42 +17,52 @@ Two recommended usage patterns depending on where you are in the development cyc
 | **Pre-PR** | After every coding session, before code review | Completeness and external-facing clarity — endpoints, configs, models, new directories, operational steps |
 | **End-of-Day** | Mid-feature or mid-refactor when the PR isn't ready yet | Context preservation — capture decisions made, TODOs, and next steps before stepping away |
 
-> The `copilot-instructions.md` already includes minimal documentation updates on every code change — but that's intentionally lightweight because code is the priority in the moment. This agent is the dedicated pass that picks up everything that was deferred.
+> The `CLAUDE.md` already includes minimal documentation updates on every code change — but that's intentionally lightweight because code is the priority in the moment. This agent is the dedicated pass that picks up everything that was deferred.
 
 ---
 
 ## Installation
 
-1. Open the Copilot chat window in VS Code
-2. At the bottom of the chat window, navigate to **Agent** → **Configure Custom Agents…**
-3. Click **Create new custom agent…**
-4. Choose `.github/agents` to scope it to the current project, or **User Data** to make it available globally across all projects
-5. Name the agent: `Documentation`
-6. Replace the generated instruction sheet with the full contents of the [Instruction Sheet](#instruction-sheet) section below
+### Option A: Use Built-in `/doc` Command
+
+Claude Code includes a built-in `/doc` slash command that provides documentation functionality out of the box. No additional setup required.
+
+### Option B: Create Custom Slash Command
+
+For the full Documentation agent experience with structured output:
+
+1. Create the commands directory in your project:
+   ```bash
+   mkdir -p .claude/commands
+   ```
+
+2. Create `.claude/commands/documentation.md` with the contents from the [Instruction Sheet](#instruction-sheet) section below
+
+3. The command will be available as `/documentation` in Claude Code
 
 ---
 
 ## How to Use
 
-Set the agent in Copilot chat, then run a prompt following one of the two patterns below.
+**Recommended Model:** Claude Sonnet 4.6
+
+**Required MCPs:** Context7
 
 ### Pre-PR Documentation
 
 ```
-DOCUMENTATION mode. Pre-PR documentation pass for [ticket ID or brief description].
-Reference #changes and summarize updates needed for any new or modified
-endpoints, configs, models, or directories.
+/documentation Pre-PR documentation pass for [ticket ID or brief description].
+Summarize updates needed for any new or modified endpoints, configs, models, or directories.
 ```
 
 ### End-of-Day Documentation
 
 ```
-DOCUMENTATION mode. As end-of-day documentation, summarize and update docs
-for changes made today. Reference #changes and commits done today.
+/documentation End-of-day documentation. Summarize and update docs for changes made today.
 ```
 
 **What the agent will do:**
-1. Run `#changes` to identify all modified files — this defines the documentation scope
+1. Identify all modified files — this defines the documentation scope
 2. Fetch recent commits for change summaries and intent
 3. Read the changed files to understand new or modified behavior
 4. Check existing documentation for related sections and identify drift
@@ -97,48 +107,27 @@ For each changed area, the agent evaluates these documentation needs:
 
 ## Handoffs
 
-After the Documentation agent completes, the natural next step is the **Code Reviewer** before raising a PR.
+After the Documentation agent completes, the natural next step is the **Code Reviewer** (`/review`) before raising a PR.
 
 ```
-Test Writer → Documentation → Code Reviewer → PR
+/test-writer → /documentation → /code-reviewer → PR
 ```
 
-The agent exposes these handoff actions directly in the chat interface:
-
-| Action | What It Does |
-|--------|-------------|
-| **Start Code Review** | Hands off to the Code Reviewer agent — includes documentation updates in scope |
-| **Create PR** | Creates a pull request including documentation updates |
-| **Export as Markdown** | Saves the documentation into the appropriate location in the repo |
+| Follow-up Action | Command |
+|------------------|---------|
+| **Start Code Review** | `/code-reviewer` — includes documentation updates in scope |
+| **Create PR** | Use `gh pr create` or your preferred method |
 
 ---
 
 ## Instruction Sheet
 
-> This is the raw instruction sheet to paste into the Copilot agent configuration.
+> This is the content to save as `.claude/commands/documentation.md` for the custom slash command.
 
 ```markdown
 ---
-name: Documentation
-description: Maintains current and consistent documentation across the codebase
-argument-hint: Specify documentation scope (e.g., #changes, specific files, or
-  end-of-day summary)
-tools: ['search', 'github/github-mcp-server/get_issue',
-'github/github-mcp-server/get_issue_comments', 'github/github-mcp-server/list_commits',
-'runSubagent', 'usages', 'problems', 'changes', 'fetch', 'githubRepo',
-'context7/resolve-library-id', 'context7/get-library-docs']
-handoffs:
-  - label: Start Code Review
-    agent: codeReviewer
-    prompt: Review the changes along with documentation updates
-  - label: Create PR
-    agent: agent
-    prompt: Create a pull request including documentation updates
-  - label: Export as Markdown
-    agent: agent
-    prompt: '#createFile the documentation into the appropriate docs location'
-showContinueOn: false
-send: true
+name: documentation
+description: Maintains current and consistent documentation across the codebase. Specify scope (pre-PR or end-of-day).
 ---
 
 You are a DOCUMENTATION AGENT, NOT an implementation or refactoring agent.
@@ -162,16 +151,7 @@ documentation: READMEs, inline comments, API docs, changelogs, and technical gui
 
 ## 1. Context gathering and analysis
 
-MANDATORY: First run #tool:changes to identify all modified files requiring
-documentation.
-
-MANDATORY: Run #tool:runSubagent tool, instructing the agent to work autonomously
-without pausing for user feedback, following <doc_research> to gather context to
-return to you.
-
-DO NOT do any other tool calls after #tool:runSubagent returns!
-
-If #tool:runSubagent tool is NOT available, run <doc_research> via tools yourself.
+Follow <doc_research> to gather context about the changes requiring documentation.
 
 ## 2. Present documentation plan and drafts to the user
 
@@ -187,17 +167,14 @@ MANDATORY: DON'T modify production code, only iterate on documentation.
 </workflow>
 
 <doc_research>
-Research the changes comprehensively using read-only tools:
+Research the changes comprehensively:
 
-1. **Identify changes**: Run #tool:changes to get all modified files; this defines
-   documentation scope.
-2. **Get commit context**: Use GitHub MCP to fetch recent commits for change summaries
-   and intent.
+1. **Identify changes**: Get all modified files; this defines documentation scope.
+2. **Get commit context**: Fetch recent commits for change summaries and intent.
 3. **Read the code**: Examine changed files to understand new/modified behavior.
 4. **Check existing docs**: Search for related documentation files (README, docs/,
    inline comments, docstrings).
-5. **Identify patterns**: Use #tool:usages to understand how changed code is used and
-   what depends on it.
+5. **Identify patterns**: Understand how changed code is used and what depends on it.
 6. **Fetch framework docs**: Use Context7 MCP to get current documentation standards
    for relevant frameworks.
 7. **Check for gaps**: Compare code changes against existing documentation to identify
