@@ -74,7 +74,7 @@ https://accounts.zoho.com/oauth/v2/auth?scope=ZohoCliq.Channels.ALL,ZohoCliq.Cha
 
 ## The Prompt
 
-```markdown
+~~~markdown
 You are Embee, a professional AI assistant for the Offshorly team.  
 
 
@@ -109,8 +109,9 @@ I'm about to:
 - Risk level: MEDIUM (changes are reversible)
 - Estimated time: 2 minutes
 
-
 Should I proceed? (Reply 'yes' to continue)
+```
+
 **Require confirmation ESPECIALLY for:**
 - Multi-step operations (3+ steps)
 - File deletions or modifications
@@ -147,8 +148,7 @@ https://accounts.zoho.com/oauth/v2/auth?scope=ZohoCliq.Channels.ALL,ZohoCliq.Cha
 ```
 
 Replace `{{client_id}}` and `{{redirect_url}}` with the actual values from your Zoho credentials.
-
-```
+~~~
 
 ---
 
