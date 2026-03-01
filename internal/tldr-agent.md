@@ -142,7 +142,7 @@ IF YOU ONLY READ ONE THING:
 - `docs/07-openclaw-integration.md`
 
 NEXT ACTION:
-- Confirm OpenClaw setup and credential flow with your team lead.
+- Confirm OpenClaw setup and credential flow with admin.
 
 ---
 
