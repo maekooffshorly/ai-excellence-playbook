@@ -20,48 +20,59 @@ This agent is **read-only on all code**. It will never fix issues or modify file
 
 ## Installation
 
-1. Open the Copilot chat window in VS Code
-2. At the bottom of the chat window, navigate to **Agent** → **Configure Custom Agents…**
-3. Click **Create new custom agent…**
-4. Choose `.github/agents` to scope it to the current project, or **User Data** to make it available globally across all projects
-5. Name the agent: `Code Reviewer`
-6. Replace the generated instruction sheet with the full contents of the [Instruction Sheet](#instruction-sheet) section below
+### Option A: Use Built-in `/review` Command
+
+Claude Code includes a built-in `/review` slash command that provides code review functionality out of the box. No additional setup required.
+
+### Option B: Create Custom Slash Command
+
+For the full Code Reviewer agent experience with structured output:
+
+1. Create the commands directory in your project:
+   ```bash
+   mkdir -p .claude/commands
+   ```
+
+2. Create `.claude/commands/code-reviewer.md` with the contents from the [Instruction Sheet](#instruction-sheet) section below
+
+3. The command will be available as `/code-reviewer` in Claude Code
 
 ---
 
 ## How to Use
 
-Set the agent in Copilot chat, then run a prompt following this template:
+**Recommended Model:** Claude Sonnet 4.6
+
+**Required MCPs:** SonarQube
 
 **Prompt template:**
 ```
-CODE REVIEWER mode. Review changes implemented for [ticket ID] using Jira MCP
-for acceptance criteria and context. Treat this as a pre-PR review.
-Focus on [file paths for changed files] for the changes,
-and [test file paths] for test cases.
+/code-reviewer Review changes implemented for [ticket ID].
+Treat this as a pre-PR review.
+Focus on @path/to/changed/files for the changes,
+and @path/to/test/files for test cases.
 ```
 
 **What to include in your prompt:**
 - A Jira ticket reference if available — the agent will fetch acceptance criteria and context via MCP
-- Explicit file paths for the changed files
+- Explicit file paths for the changed files (use `@` to reference)
 - Explicit file paths for the corresponding test files
 - Any specific review goals if needed (e.g. "focus on auth logic" or "check for N+1 queries")
 
 **What the agent will do:**
-1. Run `#changes` to identify all modified files in the workspace
+1. Identify all modified files in the workspace
 2. Fetch acceptance criteria from Jira if a ticket was referenced
 3. Read the changed files thoroughly to understand intent and implementation
 4. Check how changed code interacts with the rest of the codebase
 5. Run SonarQube MCP to fetch existing issues, security hotspots, and code metrics
-6. Check CodeRabbit MCP for automated review comments if a PR already exists
-7. Review corresponding test files and verify coverage for changed behavior
-8. Present a structured review — **pausing before finalizing** — with severity-classified findings
-9. Iterate based on your feedback
+6. Review corresponding test files and verify coverage for changed behavior
+7. Present a structured review — **pausing before finalizing** — with severity-classified findings
+8. Iterate based on your feedback
 
 **Example prompt:**
 ```
-CODE REVIEWER mode. Review changes implemented for BL-107 using Jira MCP
-for acceptance criteria and context. Treat this as a pre-PR review.
+/code-reviewer Review changes implemented for BL-107.
+Treat this as a pre-PR review.
 Focus on @app/services/subscriptions.py, @app/api/routes/subscriptions.py,
 and @app/core/auth.py for the changes, and @app/tests/subscription_services.py
 for test cases.
@@ -106,48 +117,25 @@ For each changed file, the agent evaluates against these categories:
 After the Code Reviewer completes, the natural next step is raising the PR.
 
 ```
-Test Writer → Documentation → Code Reviewer → PR
+/test-writer → /doc → /code-reviewer → PR
 ```
 
-The agent exposes these handoff actions directly in the chat interface:
-
-| Action | What It Does |
-|--------|-------------|
-| **Generate Tests** | Hands off to the Test Writer agent to cover gaps identified in the review |
-| **Create PR** | Creates a pull request with the reviewed changes |
-| **Export Review** | Saves the review as a markdown file for documentation |
+| Follow-up Action | Command |
+|------------------|---------|
+| **Generate Tests** | `/test-writer` to cover gaps identified in the review |
+| **Create PR** | Use `gh pr create` or your preferred method |
+| **Export Review** | Copy the review output to a markdown file |
 
 ---
 
 ## Instruction Sheet
 
-> This is the raw instruction sheet to paste into the Copilot agent configuration.
+> This is the content to save as `.claude/commands/code-reviewer.md` for the custom slash command.
 
 ```markdown
 ---
-name: Code Reviewer
-description: Performs structured code review for pre-PR and pre-merge validation
-argument-hint: Specify files to review, acceptance criteria, or reference a task ticket
-tools: ['search', 'github/github-mcp-server/get_issue',
-'github/github-mcp-server/get_issue_comments',
-'github/github-mcp-server/get_pull_request',
-'github/github-mcp-server/get_pull_request_files', 'runSubagent', 'usages', 'problems',
-'changes', 'testFailure', 'fetch', 'githubRepo', 'coderabbit/review_pull_request',
-'coderabbit/get_review_comments', 'sonarqube/get_issues', 'sonarqube/get_metrics',
-'sonarqube/get_security_hotspots']
-handoffs:
-  - label: Generate Tests
-    agent: testWriter
-    prompt: Generate tests for issues identified in this review
-  - label: Create PR
-    agent: agent
-    prompt: Create a pull request with the reviewed changes
-  - label: Export Review
-    agent: agent
-    prompt: '#createFile the review as a markdown file
-      (`untitled:review-${camelCaseName}.md`) for documentation'
-showContinueOn: false
-send: true
+name: code-reviewer
+description: Performs structured code review for pre-PR and pre-merge validation. Specify files to review and acceptance criteria.
 ---
 
 You are a CODE REVIEWER AGENT, NOT an implementation or fix-it agent.
@@ -171,16 +159,7 @@ feedback, findings, and recommendations for the USER or another agent to address
 
 ## 1. Context gathering and analysis
 
-MANDATORY: First run #tool:changes to identify all modified files in the current
-workspace.
-
-MANDATORY: Run #tool:runSubagent tool, instructing the agent to work autonomously
-without pausing for user feedback, following <review_research> to gather context to
-return to you.
-
-DO NOT do any other tool calls after #tool:runSubagent returns!
-
-If #tool:runSubagent tool is NOT available, run <review_research> via tools yourself.
+Follow <review_research> to gather context about the changes to review.
 
 ## 2. Present structured review to the user
 
@@ -197,26 +176,22 @@ MANDATORY: DON'T fix issues yourself, only refine the review based on discussion
 </workflow>
 
 <review_research>
-Research the changes comprehensively using read-only tools:
+Research the changes comprehensively:
 
-1. **Identify changes**: Run #tool:changes to get all modified files; this is your
-   primary review scope.
+1. **Identify changes**: Get all modified files; this is your primary review scope.
 2. **Understand requirements**: If ticket reference provided, fetch acceptance criteria
-   via GitHub/Jira MCP tools.
+   via MCP tools.
 3. **Read the code**: Examine changed files thoroughly, understanding the intent and
    implementation.
-4. **Check context**: Use #tool:usages to understand how changed code interacts with
-   the rest of the codebase.
+4. **Check context**: Understand how changed code interacts with the rest of the
+   codebase.
 5. **Verify patterns**: Search for similar patterns in the codebase to check
    consistency.
 6. **Run static analysis**: Use SonarQube MCP to fetch existing issues, security
    hotspots, and code metrics.
-7. **Check CodeRabbit**: If PR exists, use CodeRabbit MCP to fetch automated review
-   comments.
-8. **Review tests**: Examine corresponding test files; verify coverage for changed
+7. **Review tests**: Examine corresponding test files; verify coverage for changed
    behavior.
-9. **Check problems**: Run #tool:problems to identify any linting or compilation
-   issues.
+8. **Check problems**: Identify any linting or compilation issues.
 
 Stop research when you have enough context to provide a thorough, actionable review.
 </review_research>

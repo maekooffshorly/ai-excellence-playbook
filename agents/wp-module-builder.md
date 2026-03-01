@@ -21,24 +21,26 @@ This agent is **write-only on module files**. It will never modify code outside 
 
 ## Installation
 
-1. Open the Copilot chat window in VS Code
-2. At the bottom of the chat window, navigate to **Agent** → **Configure Custom Agents...**
-3. Click **Create new custom agent...**
-4. Choose `.github/agents` to scope it to the current project, or **User Data** for global access
-5. Name the agent: `WP Module Builder`
-6. Replace the generated instruction sheet with the full contents of the [Instruction Sheet](#instruction-sheet) section below
+1. Create the commands directory in your project:
+   ```bash
+   mkdir -p .claude/commands
+   ```
+
+2. Create `.claude/commands/wp-module-builder.md` with the contents from the [Instruction Sheet](#instruction-sheet) section below
+
+3. The command will be available as `/wp-module-builder` in Claude Code
 
 ---
 
 ## How to Use
 
-**Recommended Model:** Claude Sonnet 4.5
+**Recommended Model:** Claude Sonnet 4.6
 
 **Required MCPs:** Context7 (for UIkit and ACF documentation)
 
 **Prompt template:**
 ```
-WP MODULE BUILDER mode. Create a new module called "{module-name}".
+/wp-module-builder Create a new module called "{module-name}".
 
 Content fields needed:
 - {field 1}
@@ -60,7 +62,7 @@ Layout: {description of layout using UIkit components}
 
 **Example prompt:**
 ```
-WP MODULE BUILDER mode. Create a new module called "testimonial-cards-grid".
+/wp-module-builder Create a new module called "testimonial-cards-grid".
 
 Content fields needed:
 - Section header (text)

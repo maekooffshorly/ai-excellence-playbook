@@ -24,15 +24,15 @@ Both tracks share the same core principles:
 | Component | Choice |
 |-----------|--------|
 | IDE | VS Code |
-| Coding Companion | GitHub Copilot (autocompletion + chat) |
-| Primary LLM | Claude Opus 4.5 |
+| Coding Companion | Claude Code (VS Code extension + agentic workflows) |
+| Primary LLM | Claude Sonnet 4.6 (T1–T3) / Claude Opus 4.5 (complex T3) |
 | MCPs | SonarQube, Context7, Figma *(frontend only)* |
 
 ### Why This Toolset
 
-Most developers rely heavily on autocompletion as their default productivity multiplier. Copilot delivers high-speed, workable suggestions for T1 work and solid boilerplate for T2 tasks. Copilot chat with agentic use adds a planning and multi-step execution layer with full codebase context.
+Claude Code provides the best balance of agentic capability and cost efficiency for SWE work. It understands your entire repo, handles multi-file changes naturally, and integrates with MCPs for quality checks and library standards. The VS Code extension brings these capabilities directly into your IDE workflow.
 
-Claude Opus 4.5 is the primary model for high-complexity tasks because of its strong reasoning and planning capabilities. That said, **Opus can be overkill for small changes, maintenance work, and mature codebases** — see the model guidance below.
+Claude Sonnet 4.6 is now the primary model for most SWE work — it offers near-Opus capability at Sonnet pricing. Claude Opus 4.5 remains the choice for complex T3 tasks requiring deep reasoning. **Opus can be overkill for small changes, maintenance work, and mature codebases** — see the model guidance below.
 
 ### Model Guidance
 
@@ -43,19 +43,22 @@ Claude Opus 4.5 is the primary model for high-complexity tasks because of its st
 
 **The takeaway:** Model selection should be based on task complexity, expected risk, and local context requirements — not simply choosing the "best model available."
 
+**Switching models in Claude Code:** Claude Code defaults to Opus 4.6, but we recommend Opus 4.5 for T3 tasks. Use `/model claude-opus-4-5-20251101` to switch to Opus 4.5 when starting complex architectural work.
+
 ---
 
-## Required Setup: Copilot Custom Instructions
+## Required Setup: CLAUDE.md
 
-Before any development work on a new project, the first step is always to generate `/.github/copilot-instructions.md`. This file is what makes Copilot context-aware for your specific codebase.
+Before any development work on a new project, the first step is always to generate `/CLAUDE.md`. This file is what makes Claude Code context-aware for your specific codebase.
 
-> ⚠️ Do **not** use Copilot's built-in "Generate Chat Instructions" command for this. While it generally works, the output is often inconsistent and incomplete. It's acceptable for personal projects or quick one-offs, but not for team standardisation.
+Claude Code automatically reads `CLAUDE.md` files from your project root or `.claude/` directory, providing project-specific context for all interactions.
 
 **Steps:**
 
-1. Open the Copilot chat window
-2. Ensure the selected model is **Claude Opus 4.5**
-3. Run the prompt from [`prompts/01-copilot-instructions-generator.md`](../prompts/01-copilot-instructions-generator.md)
+1. Open your project in VS Code with Claude Code
+2. Open the Claude Code panel
+3. Run the prompt from [`prompts/01-claude-md-generator.md`](../prompts/01-claude-md-generator.md)
+4. Review and approve the generated content
 
 ---
 
@@ -107,7 +110,7 @@ Then implement in phases, with each phase producing a runnable state.
 
 ## Agent-Based Techniques
 
-These agents extend the workflow beyond code generation into testing, review, and documentation. All three are built on Claude Sonnet 4.5 and use SonarQube and/or Context7 MCPs.
+These agents extend the workflow beyond code generation into testing, review, and documentation. All three are built on Claude Sonnet 4.6 and use SonarQube and/or Context7 MCPs. In Claude Code, agents are invoked via slash commands.
 
 For full agent instruction sheets and installation steps, see [`agents/`](../agents/).
 
@@ -124,7 +127,7 @@ Code Complete → Test Writer → Documentation → Code Reviewer → PR
 
 ### Test Writer Agent
 
-**Model:** Claude Sonnet 4.5
+**Model:** Claude Sonnet 4.6
 **MCPs:** SonarQube, Context7
 
 #### When to Use
@@ -153,7 +156,7 @@ behavior. Include also tests for edge cases that I might have missed.
 
 ### Code Reviewer Agent
 
-**Model:** Claude Sonnet 4.5
+**Model:** Claude Sonnet 4.6
 **MCPs:** SonarQube, CodeRabbit *(if available)*
 
 #### When to Use
@@ -186,7 +189,7 @@ for test cases.
 
 ### Documentation Agent
 
-**Model:** Claude Sonnet 4.5
+**Model:** Claude Sonnet 4.6
 **MCPs:** Context7
 
 #### When to Use
@@ -212,18 +215,272 @@ for changes made today. Reference #changes and commits done today.
 
 ---
 
+## Additional Slash Commands
+
+Beyond the agent slash commands, these utility commands help with specific workflow tasks. To install any of these, create the corresponding `.md` file in `.claude/commands/`.
+
+### /plan — Implementation Planning
+
+Creates structured implementation plans before coding. Best for T2/T3 tasks.
+
+```
+/plan Create an implementation plan for [feature description].
+Requirements: [list requirements]
+Constraints: [list constraints]
+Reference: @relevant/files for existing patterns
+```
+
+**Installation:** Create `.claude/commands/plan.md` with the instruction sheet from [`agents/planner-agent.md`](../agents/planner-agent.md)
+
+---
+
+### /build-fix — Build Error Resolution
+
+Diagnoses and fixes build failures, CI/CD errors, and dependency issues.
+
+```
+/build-fix Diagnose and fix the build failure.
+Error output: [paste error or reference @terminal]
+Context: [what changed, what command was run]
+```
+
+**Installation:** Create `.claude/commands/build-fix.md` with the instruction sheet from [`agents/build-error-resolver-agent.md`](../agents/build-error-resolver-agent.md)
+
+---
+
+### /tdd — Test-Driven Development
+
+Structures a TDD workflow: write failing tests first, then implement to make them pass.
+
+```
+/tdd Implement [feature] using TDD.
+Start with failing tests for: [scenarios]
+Reference: @path/to/related/code for patterns
+```
+
+**Installation:** Create `.claude/commands/tdd.md`:
+
+````markdown
+---
+name: tdd
+description: Guides test-driven development workflow — write failing tests first, then implement.
+---
+
+You are a TDD GUIDE helping the user follow test-driven development.
+
+## TDD Workflow
+
+1. **Red**: Write a failing test for the next piece of functionality
+2. **Green**: Write the minimum code to make the test pass
+3. **Refactor**: Clean up the code while keeping tests green
+4. Repeat
+
+## Rules
+
+- ALWAYS write the test first, before any implementation
+- Tests should fail for the right reason (testing the right thing)
+- Implementation should be minimal — just enough to pass
+- Refactor only when tests are green
+- Each cycle should be small (5-10 minutes)
+
+## Your Role
+
+1. Help the user write a failing test for the requested functionality
+2. Verify the test fails for the right reason
+3. Guide implementation to make it pass
+4. Suggest refactoring opportunities
+5. Move to the next test
+
+Present tests using the project's existing test patterns and conventions.
+````
+
+---
+
+### /checkpoint — Workflow Savepoint
+
+Creates a savepoint documenting current progress, decisions made, and next steps. Useful for context preservation across sessions.
+
+```
+/checkpoint Save progress on [ticket/feature].
+Document: current state, decisions made, blockers, next steps.
+```
+
+**Installation:** Create `.claude/commands/checkpoint.md`:
+
+````markdown
+---
+name: checkpoint
+description: Creates a savepoint documenting progress, decisions, and next steps for context preservation.
+---
+
+You are creating a CHECKPOINT to preserve context and progress.
+
+## What to Capture
+
+1. **Current State**: What's been completed, what's in progress
+2. **Files Modified**: List of files changed in this session
+3. **Decisions Made**: Key technical decisions and their rationale
+4. **Blockers/Questions**: Anything that needs resolution
+5. **Next Steps**: Prioritized list of what to do next
+
+## Output Format
+
+---
+
+## Checkpoint: {Feature/Ticket} — {Date}
+
+### Progress Summary
+{2-3 sentences on current state}
+
+### Completed
+- [ ] {What's done}
+
+### In Progress
+- [ ] {What's partially done}
+
+### Files Modified
+- `{path}` — {what changed}
+
+### Key Decisions
+| Decision | Rationale |
+|----------|-----------|
+| {What was decided} | {Why} |
+
+### Blockers / Open Questions
+- {Issues needing resolution}
+
+### Next Steps
+1. {Priority 1}
+2. {Priority 2}
+
+---
+
+Save this checkpoint to a file or commit message for reference.
+````
+
+---
+
+### /verify — Implementation Verification
+
+Runs verification checks after implementation: tests pass, linting clean, builds succeed, acceptance criteria met.
+
+```
+/verify Verify implementation for [ticket/feature].
+Acceptance criteria: [list or reference ticket]
+Check: tests, lint, build, [specific concerns]
+```
+
+**Installation:** Create `.claude/commands/verify.md`:
+
+````markdown
+---
+name: verify
+description: Runs verification checks after implementation — tests, lint, build, acceptance criteria.
+---
+
+You are a VERIFICATION AGENT ensuring implementation is complete and correct.
+
+## Verification Checklist
+
+Run through these checks systematically:
+
+### 1. Tests
+- [ ] All existing tests pass
+- [ ] New tests added for new functionality
+- [ ] Test coverage is adequate for changes
+
+### 2. Linting & Formatting
+- [ ] No linting errors
+- [ ] Code formatted according to project standards
+
+### 3. Build
+- [ ] Project builds successfully
+- [ ] No TypeScript/compilation errors
+- [ ] No new warnings introduced
+
+### 4. Acceptance Criteria
+- [ ] Each acceptance criterion verified
+- [ ] Edge cases handled
+- [ ] Error handling in place
+
+### 5. Documentation
+- [ ] Code comments for complex logic
+- [ ] API docs updated if applicable
+- [ ] README updated if needed
+
+## Output Format
+
+Present a verification report:
+
+---
+
+## Verification Report: {Feature/Ticket}
+
+### Summary
+{Pass/Fail with brief explanation}
+
+### Checklist Results
+
+| Check | Status | Notes |
+|-------|--------|-------|
+| Tests | ✅/❌ | {Details} |
+| Lint | ✅/❌ | {Details} |
+| Build | ✅/❌ | {Details} |
+| Acceptance | ✅/❌ | {Details} |
+
+### Issues Found
+- {Any problems that need addressing}
+
+### Ready for PR?
+{Yes/No with explanation}
+
+---
+````
+
+---
+
+## Experimental Orchestration Commands
+
+These commands are under evaluation and should be piloted on complex tasks before broad rollout.
+
+### /orchestrate - Multi-Agent Workflow Coordination
+
+Coordinates a structured chain of specialized agents with handoff documents between each stage.
+
+```
+/orchestrate feature "Add user authentication"
+/orchestrate bugfix "Fix checkout timeout in payment flow"
+```
+
+**Installation:** Create `.claude/commands/orchestrate.md` with the instruction sheet from [`agents/orchestrator-agent.md`](../agents/orchestrator-agent.md)
+
+---
+
+### /multi-plan - Multi-Model Collaborative Planning
+
+Creates a planning-only implementation plan using collaborative analysis, then saves the plan to `.claude/plan/`.
+
+```
+/multi-plan Plan migration from session auth to JWT for API and frontend.
+Include rollout steps, fallback strategy, and test approach.
+```
+
+**Installation:** Create `.claude/commands/multi-plan.md` with the instruction sheet from [`agents/multi-plan-agent.md`](../agents/multi-plan-agent.md)
+
+For rollout guidance and adoption constraints, see [`docs/09-experimental-techniques.md`](09-experimental-techniques.md).
+
+---
+
 ## Language-Specific Prompt Extensions (Optional)
 
-In addition to project-specific Copilot instructions, you can add language- or framework-specific instruction sheets to `/.github/copilot-instructions.md`. These help standardise coding patterns, reduce common mistakes, and provide a stronger baseline when working in unfamiliar territory.
-
-**Reference library:**
-[https://github.com/Vishavjeet6/awesome-copilot-instructions/tree/master](https://github.com/Vishavjeet6/awesome-copilot-instructions/tree/master)
+In addition to project-specific CLAUDE.md instructions, you can add language- or framework-specific rules to your `/CLAUDE.md` file. These help standardise coding patterns, reduce common mistakes, and provide a stronger baseline when working in unfamiliar territory.
 
 **How to apply:**
-1. From the repository, pick the relevant framework or language
-2. In `/.github/copilot-instructions.md`, add a `## Language-Specific Rules` section and paste the chosen instructions
+1. Identify the relevant framework or language patterns for your project
+2. In `/CLAUDE.md`, add a `## Language-Specific Rules` section with the appropriate conventions
 
 **Internal observations:**
 - Developers with strong domain experience tend to see limited added value from these extensions
 - The biggest benefit is when working **outside your primary domain** — e.g. a backend developer building frontend components
 - In those cases, the instruction sheets act as guardrails for conventions, reminders of common pitfalls, and a quick way to align AI outputs to the expected ecosystem patterns
+
