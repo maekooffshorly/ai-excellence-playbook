@@ -12,6 +12,9 @@ Multi-agent orchestration coordinates specialized agents in a single workflow, w
 
 **Status:** Under evaluation - not yet recommended as default workflow.
 
+> **Note:** For the standard (non-experimental) quality pipeline, see the full pipeline in [`docs/04-coding-techniques.md`](04-coding-techniques.md#the-full-pipeline):
+> `Code Complete → Test Writer → Documentation → Code Reviewer → Verify → PR`
+
 ### Candidate Command
 
 `/orchestrate`

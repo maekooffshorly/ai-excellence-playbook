@@ -77,6 +77,8 @@ ai-excellence-playbook/
     |-- architect-agent.md                       # Architect agent instruction sheet
     |-- orchestrator-agent.md                    # Orchestrator agent instruction sheet
     |-- multi-plan-agent.md                      # Multi-Plan agent instruction sheet
+    |-- checkpoint-agent.md                      # Checkpoint agent for progress savepoints
+    |-- verify-agent.md                          # Verify agent for implementation checks
     |-- wp-module-builder.md                     # WP Module Builder agent for ACF blocks
     `-- wp-page-builder.md                       # WP Page Builder agent for WordPress pages
 ```
@@ -194,9 +196,9 @@ Requirements → Planner → [Approval] → Implementation
 Once coding is complete, these agents form the quality and documentation pipeline before a PR is raised.
 
 ```
-Code Complete → Test Writer → Documentation → Code Reviewer → PR
-                    ↑               ↑               |
-                    └───────────────┴───────────────┘
+Code Complete → Test Writer → Documentation → Code Reviewer → Verify → PR
+                    ↑               ↑               |            |
+                    └───────────────┴───────────────┴────────────┘
                               (handoffs between agents)
 ```
 
@@ -214,6 +216,8 @@ These agents handle specific situations as they arise during development.
 | Agent | Recommended Model | When to Use | Full Instructions |
 |-------|------------------|-------------|------------------|
 | **Build Error Resolver** | Claude Sonnet 4.6 | CI/CD failures; dependency conflicts; compilation errors; Docker build issues | [`agents/build-error-resolver-agent.md`](agents/build-error-resolver-agent.md) |
+| **Checkpoint** | Claude Sonnet 4.6 | Mid-work context preservation; end-of-day savepoints; handoff documentation between sessions | [`agents/checkpoint-agent.md`](agents/checkpoint-agent.md) |
+| **Verify** | Claude Sonnet 4.6 | Final pre-PR gate; validates tests pass, lint clean, build succeeds, acceptance criteria met | [`agents/verify-agent.md`](agents/verify-agent.md) |
 
 ### Experimental Orchestration Agents
 
