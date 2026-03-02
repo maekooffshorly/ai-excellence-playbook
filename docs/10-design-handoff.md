@@ -6,6 +6,21 @@ For WordPress generation workflows, pair this with the WP Module Builder and WP 
 
 ---
 
+## [WIP] Design Ruleset Coming Soon
+
+> **Work in Progress:** The design team is developing a comprehensive design ruleset/rulebook that will provide detailed guidelines for the following areas:
+>
+> - Grid system and breakpoints
+> - Above-the-fold considerations and lazy loading
+> - Padding and spacing standards
+> - Placeholder usage
+> - UIkit icon utilization
+> - Responsive font scales
+>
+> This section will be updated once the ruleset is finalized. The guidelines below are interim standards.
+
+---
+
 ## Design System Source of Truth
 
 Create a dedicated **Branding / Design System** page in Figma and keep it current. This is the source of truth for reusable elements:
