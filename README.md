@@ -8,14 +8,25 @@ This playbook is **not** about enforcing identical coding styles or replacing en
 
 ## What's New
 
-**v1.0 — Claude Code Migration and Workflow Expansion**
+**v1.1 — Design Handoff Standard (Figma → Dev → AI)**
 
-Major release: migrated the playbook from GitHub Copilot to Claude Code, added planning/security/utility/orchestration agents, introduced dedicated Basic and Experimental techniques docs, and updated model/tool guidance around Sonnet 4.6 and Opus 4.5 usage.
+Added a dedicated design handoff standard for Figma-driven workflows, including asset rules, prompting templates, and cross-team handoff checklists for WP Module/Page builder usage.
 
-For full version history → [`CHANGELOG.md`](CHANGELOG.md)
+For full version history → [CHANGELOG.md](CHANGELOG.md)
 
 ---
 
+## TLDR (Start Here)
+
+If you just cloned the repo and want the fastest path to relevant docs, use:
+
+`/internal/tldr-agent.md`
+
+It routes you to the most important sections based on role and task.
+
+Quick use: open your AI chat UI and type `start internal/tldr-agent`.
+
+---
 ## Why This Exists
 
 Without a consistent approach to AI tooling, there's no opportunity for knowledge sharing, no compounding improvements when someone finds a better workflow, and no predictable quality baseline across teams. This playbook addresses that by:
@@ -44,12 +55,17 @@ ai-excellence-playbook/
 |   |-- 06-advanced-techniques.md                # Multi-repo workspaces, context seeding, three-phase refactors
 |   |-- 07-openclaw-integration.md               # OpenClaw/Embee AI assistant integration guide
 |   |-- 08-basic-techniques.md                   # Day-to-day Claude Code usage: context references and shortcuts
-|   `-- 09-experimental-techniques.md            # Experimental workflows under evaluation (orchestrate, multi-plan)
+|   |-- 09-experimental-techniques.md            # Experimental workflows under evaluation (orchestrate, multi-plan)
+|   `-- 10-design-handoff.md                     # Design-to-dev-to-AI handoff standards for Figma workflows
+|
+|-- internal/
+|   `-- tldr-agent.md                            # TLDR navigation script for role-based doc routing
 |
 |-- prompts/
 |   |-- 01-claude-md-generator.md                # Prompt for generating CLAUDE.md
 |   |-- 02-security-guardrail.md                 # Security guardrail prompt extension
-|   `-- 03-embee-system-prompt.md                # Embee system prompt for OpenClaw
+|   |-- 03-embee-system-prompt.md                # Embee system prompt for OpenClaw
+|   `-- 04-design-system-generator.md            # Prompt for generating design-system.md
 |
 `-- agents/
     |-- test-writer-agent.md                     # Test Writer agent instruction sheet
@@ -61,6 +77,8 @@ ai-excellence-playbook/
     |-- architect-agent.md                       # Architect agent instruction sheet
     |-- orchestrator-agent.md                    # Orchestrator agent instruction sheet
     |-- multi-plan-agent.md                      # Multi-Plan agent instruction sheet
+    |-- checkpoint-agent.md                      # Checkpoint agent for progress savepoints
+    |-- verify-agent.md                          # Verify agent for implementation checks
     |-- wp-module-builder.md                     # WP Module Builder agent for ACF blocks
     `-- wp-page-builder.md                       # WP Page Builder agent for WordPress pages
 ```
@@ -178,9 +196,9 @@ Requirements → Planner → [Approval] → Implementation
 Once coding is complete, these agents form the quality and documentation pipeline before a PR is raised.
 
 ```
-Code Complete → Test Writer → Documentation → Code Reviewer → PR
-                    ↑               ↑               |
-                    └───────────────┴───────────────┘
+Code Complete → Test Writer → Documentation → Code Reviewer → Verify → PR
+                    ↑               ↑               |            |
+                    └───────────────┴───────────────┴────────────┘
                               (handoffs between agents)
 ```
 
@@ -198,6 +216,8 @@ These agents handle specific situations as they arise during development.
 | Agent | Recommended Model | When to Use | Full Instructions |
 |-------|------------------|-------------|------------------|
 | **Build Error Resolver** | Claude Sonnet 4.6 | CI/CD failures; dependency conflicts; compilation errors; Docker build issues | [`agents/build-error-resolver-agent.md`](agents/build-error-resolver-agent.md) |
+| **Checkpoint** | Claude Sonnet 4.6 | Mid-work context preservation; end-of-day savepoints; handoff documentation between sessions | [`agents/checkpoint-agent.md`](agents/checkpoint-agent.md) |
+| **Verify** | Claude Sonnet 4.6 | Final pre-PR gate; validates tests pass, lint clean, build succeeds, acceptance criteria met | [`agents/verify-agent.md`](agents/verify-agent.md) |
 
 ### Experimental Orchestration Agents
 
@@ -287,6 +307,16 @@ For workflows under evaluation before standard adoption:
 
 > -> [`docs/09-experimental-techniques.md`](docs/09-experimental-techniques.md)
 
+### Design Handoff
+
+For cross-discipline workflows (Design → Dev → AI), Figma prep, assets, and prompting rules:
+
+- **Design system source of truth** - branding page, tokens, and naming rules
+- **AI-friendly design rules** - simplify nesting and vector complexity
+- **Prompting and assets** - strict SVG rules and boilerplate-first strategy
+
+> -> [`docs/10-design-handoff.md`](docs/10-design-handoff.md)
+
 ---
 
 ## OpenClaw Integration
@@ -307,6 +337,10 @@ This playbook is a living document. When you discover a better workflow, prompt 
 
 ---
 
-*Version: v1.0 — Claude Code migration and workflow expansion*
+*Version: v1.1 — Design handoff standard*
+
+
+
+
 
 

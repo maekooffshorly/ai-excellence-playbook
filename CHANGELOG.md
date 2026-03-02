@@ -11,6 +11,37 @@ Format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 > Changes staged here move to a versioned release once reviewed and merged.
 
 ### Added
+-
+
+### Changed
+-
+
+### Removed
+-
+
+### Fixed
+-
+
+---
+
+## [v1.1] — 2026-03-02
+
+### Added
+- `docs/10-design-handoff.md` — design → dev → AI handoff standards for Figma prep, assets, and prompting
+- `prompts/04-design-system-generator.md` — prompt for generating design-system.md from Figma design system pages
+- `internal/tldr-agent.md` — TLDR navigation script for role-based doc routing
+- `agents/checkpoint-agent.md` — Checkpoint agent for creating workflow savepoints and preserving context across sessions
+- `agents/verify-agent.md` — Verify agent for implementation verification checks (tests, lint, build, acceptance criteria)
+
+### Changed
+- Updated `docs/04-coding-techniques.md` — added Design → Dev → AI handoff reference
+- Updated `agents/wp-module-builder.md` — added Figma handoff guidance and link
+- Updated `agents/wp-page-builder.md` — added Figma handoff guidance and link
+- Updated `README.md` — repository structure, coding techniques summary, TLDR section, and design handoff section
+- Updated `docs/10-design-handoff.md` — added link to the design system prompt
+- Updated quality pipeline in `docs/04-coding-techniques.md` and `README.md` — added Verify as final pre-PR gate
+- Updated `README.md` Utility Agents table — added Checkpoint and Verify agents
+- Updated `docs/09-experimental-techniques.md` — added cross-reference to standard quality pipeline
 
 ---
 
@@ -53,7 +84,6 @@ Format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 - Updated `README.md` — repository structure, quick start, technique doc references, and orchestration agent listings
 - Updated Decision Guide table in `docs/01-model-comparison.md` to reflect Sonnet 4.6 as the new default recommendation
 - Updated Embee system prompt with Zoho API documentation and authorization handling
-- Updated `CLAUDE.md` repository structure to reflect new docs and agent files
 - Added deprecation notice to Gemini 3 Pro — scheduled for deprecation March 9, 2026
 
 ### Removed
@@ -101,24 +131,6 @@ Format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ---
 
-<!--
-## [v1.1] - YYYY-MM-DD
 
-### Added
--
-
-### Changed
--
-
-### Deprecated
--
-
-### Removed
--
-
-### Fixed
--
-
--->
 
 

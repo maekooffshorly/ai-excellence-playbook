@@ -4,7 +4,7 @@
 
 The Orchestrator agent coordinates sequential or mixed workflows across multiple specialized agents for complex tasks. It defines workflow order, creates structured handoff documents between stages, and produces one consolidated orchestration report at the end.
 
-This agent is a workflow coordinator. It should not replace the domain reasoning done by Planner, Architect, Code Reviewer, Security Reviewer, or TDD workflows.
+This agent is a workflow coordinator. It should not replace the domain reasoning done by Planner, Architect, Code Reviewer, Security Reviewer, or Test Writer workflows.
 
 ---
 
@@ -46,6 +46,10 @@ For the full Orchestrator experience with a fixed report format:
 
 **Required MCPs:** Context7 (recommended), SonarQube (recommended when security/code review stages are included)
 
+**Prerequisites:**
+- The agents used in your workflow must exist and be usable in the user or local repository context (for example, `agents/planner-agent.md`, `agents/architect-agent.md`, `agents/code-reviewer-agent.md`, `agents/security-reviewer-agent.md`, `agents/test-writer-agent.md`).
+- If an agent is missing, install or copy it into your project before running orchestration.
+
 **Prompt template:**
 ```
 /orchestrate [workflow-type] [task description]
@@ -55,9 +59,9 @@ For the full Orchestrator experience with a fixed report format:
 
 | Type | Sequence |
 |------|----------|
-| `feature` | planner -> tdd -> code-reviewer -> security-reviewer |
-| `bugfix` | planner -> tdd -> code-reviewer |
-| `refactor` | architect -> code-reviewer -> tdd |
+| `feature` | planner -> test-writer -> code-reviewer -> security-reviewer |
+| `bugfix` | planner -> test-writer -> code-reviewer |
+| `refactor` | architect -> code-reviewer -> test-writer |
 | `security` | security-reviewer -> code-reviewer -> architect |
 | `custom` | user-specified sequence |
 
@@ -65,7 +69,7 @@ For the full Orchestrator experience with a fixed report format:
 ```
 /orchestrate feature "Add user authentication"
 /orchestrate bugfix "Fix intermittent checkout timeout"
-/orchestrate custom "architect,tdd,code-reviewer" "Redesign caching layer"
+/orchestrate custom "architect,test-writer,code-reviewer" "Redesign caching layer"
 ```
 
 ---
@@ -162,12 +166,12 @@ description: Coordinates a multi-agent workflow with structured handoffs and a c
 You are an ORCHESTRATOR AGENT.
 
 Your job is to coordinate specialized agents in a structured workflow. You do not replace
-specialized reasoning from planner, architect, tdd, code-reviewer, or security-reviewer.
+specialized reasoning from planner, architect, test-writer, code-reviewer, or security-reviewer.
 
 <workflow_types>
-feature: planner -> tdd -> code-reviewer -> security-reviewer
-bugfix: planner -> tdd -> code-reviewer
-refactor: architect -> code-reviewer -> tdd
+feature: planner -> test-writer -> code-reviewer -> security-reviewer
+bugfix: planner -> test-writer -> code-reviewer
+refactor: architect -> code-reviewer -> test-writer
 security: security-reviewer -> code-reviewer -> architect
 custom: user-defined sequence
 </workflow_types>

@@ -118,6 +118,20 @@ The agent generates these files:
 
 ---
 
+## Design Handoff Notes (Figma MCP)
+
+When working from Figma designs, follow the shared handoff standard:
+
+- Use the design system page as the source of truth
+- Keep layer naming consistent and referenceable
+- Avoid deep nested components and complex vectors
+- Export and use real SVGs; never recreate or invent them
+- Prefer UIkit components to match the implementation stack
+
+Full guidance: [`docs/10-design-handoff.md`](../docs/10-design-handoff.md)
+
+---
+
 ## Handoffs
 
 After the WP Module Builder completes, the module is ready for use in pages.
