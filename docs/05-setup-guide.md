@@ -41,14 +41,25 @@ claude --version
 
 ### Model Selection
 
-Claude Code defaults to Opus 4.6, but **we recommend Opus 4.5 for complex T3 tasks** due to better focus and less context drift. To switch models during a session, use the `/model` command:
+**Recommended model: Sonnet 4.6** — suitable for T1–T3 tasks, cost-efficient, and the default for most daily work.
 
-```
-/model claude-opus-4-5-20251101    # Use Opus 4.5 (recommended for T3)
-/model claude-sonnet-4-6-20260101  # Use Sonnet 4.6 (default for T1-T3)
-```
+**Opus 4.5** is recommended for complex T3 tasks due to better reasoning, but burns token limits ~40% faster than Sonnet. Use it intentionally.
 
-The model selection persists for the current session. For most daily work, the default Sonnet 4.6 is appropriate.
+#### Switching to Sonnet 4.6
+
+1. In the chat UI, type `/model` and click **Switch model**
+2. Select **Sonnet 4.6** — done
+
+#### Switching to Opus 4.5
+
+Opus 4.5 is not available via the `/model` command in the chat UI. Use the IDE config instead:
+
+1. In the chat UI, type `/config` and select **General config...**
+2. This opens the IDE settings for Claude Code — scroll down to find **Claude Code: Selected Model**
+3. Set the value from `default` to `claude-opus-4-5-20251101`
+4. Save and restart the IDE to apply
+
+> The IDE config sets Opus 4.5 as the default for every session. Remember to switch back to Sonnet 4.6 after finishing T3 work to avoid unnecessary token burn.
 
 ---
 
