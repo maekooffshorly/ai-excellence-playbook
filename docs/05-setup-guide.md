@@ -104,27 +104,24 @@ Add the following to your `settings.json`:
 
 ### Figma MCP *(frontend developers only)*
 
-Add to your MCP configuration:
+> **Note:** Dev Mode must be available on your current Figma plan to enable Figma's MCP Server.
+
+1. Open a Figma design file
+2. Enter Dev Mode
+3. Find **MCP** in the right sidebar and click `Enable desktop MCP server`
+4. Copy the URL displayed alongside the confirmation message that the MCP server has been enabled (it should be a localhost URL)
+5. In your terminal, run `claude mcp add --transport http figma <localhost-url>`, or add the following to your `.claude/settings.json`:
 
 ```json
 {
-  "mcpServers": {
-    "figma": {
-      "command": "npx",
-      "args": ["-y", "@anthropic/mcp-server-figma"],
-      "env": {
-        "FIGMA_ACCESS_TOKEN": "your-figma-token-here"
-      }
+    "mcpServers": {
+        "figma": {
+        "type": "http",
+        "url": "http://127.0.0.1:3845/mcp"
+        }
     }
-  }
 }
 ```
-
-To get your Figma access token:
-1. Go to Figma → Settings → Account → Personal access tokens
-2. Generate a new token and add it to the configuration
-
----
 
 ## Step 3: Configure Slash Command Agents
 
@@ -248,4 +245,3 @@ After setup is complete, review [`docs/08-basic-techniques.md`](08-basic-techniq
   ```
 - Set the environment variable in your shell profile or `.env` file
 - Never commit `settings.json` files containing real tokens to version control
-
