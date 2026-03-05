@@ -325,7 +325,7 @@ For rollout guidance and adoption constraints, see [`docs/09-experimental-techni
 
 ---
 
-## Design â†’ Dev â†’ AI Handoff (Figma)
+## Design + Dev + AI Handoff (Figma)
 
 For design-driven workflows (Figma MCP, UIkit, WP modules/pages), use the shared handoff standards in:
 
