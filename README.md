@@ -339,6 +339,63 @@ This playbook is a living document. When you discover a better workflow, prompt 
 
 ---
 
+### Versioning &amp; Releasing
+
+Versions follow `v{major}.{minor}`:
+- **Minor bump** — content updates, new docs, agent/prompt additions
+- **Major bump** — structural overhauls or significant direction changes
+
+#### Files to update when bumping a version
+
+| File | What to change |
+|------|---------------|
+| `CHANGELOG.md` | Move `[Unreleased]` entries into a new `## [vX.Y] — YYYY-MM-DD` section |
+| `README.md` | Update the version badge at the top (`v{major}.{minor}`) and the version footer at the bottom |
+
+#### How to tag and push a release
+
+After the PR is merged into `main`:
+
+```bash
+# 1. Pull latest main
+git checkout main && git pull origin main
+
+# 2. Create and push the tag
+git tag vX.Y
+git push origin vX.Y
+```
+
+To tag a specific earlier commit (e.g. before today's changes):
+
+```bash
+git tag vX.Y <commit-hash>
+git push origin vX.Y
+```
+
+---
+
+### Version bump prompt
+
+Use the following prompt with your AI assistant to handle a version bump end-to-end:
+
+````
+I need to bump the playbook version from vX.OLD to vX.NEW.
+
+Please:
+1. In `CHANGELOG.md`:
+   - Move all items under `[Unreleased]` into a new section `## [vX.NEW] — YYYY-MM-DD` (today's date)
+   - Leave the `[Unreleased]` block empty with placeholder `-` lines
+2. In `README.md`:
+   - Update the shields.io badge URL from `version-vX.OLD-blue` to `version-vX.NEW-blue`
+   - Update the version footer from `vX.OLD` to `vX.NEW`
+
+After the changes are made, remind me to:
+- Create a branch, commit, and open a PR
+- After merging, run: git tag vX.NEW && git push origin vX.NEW
+````
+
+---
+
 *Version: v1.2 — Design handoff standard*
 
 
