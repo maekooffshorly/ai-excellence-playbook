@@ -13,7 +13,23 @@ This guide walks through setting up the full General toolset from scratch — Cl
 
 ---
 
-## Step 1: Install Claude Code VS Code Extension
+## Step 1: Install Claude Code
+
+### 1a. Install the CLI
+
+Run the following command in your terminal:
+
+```
+npm install -g @anthropic-ai/claude-code
+```
+
+Confirm it worked:
+
+```
+claude --version
+```
+
+### 1b. Install the VS Code Extension
 
 1. Open VS Code and go to the **Extensions** tab (`Ctrl+Shift+X` / `Cmd+Shift+X`)
 2. Search for `Claude Code` and install the official Anthropic extension
@@ -25,82 +41,70 @@ This guide walks through setting up the full General toolset from scratch — Cl
 
 ### Model Selection
 
-Claude Code defaults to Opus 4.6, but **we recommend Opus 4.5 for complex T3 tasks** due to better focus and less context drift. To switch models during a session, use the `/model` command:
+**Recommended model: Sonnet 4.6** — suitable for T1–T3 tasks, cost-efficient, and the default for most daily work.
 
-```
-/model claude-opus-4-5-20251101    # Use Opus 4.5 (recommended for T3)
-/model claude-sonnet-4-6-20260101  # Use Sonnet 4.6 (default for T1-T3)
-```
+**Opus 4.5** is recommended for complex T3 tasks due to better reasoning, but burns token limits ~40% faster than Sonnet. Use it intentionally.
 
-The model selection persists for the current session. For most daily work, the default Sonnet 4.6 is appropriate.
+#### Switching to Sonnet 4.6
+
+1. In the chat UI, type `/model` and click **Switch model**
+2. Select **Sonnet 4.6** — done
+
+#### Switching to Opus 4.5
+
+Opus 4.5 is not available via the `/model` command in the chat UI. Use the IDE config instead:
+
+1. In the chat UI, type `/config` and select **General config...**
+2. This opens the IDE settings for Claude Code — scroll down to find **Claude Code: Selected Model**
+3. Set the value from `default` to `claude-opus-4-5-20251101`
+4. Save and restart the IDE to apply
+
+> The IDE config sets Opus 4.5 as the default for every session. Remember to switch back to Sonnet 4.6 after finishing T3 work to avoid unnecessary token burn.
 
 ---
 
 ## Step 2: Configure MCPs
 
-MCPs in Claude Code are configured via JSON settings files, not VS Code extensions. There are two configuration levels:
+MCPs in Claude Code are added via the `claude mcp add` CLI command. This writes configuration to `~/.claude.json` (user scope) or `.mcp.json` in your project root (project scope).
 
-- **User-level:** `~/.claude/settings.json` — applies to all projects
-- **Project-level:** `.claude/settings.json` in your project root — applies to specific project only
-
-### Create the Settings File
-
-**For user-level (recommended for standard MCPs):**
-
-```bash
-# Create the .claude directory if it doesn't exist
-mkdir -p ~/.claude
-
-# Create or edit settings.json
-code ~/.claude/settings.json
-```
-
-**For project-level:**
-
-```bash
-# In your project root
-mkdir -p .claude
-code .claude/settings.json
-```
-
-### Add MCP Configuration
-
-Add the following to your `settings.json`:
-
-```json
-{
-  "mcpServers": {
-    "sonarqube": {
-      "command": "npx",
-      "args": ["-y", "@anthropic/mcp-server-sonarqube"],
-      "env": {
-        "SONARQUBE_URL": "https://your-sonarqube-instance.com",
-        "SONARQUBE_TOKEN": "your-token-here"
-      }
-    },
-    "context7": {
-      "command": "npx",
-      "args": ["-y", "@anthropic/mcp-server-context7"],
-      "env": {
-        "CONTEXT7_API_KEY": "your-api-key-here"
-      }
-    }
-  }
-}
-```
+| Scope | Where it's stored | Who it applies to |
+|-------|------------------|-------------------|
+| `--scope user` | `~/.claude.json` | You, across all projects |
+| `--scope project` | `.mcp.json` in project root | Everyone on the project (commit this file) |
+| *(default / local)* | `~/.claude.json` under project path | You, in the current project only |
 
 ### SonarQube MCP
 
-1. Get your SonarQube instance URL and token from admin or use free tier
-2. Add the `sonarqube` entry to your MCP configuration as shown above
-3. Replace the placeholder values with your actual credentials
+1. Get your SonarQube instance URL and token from admin or use the free tier
+2. Run:
+
+```
+claude mcp add --scope user --transport stdio \
+  --env SONARQUBE_URL=https://your-sonarqube-instance.com \
+  --env SONARQUBE_TOKEN=your-token-here \
+  sonarqube -- npx -y @anthropic/mcp-server-sonarqube
+```
 
 ### Context7 MCP
 
 1. Go to [https://context7.com/dashboard](https://context7.com/dashboard)
-2. Sign up and connect your Offshorly GitHub account
-3. Generate an API key
-4. Add the `context7` entry to your MCP configuration as shown above
+2. Sign up and generate an API key
+3. Run either of the following:
+
+**Remote (recommended):**
+
+```
+claude mcp add --scope user --transport http \
+  --header "CONTEXT7_API_KEY: your-api-key-here" \
+  context7 https://mcp.context7.com/mcp
+```
+
+**Local (stdio fallback):**
+
+```
+claude mcp add --scope user \
+  context7 -- npx -y @upstash/context7-mcp --api-key your-api-key-here
+```
 
 ### Figma MCP *(frontend developers only)*
 
@@ -189,6 +193,7 @@ Once setup is complete, confirm the following:
 
 | Item | How to verify |
 |------|--------------|
+| Claude Code CLI installed | `claude --version` returns a version number |
 | Claude Code installed | Claude Code icon visible in VS Code sidebar |
 | Signed in to Team Plan | Account shown in Claude Code panel, no usage warnings |
 | SonarQube MCP active | Run a prompt that references SonarQube — no connection errors |
@@ -210,6 +215,17 @@ After setup is complete, review [`docs/08-basic-techniques.md`](08-basic-techniq
 ---
 ## Troubleshooting
 
+**CLI installation fails**
+
+Run the following to clear any conflicting files and retry:
+
+```
+sudo rm -rf /opt/homebrew/lib/node_modules/@anthropic-ai/claude-code
+npm cache clean --force
+npm install -g @anthropic-ai/claude-code
+claude --version
+```
+
 **Claude Code not signing in**
 
 - Confirm your Anthropic account has Team Plan access
@@ -218,10 +234,11 @@ After setup is complete, review [`docs/08-basic-techniques.md`](08-basic-techniq
 
 **MCP not responding**
 
-- Confirm the MCP is correctly configured in `~/.claude/settings.json` or `.claude/settings.json`
-- Check that required environment variables (tokens, URLs) are set correctly
+- Run `claude mcp list` to confirm the server is registered
+- Check that required environment variables (tokens, URLs) are correct — run `claude mcp get <server-name>` to inspect the config
 - Verify the MCP server package is accessible (requires npm/npx)
 - Check Claude Code's output panel for error messages
+- Run `/mcp` inside Claude Code to see server status and re-authenticate if needed
 
 **Slash commands not appearing**
 
@@ -235,13 +252,14 @@ After setup is complete, review [`docs/08-basic-techniques.md`](08-basic-techniq
 - Restart the Claude Code session after creating or updating the file
 - Confirm the file is not listed in `.gitignore`
 
-**MCP credentials in settings.json — security concern**
+**MCP credentials — security concern**
 
-- For sensitive tokens, use environment variables instead of hardcoding:
+- Pass tokens directly in the `claude mcp add` command at setup time; they are stored in `~/.claude.json` (not committed to version control)
+- For project-scoped configs (`.mcp.json`), use environment variable expansion instead of hardcoding values:
   ```json
   "env": {
     "SONARQUBE_TOKEN": "${SONARQUBE_TOKEN}"
   }
   ```
-- Set the environment variable in your shell profile or `.env` file
-- Never commit `settings.json` files containing real tokens to version control
+  
+- Set the variable in your shell profile and never commit `.mcp.json` files containing real tokens

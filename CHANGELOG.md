@@ -42,6 +42,8 @@ Format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 - Updated quality pipeline in `docs/04-coding-techniques.md` and `README.md` — added Verify as final pre-PR gate
 - Updated `README.md` Utility Agents table — added Checkpoint and Verify agents
 - Updated `docs/09-experimental-techniques.md` — added cross-reference to standard quality pipeline
+- `docs/05-setup-guide.md` — Updated Model Selection section: replaced broken `/model` CLI commands with correct step-by-step UI instructions for switching to Sonnet 4.6 (via `/model`) and Opus 4.5 (via `/config` IDE settings); added token burn caveat for Opus 4.5
+- `docs/05-setup-guide.md` — Step 1 now includes CLI installation (`npm install -g @anthropic-ai/claude-code`) alongside the VS Code extension; added CLI failure recovery steps to Troubleshooting; added CLI version check to Verification Checklist; Step 2 rewritten to use `claude mcp add` CLI commands (replacing manual JSON editing); corrected Context7 package name to `@upstash/context7-mcp` and added remote HTTP install option; updated config file references from `~/.claude/settings.json` to `~/.claude.json`; updated MCP troubleshooting to use `claude mcp list` and `claude mcp get`
 
 ---
 
