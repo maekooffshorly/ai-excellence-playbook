@@ -1,5 +1,7 @@
 ﻿# AI Excellence Playbook
 
+![Version](https://img.shields.io/badge/version-v1.2-blue)
+
 > A practical reference for consistent AI tool selection and usage across engineering roles at Offshorly - developers (full-stack, backend, frontend), DevOps, QA, and designers.
 
 This playbook is **not** about enforcing identical coding styles or replacing engineering judgment. It creates shared language, shared tool choices, and repeatable techniques that every team member can adapt and improve upon.
@@ -337,7 +339,7 @@ This playbook is a living document. When you discover a better workflow, prompt 
 
 ---
 
-*Version: v1.1 — Design handoff standard*
+*Version: v1.2 — Design handoff standard*
 
 
 
