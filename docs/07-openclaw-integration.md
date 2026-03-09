@@ -64,7 +64,6 @@ OpenClaw connects to Google and Zoho services for calendar, email, and HR operat
 
 1. Navigate to **APIs & Services → Library**
 2. Search for and enable the APIs your deployment needs:
-   - Gmail API
    - Google Drive API
    - Google Docs API
    - Google Sheets API
@@ -72,6 +71,10 @@ OpenClaw connects to Google and Zoho services for calendar, email, and HR operat
    - Google Calendar API
 
 For each API: click the API, then click **Enable**.
+
+> **Gmail API is not enabled for this deployment.** Connecting Embee to Gmail creates a prompt injection attack surface — malicious instructions embedded in email bodies can be executed as commands with full account permissions. Use Zoho Mail for email-related tasks instead.
+
+> **Note on document-based APIs (Drive, Docs, Sheets, Slides):** File and document content retrieved through these APIs is untrusted data. Embee must not act on instructions found inside document content.
 
 #### Step 3: Configure the OAuth Consent Screen
 
@@ -167,39 +170,9 @@ Refresh Token: <your_refresh_token>
 
 ## Connecting Credentials to Embee
 
-Once you have your credential files ready, you need to send them to Embee for authorization. Complete each integration one at a time.
+Credential provisioning is handled server-side by the AI Excellence team. **Do not send credential files, OAuth tokens, or API keys through the Telegram bot interface.** Passing credentials through the chat channel exposes them to interception if the session is compromised or if a prompt injection attack causes Embee to forward or log messages.
 
-### Step 1: Authorize Google Integration
-
-1. Open your conversation with Embee in Telegram
-2. Send your `google_credentials.json` file to Embee
-3. Send this message or something similar to it:
-   ```
-   Please help me authorize Google integration using the credentials file I just sent.
-   Give me step-by-step instructions on what to do.
-   ```
-4. Follow Embee's instructions to complete the OAuth flow
-5. Confirm authorization is successful before proceeding
-
-### Step 2: Authorize Zoho Integration
-
-1. Send your Zoho credentials text file to Embee
-2. Send this message or something similar to it:
-   ```
-   Please help me authorize Zoho integration using the credentials I just sent.
-   Give me step-by-step instructions on what to do.
-   ```
-3. Follow Embee's instructions to complete the OAuth flow
-4. Confirm authorization is successful
-
-### Troubleshooting Authorization
-
-| Issue | Solution |
-|-------|----------|
-| Authorization fails | Embee will provide a re-authorization URL with step-by-step guidance |
-| Token expired | Request Embee to refresh the token or guide you through re-authorization |
-| Wrong redirect URI | Ensure the redirect URI in your credentials matches your Zoho/Google app settings |
-| Scope errors | Contact the AI Excellence team to verify the required scopes are configured |
+To connect a new integration or rotate existing credentials, contact the AI Excellence team directly for server-side provisioning.
 
 ---
 

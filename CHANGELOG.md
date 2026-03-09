@@ -24,6 +24,17 @@ Format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ---
 
+## [v1.2] — 2026-03-09
+
+### Changed
+- `docs/07-openclaw-integration.md` — removed Gmail API from enabled APIs list; replaced credential-via-chat provisioning steps with admin-only provisioning; added prompt injection and data trust warnings for document-based Google APIs
+- `prompts/03-embee-system-prompt.md` — added security section disallowing Gmail integration, prohibiting credential receipt via chat, and enforcing untrusted-data treatment for Google document content
+
+### Removed
+- Credential-delivery-via-bot pattern from `docs/07-openclaw-integration.md` (replaced with admin-side provisioning)
+
+---
+
 ## [v1.1] — 2026-03-02
 
 ### Added

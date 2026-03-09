@@ -8,9 +8,9 @@ This playbook is **not** about enforcing identical coding styles or replacing en
 
 ## What's New
 
-**v1.1 — Design Handoff Standard (Figma → Dev → AI)**
+**v1.2 — OpenClaw Security Hardening**
 
-Added a dedicated design handoff standard for Figma-driven workflows, including asset rules, prompting templates, and cross-team handoff checklists for WP Module/Page builder usage.
+Removed Gmail API integration from the OpenClaw deployment and replaced the credential-via-chat setup pattern with admin-side provisioning. Added prompt injection warnings for document-based Google APIs and enforced data trust rules in the Embee system prompt.
 
 For full version history → [CHANGELOG.md](CHANGELOG.md)
 
