@@ -371,29 +371,6 @@ To tag a specific earlier commit (e.g. before today's changes):
 git tag vX.Y <commit-hash>
 git push origin vX.Y
 ```
-
----
-
-### Version bump prompt
-
-Use the following prompt with your AI assistant to handle a version bump end-to-end:
-
-````
-I need to bump the playbook version from vX.OLD to vX.NEW.
-
-Please:
-1. In `CHANGELOG.md`:
-   - Move all items under `[Unreleased]` into a new section `## [vX.NEW] — YYYY-MM-DD` (today's date)
-   - Leave the `[Unreleased]` block empty with placeholder `-` lines
-2. In `README.md`:
-   - Update the shields.io badge URL from `version-vX.OLD-blue` to `version-vX.NEW-blue`
-   - Update the version footer from `vX.OLD` to `vX.NEW`
-
-After the changes are made, remind me to:
-- Create a branch, commit, and open a PR
-- After merging, run: git tag vX.NEW && git push origin vX.NEW
-````
-
 ---
 
 *Version: v1.2 — Design handoff standard*
