@@ -340,7 +340,7 @@ This playbook is a living document. When you discover a better workflow, prompt 
 
 ---
 
-*Version: v1.2 — Design handoff standard*
+*Version: v1.3 — Design handoff standard*
 
 
 
