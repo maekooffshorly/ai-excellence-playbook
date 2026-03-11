@@ -1,6 +1,6 @@
 ﻿# AI Excellence Playbook
 
-![Version](https://img.shields.io/badge/version-v1.2-blue)
+![Version](https://img.shields.io/badge/version-v1.3-blue)
 
 > A practical reference for consistent AI tool selection and usage across engineering roles at Offshorly - developers (full-stack, backend, frontend), DevOps, QA, and designers.
 
@@ -10,9 +10,9 @@ This playbook is **not** about enforcing identical coding styles or replacing en
 
 ## What's New
 
-**v1.2 — OpenClaw Security Hardening**
+**v1.3 — Token Saver Guide**
 
-Removed Gmail API integration from the OpenClaw deployment and replaced the credential-via-chat setup pattern with admin-side provisioning. Added prompt injection warnings for document-based Google APIs and enforced data trust rules in the Embee system prompt.
+Added `docs/11-token-saver.md` — a practical reference for reducing token usage across prompts, documents, and git workflows. Covers prompt techniques, plain-text-over-Markdown practices, targeted git fetching, a quick-reference checklist, and a token cost mental model.
 
 For full version history → [CHANGELOG.md](CHANGELOG.md)
 
@@ -58,7 +58,8 @@ ai-excellence-playbook/
 |   |-- 07-openclaw-integration.md               # OpenClaw/Embee AI assistant integration guide
 |   |-- 08-basic-techniques.md                   # Day-to-day Claude Code usage: context references and shortcuts
 |   |-- 09-experimental-techniques.md            # Experimental workflows under evaluation (orchestrate, multi-plan)
-|   `-- 10-design-handoff.md                     # Design-to-dev-to-AI handoff standards for Figma workflows
+|   |-- 10-design-handoff.md                     # Design-to-dev-to-AI handoff standards for Figma workflows
+|   `-- 11-token-saver.md                        # Token budgeting techniques for prompts, docs, and git workflows
 |
 |-- internal/
 |   `-- tldr-agent.md                            # TLDR navigation script for role-based doc routing
@@ -339,7 +340,7 @@ This playbook is a living document. When you discover a better workflow, prompt 
 
 ---
 
-*Version: v1.2 — Design handoff standard*
+*Version: v1.3 — Design handoff standard*
 
 
 

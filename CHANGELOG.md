@@ -24,6 +24,13 @@ Format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ---
 
+## [v1.3] — 2026-03-11
+
+### Added
+- `docs/11-token-saver.md` — token budgeting guide covering prompt techniques, file/document practices, git-scoped fetching, a quick-reference checklist, and a token cost mental model table
+
+---
+
 ## [v1.2] — 2026-03-09
 
 ### Changed
