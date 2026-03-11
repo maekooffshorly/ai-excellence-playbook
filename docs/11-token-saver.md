@@ -30,17 +30,100 @@ Negative constraints ("don't include...") still consume tokens to process. Posit
 ### 4. Provide Examples Sparingly (One-Shot Over Few-Shot)
 Each example adds tokens. One well-chosen example is often enough for the model to infer the pattern.
 
+**Few-shot (costly):**
+```
+Classify the sentiment:
+"I love this!" → positive
+"This is terrible." → negative
+"It was okay." → neutral
+Now classify: "Absolutely fantastic experience."
+```
+**One-shot (efficient — model infers the rest):**
+```
+Classify the sentiment. Example: "I love this!" → positive
+Now classify: "Absolutely fantastic experience."
+```
+
 ### 5. Eliminate Filler and Pleasantries
 Phrases like "Please could you kindly help me with..." waste tokens before the actual task even begins. Lead with the task directly.
+
+**Bloated:**
+```
+Hi! I was hoping you could perhaps help me out today.
+I have a bit of a question about Python if that's okay.
+Could you explain what a decorator is?
+```
+**Lean:**
+```
+Explain Python decorators in 2 sentences.
+```
+*The bloated version uses ~40 tokens before the actual question. Across hundreds of API calls, that compounds fast.*
 
 ### 6. Reuse Context via System Prompts
 Place stable, reusable instructions in the system prompt rather than repeating them in every user message. This avoids redundant tokens per turn.
 
+**Wasteful — repeated in every user message:**
+```
+User turn 1: "You are a senior code reviewer. Be concise.
+              Use TypeScript. Flag security issues first.
+              Review this function: [code]"
+
+User turn 2: "You are a senior code reviewer. Be concise.
+              Use TypeScript. Flag security issues first.
+              Review this function: [code]"
+```
+**Efficient — set once in the system prompt:**
+```
+System: "You are a senior code reviewer. Be concise.
+         Use TypeScript. Flag security issues first."
+
+User turn 1: "Review this function: [code]"
+User turn 2: "Review this function: [code]"
+```
+*Every repeated instruction in user turns burns tokens on every single call.*
+
 ### 7. Summarize Long Conversations
 In multi-turn sessions, periodically compress prior context into a tight summary. Replace the full history with the summary to reclaim context window space.
 
+**Before summarizing (full history, costly):**
+```
+User: What framework should I use for my API?
+Assistant: Given your requirements, FastAPI is a strong choice because...
+User: How do I handle authentication in FastAPI?
+Assistant: You can use OAuth2 with JWT tokens. Here is how to set it up...
+User: What about database connections?
+Assistant: For async support, SQLAlchemy with asyncpg is recommended...
+[...20 more turns]
+```
+**After summarizing (compressed, token-efficient):**
+```
+[Context summary]: Stack decided — FastAPI, JWT auth via OAuth2,
+SQLAlchemy + asyncpg for async DB. Now designing the user endpoints.
+
+User: How should I structure the /users router?
+```
+*Tip: Ask the model itself to generate the summary — "Summarize our decisions so far in under 100 words" — then use that as the new context header.*
+
 ### 8. Request Structured Output Judiciously
 JSON/XML adds structural tokens (brackets, quotes, tags). Only request structured output when you'll actually parse it programmatically.
+
+**Unnecessary structure (you just need to read it):**
+```json
+{
+  "recommendation": "Use PostgreSQL",
+  "reason": "Better support for complex queries",
+  "alternative": "MySQL"
+}
+```
+**Plain text is cheaper when no parsing is needed:**
+```
+Use PostgreSQL — better support for complex queries. Alternative: MySQL.
+```
+**When JSON is justified — you're mapping it to a UI or data model:**
+```json
+{ "items": [{ "id": 1, "label": "PostgreSQL", "score": 92 }] }
+```
+*Rule of thumb: if no code will call `.json()` or access a key on the response, skip the structure.*
 
 ---
 
