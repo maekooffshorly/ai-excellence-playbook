@@ -1,6 +1,6 @@
 ﻿# AI Excellence Playbook
 
-![Version](https://img.shields.io/badge/version-v1.3-blue)
+![Version](https://img.shields.io/badge/version-v1.4-blue)
 
 > A practical reference for consistent AI tool selection and usage across engineering roles at Offshorly - developers (full-stack, backend, frontend), DevOps, QA, and designers.
 
@@ -10,9 +10,9 @@ This playbook is **not** about enforcing identical coding styles or replacing en
 
 ## What's New
 
-**v1.3 — Token Saver Guide**
+**v1.4 — PR Review Guide**
 
-Added `docs/11-token-saver.md` — a practical reference for reducing token usage across prompts, documents, and git workflows. Covers prompt techniques, plain-text-over-Markdown practices, targeted git fetching, a quick-reference checklist, and a token cost mental model.
+Added `docs/12-pr-review.md` — a practical guide for AI-assisted PR code review. Covers why the approach outperforms GitHub's built-in review flow, and how to use AI agents to review PRs with full codebase context.
 
 For full version history → [CHANGELOG.md](CHANGELOG.md)
 
@@ -341,7 +341,7 @@ This playbook is a living document. When you discover a better workflow, prompt 
 
 ---
 
-*Version: v1.3 — Design handoff standard*
+*Version: v1.4 — PR Review Guide*
 
 
 
