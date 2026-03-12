@@ -341,7 +341,7 @@ This playbook is a living document. When you discover a better workflow, prompt 
 
 ---
 
-*Version: v1.4 — PR Review Guide*
+*Version: v1.4 — Design handoff standard*
 
 
 
