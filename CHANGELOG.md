@@ -11,7 +11,14 @@ Format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 > Changes staged here move to a versioned release once reviewed and merged.
 
 ### Added
--
+- `skills/module-builder/SKILL.md` — Claude Code skill definition for the WP Module Builder; triggers on ACF block, Gutenberg block, or layout component requests and runs a three-phase workflow (context load → plan approval → file generation)
+- `skills/module-builder/references/guidelines.md` — full UIkit class tables, SCSS rules, field group patterns, and module coverage checklist
+- `skills/module-builder/references/pattern-reading.md` — instructions for scanning existing modules, extracting conventions, and detecting duplicates
+- `skills/module-builder/references/figma-to-module.md` — Figma MCP tools workflow for translating designs into module fields and UIkit layout
+- `skills/module-builder/references/block-registration.md` — `block.json` (ACFE format) generation guide; used only on explicit request
+- `skills/module-builder/references/field-group-registration.md` — `field-group.json` (ACF export format) generation guide; used only on explicit request
+- `skills/module-builder/references/test-page.md` — PHP script pattern for creating test pages with sample block data
+- `skills/module-builder-manual.md` — user-facing manual covering skill installation, invocation examples, workflow phases, and troubleshooting
 
 ### Changed
 -
