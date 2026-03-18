@@ -1,6 +1,6 @@
 ﻿# AI Excellence Playbook
 
-![Version](https://img.shields.io/badge/version-v1.3-blue)
+![Version](https://img.shields.io/badge/version-v1.4-blue)
 
 > A practical reference for consistent AI tool selection and usage across engineering roles at Offshorly - developers (full-stack, backend, frontend), DevOps, QA, and designers.
 
@@ -10,9 +10,9 @@ This playbook is **not** about enforcing identical coding styles or replacing en
 
 ## What's New
 
-**v1.3 — Token Saver Guide**
+**v1.4 — WP Module Builder Skill + Embee Protocol Update**
 
-Added `docs/11-token-saver.md` — a practical reference for reducing token usage across prompts, documents, and git workflows. Covers prompt techniques, plain-text-over-Markdown practices, targeted git fetching, a quick-reference checklist, and a token cost mental model.
+Added the WP Module Builder Claude Code skill (`skills/module-builder/`) with a three-phase workflow and full reference library. Updated `prompts/03-embee-system-prompt.md` with a universal action confirmation protocol, delete/remove extra caution rules, and a task progress update protocol.
 
 For full version history → [CHANGELOG.md](CHANGELOG.md)
 
