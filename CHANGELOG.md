@@ -10,6 +10,10 @@ Format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 > Changes staged here move to a versioned release once reviewed and merged.
 
+---
+
+## [v1.4] — 2026-03-18
+
 ### Added
 - `skills/module-builder/SKILL.md` — Claude Code skill definition for the WP Module Builder; triggers on ACF block, Gutenberg block, or layout component requests and runs a three-phase workflow (context load → plan approval → file generation)
 - `skills/module-builder/references/guidelines.md` — full UIkit class tables, SCSS rules, field group patterns, and module coverage checklist
@@ -21,13 +25,7 @@ Format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 - `skills/module-builder-manual.md` — user-facing manual covering skill installation, invocation examples, workflow phases, and troubleshooting
 
 ### Changed
--
-
-### Removed
--
-
-### Fixed
--
+- `prompts/03-embee-system-prompt.md` — expanded action confirmation protocol to cover all actions including read-only checks; added delete/remove extra caution section; added Task Progress Update Protocol
 
 ---
 
