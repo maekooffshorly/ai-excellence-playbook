@@ -2,7 +2,7 @@
 
 This document defines how design teams prepare Figma files and how devs prompt AI tools for consistent, reliable design-to-code results. It is the shared workflow between Design, Dev, and AI.
 
-For WordPress generation workflows, pair this with the WP Module Builder and WP Page Builder agents.
+For WordPress module generation, use the [`module-builder` skill](../skills/module-builder/SKILL.md) in Claude Code. For full-page builds, pair it with the WP Page Builder agent.
 
 ---
 
