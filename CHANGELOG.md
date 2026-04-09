@@ -92,6 +92,13 @@ Format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ---
 
+## [v1.4] — 2026-03-12
+
+### Added
+- `docs/12-pr-review.md` — AI-assisted PR code review guide covering limitations of GitHub's built-in review flow and how to leverage AI agents with full codebase context for faster, more thorough reviews
+
+---
+
 ## [v1.3] — 2026-03-11
 
 ### Added

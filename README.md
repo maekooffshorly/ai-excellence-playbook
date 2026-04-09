@@ -61,6 +61,7 @@ ai-excellence-playbook/
 |   |-- 10-design-handoff.md                     # Design-to-dev-to-AI handoff standards for Figma workflows
 |   |-- 11-token-saver.md                        # Token budgeting techniques for prompts, docs, and git workflows
 |   |-- 12-hooks-and-automation.md               # Event-driven hook automation for quality gates and session management
+|   |-- 12-pr-review.md                          # PR review workflows and standards
 |   `-- 13-skills.md                             # Skills primitive reference — what skills are, how they work, all 9 shipped skills
 |
 |-- hooks/
@@ -348,7 +349,7 @@ This playbook is a living document. When you discover a better workflow, prompt 
 
 ---
 
-*Version: v1.3 — Design handoff standard*
+*Version: v1.4 — PR Review Guide*
 
 
 
