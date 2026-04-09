@@ -12,6 +12,50 @@ Format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ---
 
+## [v1.5] — 2026-04-09
+
+### Added
+
+**Skills layer** — 9 Claude Code skills derived from the existing agent library (7) and designed from scratch (2). Each skill is model-invoked via its `description` frontmatter and progressively disclosed — Claude auto-loads the skill when intent matches, no command required. Each skill ships with a SKILL.md instruction file, a `references/` output template, and a user-facing manual.
+
+- `skills/code-review/SKILL.md` — skill definition for structured pre-PR code review; auto-triggers on review requests, "check my changes", "is this ready to merge"
+- `skills/code-review/references/review-output-template.md` — findings format: severity-classified (🔴→🟢), acceptance criteria check, test coverage assessment
+- `skills/code-review-manual.md` — installation guide, trigger phrases, severity reference, what the skill will not do
+
+- `skills/test-writer/SKILL.md` — skill definition for unit test generation; auto-triggers on "write tests for", "add coverage", "TDD", test quality review requests
+- `skills/test-writer/references/test-output-template.md` — test plan format with coverage summary table and built-in approval gate before file writes
+- `skills/test-writer-manual.md` — installation guide, trigger phrases, coverage categories, two-phase workflow
+
+- `skills/security-check/SKILL.md` — skill definition for OWASP-based security analysis; auto-triggers on "check for vulnerabilities", "security scan", auth/billing/compliance mentions
+- `skills/security-check/references/security-findings-template.md` — security report format: overall risk level first, findings by severity (🔴→⚪), OWASP Top 10 assessment table
+- `skills/security-check-manual.md` — installation guide, trigger phrases, severity reference, mandatory-use guidance for auth and compliance-sensitive changes
+
+- `skills/build-fix/SKILL.md` — skill definition for build error diagnosis and fix; auto-triggers when error output is pasted or build/CI failure is described
+- `skills/build-fix/references/diagnosis-output-template.md` — diagnosis format: root cause analysis before the fix, diff-format proposed changes, approval gate before file writes
+- `skills/build-fix-manual.md` — installation guide, trigger phrases, error category reference, what the skill will not do
+
+- `skills/docs/SKILL.md` — skill definition for documentation maintenance; auto-triggers on "update the docs", "pre-PR docs pass", "end of day", "document this endpoint"
+- `skills/docs/references/docs-output-template.md` — two-pattern format (Pre-PR vs End-of-Day); changes-analyzed table first; actual drafted content not meta-descriptions
+- `skills/docs-manual.md` — installation guide, trigger phrases, two-pattern explanation, documentation checklist
+
+- `skills/verify/SKILL.md` — skill definition for pre-PR verification; auto-triggers on "is this ready for PR", "verify my implementation", "does this meet the AC"
+- `skills/verify/references/verification-report-template.md` — verdict-first format, per-category checklist (tests/lint/build/AC/docs), blockers vs observations distinction
+- `skills/verify-manual.md` — installation guide, trigger phrases, verdict levels, failure escalation paths to other skills
+
+- `skills/checkpoint/SKILL.md` — skill definition for session savepoints; auto-triggers on end-of-session signals, "stepping away", "handing this off", "save my progress"
+- `skills/checkpoint/references/checkpoint-output-template.md` — three-pattern format (End-of-Day / Mid-Feature Pause / Handoff); Handoff Notes section only appears for handoffs
+- `skills/checkpoint-manual.md` — installation guide, trigger phrases, three-pattern explanation, save location guidance
+
+- `skills/context-seed/SKILL.md` — original skill (no source agent) for codebase orientation before complex work; auto-triggers on "before we start, read the architecture", "familiarize yourself", "context first"
+- `skills/context-seed/references/context-summary-template.md` — orientation summary format: architecture map, entry points, patterns, dependencies, constraints, gotchas, mandatory "Where to Start"
+- `skills/context-seed-manual.md` — installation guide, trigger phrases, when-to-use guidance, how to save summary for handoffs
+
+- `skills/refactor/SKILL.md` — original skill (no source agent) for behavior-preserving code cleanup; auto-triggers on "refactor this", "clean this up", "too much duplication", "simplify the conditionals"
+- `skills/refactor/references/refactoring-plan-template.md` — plan format: "What Will NOT Change" section before diffs; diff-format per change type; approval gate before file writes
+- `skills/refactor-manual.md` — installation guide, trigger phrases, 7 refactor types, behavior preservation rules
+
+---
+
 ## [v1.4] — 2026-03-18
 
 ### Added

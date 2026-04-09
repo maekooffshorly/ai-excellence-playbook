@@ -10,9 +10,9 @@ This playbook is **not** about enforcing identical coding styles or replacing en
 
 ## What's New
 
-**v1.4 — WP Module Builder Skill + Embee Protocol Update**
+**v1.5 — Skills Layer**
 
-Added the WP Module Builder Claude Code skill (`skills/module-builder/`) with a three-phase workflow and full reference library. Updated `prompts/03-embee-system-prompt.md` with a universal action confirmation protocol, delete/remove extra caution rules, and a task progress update protocol.
+Added 9 Claude Code skills: `code-review`, `test-writer`, `security-check`, `build-fix`, `docs`, `verify`, `checkpoint`, `context-seed`, and `refactor`. Skills are model-invoked — Claude auto-loads the right capability when intent matches, no command required. Each skill ships with a SKILL.md instruction file, a structured output template, and a user-facing manual under `skills/`.
 
 For full version history → [CHANGELOG.md](CHANGELOG.md)
 
