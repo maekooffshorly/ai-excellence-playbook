@@ -10,9 +10,9 @@ This playbook is **not** about enforcing identical coding styles or replacing en
 
 ## What's New
 
-**v1.4 — WP Module Builder Skill + Embee Protocol Update**
+**v1.4 — WP Module Builder Skill + Embee Protocol Update + PR Review Guide**
 
-Added the WP Module Builder Claude Code skill (`skills/module-builder/`) with a three-phase workflow and full reference library. Updated `prompts/03-embee-system-prompt.md` with a universal action confirmation protocol, delete/remove extra caution rules, and a task progress update protocol.
+Added the WP Module Builder Claude Code skill (`skills/module-builder/`) with a three-phase workflow and full reference library. Updated `prompts/03-embee-system-prompt.md` with a universal action confirmation protocol, delete/remove extra caution rules, and a task progress update protocol. Added `docs/12-pr-review.md` — a practical guide for AI-assisted PR code review.
 
 For full version history → [CHANGELOG.md](CHANGELOG.md)
 
@@ -59,7 +59,8 @@ ai-excellence-playbook/
 |   |-- 08-basic-techniques.md                   # Day-to-day Claude Code usage: context references and shortcuts
 |   |-- 09-experimental-techniques.md            # Experimental workflows under evaluation (orchestrate, multi-plan)
 |   |-- 10-design-handoff.md                     # Design-to-dev-to-AI handoff standards for Figma workflows
-|   `-- 11-token-saver.md                        # Token budgeting techniques for prompts, docs, and git workflows
+|   |-- 11-token-saver.md                        # Token budgeting techniques for prompts, docs, and git workflows
+|   `-- 12-pr-review.md                          # PR review workflows and standards
 |
 |-- internal/
 |   `-- tldr-agent.md                            # TLDR navigation script for role-based doc routing
@@ -340,7 +341,7 @@ This playbook is a living document. When you discover a better workflow, prompt 
 
 ---
 
-*Version: v1.3 — Design handoff standard*
+*Version: v1.4 — PR Review Guide*
 
 
 
