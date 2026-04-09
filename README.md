@@ -10,9 +10,9 @@ This playbook is **not** about enforcing identical coding styles or replacing en
 
 ## What's New
 
-**v1.4 — PR Review Guide**
+**v1.4 — WP Module Builder Skill + Embee Protocol Update + PR Review Guide**
 
-Added `docs/12-pr-review.md` — a practical guide for AI-assisted PR code review. Covers why the approach outperforms GitHub's built-in review flow, and how to use AI agents to review PRs with full codebase context.
+Added the WP Module Builder Claude Code skill (`skills/module-builder/`) with a three-phase workflow and full reference library. Updated `prompts/03-embee-system-prompt.md` with a universal action confirmation protocol, delete/remove extra caution rules, and a task progress update protocol. Added `docs/12-pr-review.md` — a practical guide for AI-assisted PR code review.
 
 For full version history → [CHANGELOG.md](CHANGELOG.md)
 
