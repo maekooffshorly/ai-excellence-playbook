@@ -16,6 +16,17 @@ Format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ### Added
 
+**Hooks layer** — 5 event-driven shell hooks that fire automatically at Claude Code lifecycle events (no invocation required). Covers safety guards, quality gates, and session-end automation. Each hook ships as a standalone bash script with a copy-paste `settings.json` config and a detailed implementation guide.
+
+- `docs/12-hooks-and-automation.md` — hooks reference covering 6 recommended hooks (Destructive Command Guard, Auto-Lint, Auto-Run Tests, SonarQube Scan, Documentation Nudge, Auto-Checkpoint); includes event type overview, configuration format, file location guidance, and implementation links
+- `hooks/README.md` — implementation guide for all 5 shipped hook scripts: prerequisites, installation steps, per-hook customization, enable/disable guidance, and troubleshooting
+- `hooks/settings-template.json` — copy-paste `.claude/settings.json` config block wiring all 5 hooks to their scripts
+- `hooks/scripts/guard-destructive.sh` — PreToolUse hook: blocks Bash commands matching destructive patterns (rm -rf, force push, DROP TABLE, etc.) with exit 2 feedback to Claude
+- `hooks/scripts/lint-on-write.sh` — PostToolUse hook: runs ESLint, ruff/flake8, or phpcs on the changed file; output surfaced to Claude for same-turn fixes
+- `hooks/scripts/test-on-write.sh` — PostToolUse hook (async): finds and runs the paired test file for a changed source file; supports pytest and jest; silent if no test file exists
+- `hooks/scripts/docs-nudge.sh` — Stop hook: checks git status for modified source files and surfaces a non-blocking /docs reminder
+- `hooks/scripts/auto-checkpoint.sh` — Stop hook (async): writes a minimal git-status savepoint to `.claude/checkpoints/` at session end
+
 **Skills layer** — 9 Claude Code skills derived from the existing agent library (7) and designed from scratch (2). Each skill is model-invoked via its `description` frontmatter and progressively disclosed — Claude auto-loads the skill when intent matches, no command required. Each skill ships with a SKILL.md instruction file, a `references/` output template, and a user-facing manual.
 
 - `skills/code-review/SKILL.md` — skill definition for structured pre-PR code review; auto-triggers on review requests, "check my changes", "is this ready to merge"
@@ -53,6 +64,11 @@ Format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 - `skills/refactor/SKILL.md` — original skill (no source agent) for behavior-preserving code cleanup; auto-triggers on "refactor this", "clean this up", "too much duplication", "simplify the conditionals"
 - `skills/refactor/references/refactoring-plan-template.md` — plan format: "What Will NOT Change" section before diffs; diff-format per change type; approval gate before file writes
 - `skills/refactor-manual.md` — installation guide, trigger phrases, 7 refactor types, behavior preservation rules
+
+### Changed
+- `docs/04-coding-techniques.md` — added Hooks and Automation section with summary table of 6 recommended hooks and link to new doc
+- `README.md` — added `hooks/` folder to repository structure block; added `docs/12-hooks-and-automation.md` to docs structure
+- `CLAUDE.md` — added `docs/11-token-saver.md` (previously missing), `docs/12-hooks-and-automation.md`, and full `hooks/` folder structure to repository structure block
 
 ---
 

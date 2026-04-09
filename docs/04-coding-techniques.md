@@ -325,6 +325,27 @@ For rollout guidance and adoption constraints, see [`docs/09-experimental-techni
 
 ---
 
+## Hooks and Automation
+
+Hooks are shell commands configured in `settings.json` that fire automatically at specific points in the Claude Code lifecycle — no invocation required. They are the mechanism for making quality gates ambient rather than optional.
+
+Six hooks are recommended for Offshorly workflows:
+
+| Hook | Event | What it does |
+|------|-------|-------------|
+| Destructive Command Guard | `PreToolUse` | Warns and confirms before `rm -rf`, force-push, DROP TABLE, and similar irreversible commands |
+| Auto-Lint on File Change | `PostToolUse` | Runs the project linter/formatter after every file write |
+| Auto-Run Tests on File Change | `PostToolUse` | Runs the corresponding test file after each source file change |
+| SonarQube Scan on File Change | `PostToolUse` | Triggers a SonarQube scan immediately after a file is written |
+| Documentation Nudge on Session End | `Stop` | Surfaces a non-blocking reminder to run `/docs` if source files changed |
+| Auto-Checkpoint on Session End | `Stop` | Writes a `.claude/checkpoints/` savepoint automatically at session end |
+
+> **Implementation status:** Hook definitions and intent are documented. Shell scripts and ready-to-copy `settings.json` config blocks will be shipped in a follow-up pass.
+
+For full hook documentation, event types, and configuration guide → [`docs/12-hooks-and-automation.md`](12-hooks-and-automation.md)
+
+---
+
 ## Design + Dev + AI Handoff (Figma)
 
 For design-driven workflows (Figma MCP, UIkit, WP modules/pages), use the shared handoff standards in:

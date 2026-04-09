@@ -59,7 +59,13 @@ ai-excellence-playbook/
 |   |-- 08-basic-techniques.md                   # Day-to-day Claude Code usage: context references and shortcuts
 |   |-- 09-experimental-techniques.md            # Experimental workflows under evaluation (orchestrate, multi-plan)
 |   |-- 10-design-handoff.md                     # Design-to-dev-to-AI handoff standards for Figma workflows
-|   `-- 11-token-saver.md                        # Token budgeting techniques for prompts, docs, and git workflows
+|   |-- 11-token-saver.md                        # Token budgeting techniques for prompts, docs, and git workflows
+|   `-- 12-hooks-and-automation.md               # Event-driven hook automation for quality gates and session management
+|
+|-- hooks/
+|   |-- README.md                                # Installation guide, per-hook details, troubleshooting
+|   |-- settings-template.json                   # Copy-paste .claude/settings.json config for all hooks
+|   `-- scripts/                                 # Hook shell scripts (copy to .claude/hooks/scripts/)
 |
 |-- internal/
 |   `-- tldr-agent.md                            # TLDR navigation script for role-based doc routing
