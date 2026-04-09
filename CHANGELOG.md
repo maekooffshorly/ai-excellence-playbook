@@ -68,8 +68,9 @@ Format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 - `skills/refactor-manual.md` — installation guide, trigger phrases, 7 refactor types, behavior preservation rules
 
 ### Changed
+- `docs/03-mcp-servers.md` — added Playwright as a new active MCP entry (QA/frontend); added plugin directory install note to Context7 entry as an alternative to manual JSON config
 - `docs/04-coding-techniques.md` — added Hooks and Automation section with summary table of 6 recommended hooks and link to new doc; added skills callout to Agent-Based Techniques section; removed stale hooks implementation-pending note
-- `README.md` — added `hooks/` folder and `docs/12-hooks-and-automation.md` and `docs/13-skills.md` to repository structure block
+- `README.md` — added `hooks/` folder, `docs/12-hooks-and-automation.md`, `docs/13-skills.md` to repository structure block; added Playwright to recommended toolset table
 - `CLAUDE.md` — added `docs/11-token-saver.md` (previously missing), `docs/12-hooks-and-automation.md`, `docs/13-skills.md`, and full `hooks/` folder structure to repository structure block
 
 ---

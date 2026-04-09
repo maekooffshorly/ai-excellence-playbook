@@ -129,6 +129,7 @@ Tasks are grouped into three tiers that drive model selection, prompting style, 
 | Code Quality MCP | SonarQube |
 | Library Standards MCP | Context7 |
 | Design MCP | Figma *(frontend only)* |
+| Browser Automation MCP | Playwright *(QA/frontend only)* |
 
 ---
 

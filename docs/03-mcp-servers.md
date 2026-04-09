@@ -73,6 +73,11 @@ Keeps code suggestions aligned with current library versions, up-to-date practic
 | **Best fit** | Any implementation work with heavy library usage |
 | **Required for** | Test Writer agent, Documentation agent |
 
+**Installation options:**
+
+- **Plugin directory (recommended for new installs):** Visit `claude.ai/plugins`, find Context7, and install in one click. No manual JSON required.
+- **Manual config:** Add to `~/.claude/settings.json` under `mcpServers` — see [`docs/05-setup-guide.md`](05-setup-guide.md#step-2-configure-mcps) for the full config block.
+
 **Getting a Context7 API key (optional, for higher rate limits):**
 
 1. Go to [https://context7.com/dashboard](https://context7.com/dashboard)
@@ -99,6 +104,29 @@ Bridges the design-to-code workflow by giving AI tools direct access to Figma de
 | **Primary use case** | Extracting design details and aligning UI implementations to design specs |
 | **Best fit** | Frontend developers working directly from Figma |
 | **Required for** | Not required for all — frontend only |
+
+---
+
+### Playwright
+
+**Category:** Browser Automation and End-to-End Testing
+**Used by:** QA engineers, frontend developers
+
+Gives Claude direct control over a real browser — navigate pages, click elements, fill forms, take screenshots, and run end-to-end test scenarios. Extends the test-writer skill and `/test-writer` agent beyond unit and integration tests into full UI and workflow coverage.
+
+| Detail | Info |
+|--------|------|
+| **Primary use case** | Writing and running end-to-end tests; verifying UI behavior against acceptance criteria |
+| **Best fit** | QA engineers and frontend developers; not relevant for backend-only work |
+| **Required for** | Not required for all — QA/frontend only |
+
+**Installation:**
+
+Plugin directory is the recommended install path — no manual JSON config required.
+
+1. Visit `claude.ai/plugins`
+2. Find the Playwright plugin (published by Microsoft)
+3. Install — Claude Code will prompt for any required browser setup
 
 ---
 
