@@ -60,7 +60,8 @@ ai-excellence-playbook/
 |   |-- 09-experimental-techniques.md            # Experimental workflows under evaluation (orchestrate, multi-plan)
 |   |-- 10-design-handoff.md                     # Design-to-dev-to-AI handoff standards for Figma workflows
 |   |-- 11-token-saver.md                        # Token budgeting techniques for prompts, docs, and git workflows
-|   `-- 12-hooks-and-automation.md               # Event-driven hook automation for quality gates and session management
+|   |-- 12-hooks-and-automation.md               # Event-driven hook automation for quality gates and session management
+|   `-- 13-skills.md                             # Skills primitive reference — what skills are, how they work, all 9 shipped skills
 |
 |-- hooks/
 |   |-- README.md                                # Installation guide, per-hook details, troubleshooting

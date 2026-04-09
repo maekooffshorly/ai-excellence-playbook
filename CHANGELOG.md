@@ -16,6 +16,8 @@ Format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ### Added
 
+- `docs/13-skills.md` — skills primitive reference: what skills are vs agents and hooks, how the description-based auto-trigger works, the three-file pattern, all 9 shipped skills in a table with trigger phrases and manual links, installation steps, and a custom skill authoring guide
+
 **Hooks layer** — 5 event-driven shell hooks that fire automatically at Claude Code lifecycle events (no invocation required). Covers safety guards, quality gates, and session-end automation. Each hook ships as a standalone bash script with a copy-paste `settings.json` config and a detailed implementation guide.
 
 - `docs/12-hooks-and-automation.md` — hooks reference covering 6 recommended hooks (Destructive Command Guard, Auto-Lint, Auto-Run Tests, SonarQube Scan, Documentation Nudge, Auto-Checkpoint); includes event type overview, configuration format, file location guidance, and implementation links
@@ -66,9 +68,9 @@ Format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 - `skills/refactor-manual.md` — installation guide, trigger phrases, 7 refactor types, behavior preservation rules
 
 ### Changed
-- `docs/04-coding-techniques.md` — added Hooks and Automation section with summary table of 6 recommended hooks and link to new doc
-- `README.md` — added `hooks/` folder to repository structure block; added `docs/12-hooks-and-automation.md` to docs structure
-- `CLAUDE.md` — added `docs/11-token-saver.md` (previously missing), `docs/12-hooks-and-automation.md`, and full `hooks/` folder structure to repository structure block
+- `docs/04-coding-techniques.md` — added Hooks and Automation section with summary table of 6 recommended hooks and link to new doc; added skills callout to Agent-Based Techniques section; removed stale hooks implementation-pending note
+- `README.md` — added `hooks/` folder and `docs/12-hooks-and-automation.md` and `docs/13-skills.md` to repository structure block
+- `CLAUDE.md` — added `docs/11-token-saver.md` (previously missing), `docs/12-hooks-and-automation.md`, `docs/13-skills.md`, and full `hooks/` folder structure to repository structure block
 
 ---
 
