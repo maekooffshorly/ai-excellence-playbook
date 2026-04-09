@@ -1,6 +1,6 @@
 # Hooks — Implementation Guide
 
-This folder contains ready-to-use hook scripts for Offshorly engineering projects. The scripts implement the 6 hooks recommended in [`docs/12-hooks-and-automation.md`](../docs/12-hooks-and-automation.md).
+This folder contains ready-to-use hook scripts for Offshorly engineering projects. The scripts implement the 6 hooks recommended in [`docs/13-hooks-and-automation.md`](../docs/13-hooks-and-automation.md).
 
 Hooks in this folder are the **source files** — copy them into your project's `.claude/hooks/` directory to use them.
 
@@ -30,7 +30,7 @@ Hooks in this folder are the **source files** — copy them into your project's 
 | Documentation Nudge | `Stop` | Always | Reminds to run `/docs` if source files changed | Include — non-blocking |
 | Auto-Checkpoint | `Stop` | Always | Writes a git-status savepoint to `.claude/checkpoints/` | Optional — creates files |
 
-> **SonarQube Scan** (also documented in `docs/12-hooks-and-automation.md`) is not included here — it requires SonarQube MCP to be active and project-specific config. Implement it separately once SonarQube is configured.
+> **SonarQube Scan** (also documented in `docs/13-hooks-and-automation.md`) is not included here — it requires SonarQube MCP to be active and project-specific config. Implement it separately once SonarQube is configured.
 
 ---
 

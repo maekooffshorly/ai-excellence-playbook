@@ -114,7 +114,7 @@ These agents extend the workflow beyond code generation into testing, review, an
 
 For full agent instruction sheets and installation steps, see [`agents/`](../agents/).
 
-> **Prefer describing over commanding?** Each agent below has a corresponding skill — a version that activates automatically when Claude detects matching intent, no slash command needed. Load skills from [`skills/`](../skills/) into your `.claude/skills/` folder and Claude will pick up the right one as you work. See [`docs/13-skills.md`](13-skills.md) for the full skills reference.
+> **Prefer describing over commanding?** Each agent below has a corresponding skill — a version that activates automatically when Claude detects matching intent, no slash command needed. Load skills from [`skills/`](../skills/) into your `.claude/skills/` folder and Claude will pick up the right one as you work. See [`docs/14-skills.md`](14-skills.md) for the full skills reference.
 
 ### The Full Pipeline
 
@@ -342,7 +342,7 @@ Six hooks are recommended for Offshorly workflows:
 | Documentation Nudge on Session End | `Stop` | Surfaces a non-blocking reminder to run `/docs` if source files changed |
 | Auto-Checkpoint on Session End | `Stop` | Writes a `.claude/checkpoints/` savepoint automatically at session end |
 
-For full hook documentation, event types, configuration guide, and installation steps → [`docs/12-hooks-and-automation.md`](12-hooks-and-automation.md)
+For full hook documentation, event types, configuration guide, and installation steps → [`docs/13-hooks-and-automation.md`](13-hooks-and-automation.md)
 
 ---
 

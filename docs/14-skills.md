@@ -1,6 +1,6 @@
 # Skills
 
-This document covers Claude Code skills — model-invoked capabilities that activate automatically based on intent, without requiring a slash command. Skills complement the agent-based workflow covered in [`docs/04-coding-techniques.md`](04-coding-techniques.md) and the event-driven hooks in [`docs/12-hooks-and-automation.md`](12-hooks-and-automation.md).
+This document covers Claude Code skills — model-invoked capabilities that activate automatically based on intent, without requiring a slash command. Skills complement the agent-based workflow covered in [`docs/04-coding-techniques.md`](04-coding-techniques.md) and the event-driven hooks in [`docs/13-hooks-and-automation.md`](13-hooks-and-automation.md).
 
 ---
 
