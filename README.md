@@ -10,9 +10,9 @@ This playbook is **not** about enforcing identical coding styles or replacing en
 
 ## What's New
 
-**v1.4 — WP Module Builder Skill + Embee Protocol Update + PR Review Guide**
+**v1.5 — Skills Layer**
 
-Added the WP Module Builder Claude Code skill (`skills/module-builder/`) with a three-phase workflow and full reference library. Updated `prompts/03-embee-system-prompt.md` with a universal action confirmation protocol, delete/remove extra caution rules, and a task progress update protocol. Added `docs/12-pr-review.md` — a practical guide for AI-assisted PR code review.
+Added 9 Claude Code skills: `code-review`, `test-writer`, `security-check`, `build-fix`, `docs`, `verify`, `checkpoint`, `context-seed`, and `refactor`. Skills are model-invoked — Claude auto-loads the right capability when intent matches, no command required. Each skill ships with a SKILL.md instruction file, a structured output template, and a user-facing manual under `skills/`.
 
 For full version history → [CHANGELOG.md](CHANGELOG.md)
 
@@ -60,7 +60,14 @@ ai-excellence-playbook/
 |   |-- 09-experimental-techniques.md            # Experimental workflows under evaluation (orchestrate, multi-plan)
 |   |-- 10-design-handoff.md                     # Design-to-dev-to-AI handoff standards for Figma workflows
 |   |-- 11-token-saver.md                        # Token budgeting techniques for prompts, docs, and git workflows
-|   `-- 12-pr-review.md                          # PR review workflows and standards
+|   |-- 12-pr-review.md                          # PR review workflows and standards
+|   |-- 13-hooks-and-automation.md               # Event-driven hook automation for quality gates and session management
+|   `-- 14-skills.md                             # Skills primitive reference — what skills are, how they work, all 9 shipped skills
+|
+|-- hooks/
+|   |-- README.md                                # Installation guide, per-hook details, troubleshooting
+|   |-- settings-template.json                   # Copy-paste .claude/settings.json config for all hooks
+|   `-- scripts/                                 # Hook shell scripts (copy to .claude/hooks/scripts/)
 |
 |-- internal/
 |   `-- tldr-agent.md                            # TLDR navigation script for role-based doc routing
@@ -123,6 +130,7 @@ Tasks are grouped into three tiers that drive model selection, prompting style, 
 | Code Quality MCP | SonarQube |
 | Library Standards MCP | Context7 |
 | Design MCP | Figma *(frontend only)* |
+| Browser Automation MCP | Playwright *(QA/frontend only)* |
 
 ---
 

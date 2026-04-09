@@ -12,6 +12,69 @@ Format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Ver
 
 ---
 
+## [v1.5] — 2026-04-09
+
+### Added
+
+- `docs/14-skills.md` — skills primitive reference: what skills are vs agents and hooks, how the description-based auto-trigger works, the three-file pattern, all 9 shipped skills in a table with trigger phrases and manual links, installation steps, and a custom skill authoring guide
+
+**Hooks layer** — 5 event-driven shell hooks that fire automatically at Claude Code lifecycle events (no invocation required). Covers safety guards, quality gates, and session-end automation. Each hook ships as a standalone bash script with a copy-paste `settings.json` config and a detailed implementation guide.
+
+- `docs/13-hooks-and-automation.md` — hooks reference covering 6 recommended hooks (Destructive Command Guard, Auto-Lint, Auto-Run Tests, SonarQube Scan, Documentation Nudge, Auto-Checkpoint); includes event type overview, configuration format, file location guidance, and implementation links
+- `hooks/README.md` — implementation guide for all 5 shipped hook scripts: prerequisites, installation steps, per-hook customization, enable/disable guidance, and troubleshooting
+- `hooks/settings-template.json` — copy-paste `.claude/settings.json` config block wiring all 5 hooks to their scripts
+- `hooks/scripts/guard-destructive.sh` — PreToolUse hook: blocks Bash commands matching destructive patterns (rm -rf, force push, DROP TABLE, etc.) with exit 2 feedback to Claude
+- `hooks/scripts/lint-on-write.sh` — PostToolUse hook: runs ESLint, ruff/flake8, or phpcs on the changed file; output surfaced to Claude for same-turn fixes
+- `hooks/scripts/test-on-write.sh` — PostToolUse hook (async): finds and runs the paired test file for a changed source file; supports pytest and jest; silent if no test file exists
+- `hooks/scripts/docs-nudge.sh` — Stop hook: checks git status for modified source files and surfaces a non-blocking /docs reminder
+- `hooks/scripts/auto-checkpoint.sh` — Stop hook (async): writes a minimal git-status savepoint to `.claude/checkpoints/` at session end
+
+**Skills layer** — 9 Claude Code skills derived from the existing agent library (7) and designed from scratch (2). Each skill is model-invoked via its `description` frontmatter and progressively disclosed — Claude auto-loads the skill when intent matches, no command required. Each skill ships with a SKILL.md instruction file, a `references/` output template, and a user-facing manual.
+
+- `skills/code-review/SKILL.md` — skill definition for structured pre-PR code review; auto-triggers on review requests, "check my changes", "is this ready to merge"
+- `skills/code-review/references/review-output-template.md` — findings format: severity-classified (🔴→🟢), acceptance criteria check, test coverage assessment
+- `skills/code-review-manual.md` — installation guide, trigger phrases, severity reference, what the skill will not do
+
+- `skills/test-writer/SKILL.md` — skill definition for unit test generation; auto-triggers on "write tests for", "add coverage", "TDD", test quality review requests
+- `skills/test-writer/references/test-output-template.md` — test plan format with coverage summary table and built-in approval gate before file writes
+- `skills/test-writer-manual.md` — installation guide, trigger phrases, coverage categories, two-phase workflow
+
+- `skills/security-check/SKILL.md` — skill definition for OWASP-based security analysis; auto-triggers on "check for vulnerabilities", "security scan", auth/billing/compliance mentions
+- `skills/security-check/references/security-findings-template.md` — security report format: overall risk level first, findings by severity (🔴→⚪), OWASP Top 10 assessment table
+- `skills/security-check-manual.md` — installation guide, trigger phrases, severity reference, mandatory-use guidance for auth and compliance-sensitive changes
+
+- `skills/build-fix/SKILL.md` — skill definition for build error diagnosis and fix; auto-triggers when error output is pasted or build/CI failure is described
+- `skills/build-fix/references/diagnosis-output-template.md` — diagnosis format: root cause analysis before the fix, diff-format proposed changes, approval gate before file writes
+- `skills/build-fix-manual.md` — installation guide, trigger phrases, error category reference, what the skill will not do
+
+- `skills/docs/SKILL.md` — skill definition for documentation maintenance; auto-triggers on "update the docs", "pre-PR docs pass", "end of day", "document this endpoint"
+- `skills/docs/references/docs-output-template.md` — two-pattern format (Pre-PR vs End-of-Day); changes-analyzed table first; actual drafted content not meta-descriptions
+- `skills/docs-manual.md` — installation guide, trigger phrases, two-pattern explanation, documentation checklist
+
+- `skills/verify/SKILL.md` — skill definition for pre-PR verification; auto-triggers on "is this ready for PR", "verify my implementation", "does this meet the AC"
+- `skills/verify/references/verification-report-template.md` — verdict-first format, per-category checklist (tests/lint/build/AC/docs), blockers vs observations distinction
+- `skills/verify-manual.md` — installation guide, trigger phrases, verdict levels, failure escalation paths to other skills
+
+- `skills/checkpoint/SKILL.md` — skill definition for session savepoints; auto-triggers on end-of-session signals, "stepping away", "handing this off", "save my progress"
+- `skills/checkpoint/references/checkpoint-output-template.md` — three-pattern format (End-of-Day / Mid-Feature Pause / Handoff); Handoff Notes section only appears for handoffs
+- `skills/checkpoint-manual.md` — installation guide, trigger phrases, three-pattern explanation, save location guidance
+
+- `skills/context-seed/SKILL.md` — original skill (no source agent) for codebase orientation before complex work; auto-triggers on "before we start, read the architecture", "familiarize yourself", "context first"
+- `skills/context-seed/references/context-summary-template.md` — orientation summary format: architecture map, entry points, patterns, dependencies, constraints, gotchas, mandatory "Where to Start"
+- `skills/context-seed-manual.md` — installation guide, trigger phrases, when-to-use guidance, how to save summary for handoffs
+
+- `skills/refactor/SKILL.md` — original skill (no source agent) for behavior-preserving code cleanup; auto-triggers on "refactor this", "clean this up", "too much duplication", "simplify the conditionals"
+- `skills/refactor/references/refactoring-plan-template.md` — plan format: "What Will NOT Change" section before diffs; diff-format per change type; approval gate before file writes
+- `skills/refactor-manual.md` — installation guide, trigger phrases, 7 refactor types, behavior preservation rules
+
+### Changed
+- `docs/03-mcp-servers.md` — added Playwright as a new active MCP entry (QA/frontend); added plugin directory install note to Context7 entry as an alternative to manual JSON config
+- `docs/04-coding-techniques.md` — added Hooks and Automation section with summary table of 6 recommended hooks and link to new doc; added skills callout to Agent-Based Techniques section; removed stale hooks implementation-pending note
+- `README.md` — added `hooks/` folder, `docs/13-hooks-and-automation.md`, `docs/14-skills.md` to repository structure block; added Playwright to recommended toolset table
+- `CLAUDE.md` — added `docs/11-token-saver.md` (previously missing), `docs/13-hooks-and-automation.md`, `docs/14-skills.md`, and full `hooks/` folder structure to repository structure block
+
+---
+
 ## [v1.4] — 2026-03-18
 
 ### Added

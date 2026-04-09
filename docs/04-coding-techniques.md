@@ -114,6 +114,8 @@ These agents extend the workflow beyond code generation into testing, review, an
 
 For full agent instruction sheets and installation steps, see [`agents/`](../agents/).
 
+> **Prefer describing over commanding?** Each agent below has a corresponding skill — a version that activates automatically when Claude detects matching intent, no slash command needed. Load skills from [`skills/`](../skills/) into your `.claude/skills/` folder and Claude will pick up the right one as you work. See [`docs/14-skills.md`](14-skills.md) for the full skills reference.
+
 ### The Full Pipeline
 
 ```
@@ -322,6 +324,25 @@ Include rollout steps, fallback strategy, and test approach.
 **Installation:** Create `.claude/commands/multi-plan.md` with the instruction sheet from [`agents/multi-plan-agent.md`](../agents/multi-plan-agent.md)
 
 For rollout guidance and adoption constraints, see [`docs/09-experimental-techniques.md`](09-experimental-techniques.md).
+
+---
+
+## Hooks and Automation
+
+Hooks are shell commands configured in `settings.json` that fire automatically at specific points in the Claude Code lifecycle — no invocation required. They are the mechanism for making quality gates ambient rather than optional.
+
+Six hooks are recommended for Offshorly workflows:
+
+| Hook | Event | What it does |
+|------|-------|-------------|
+| Destructive Command Guard | `PreToolUse` | Warns and confirms before `rm -rf`, force-push, DROP TABLE, and similar irreversible commands |
+| Auto-Lint on File Change | `PostToolUse` | Runs the project linter/formatter after every file write |
+| Auto-Run Tests on File Change | `PostToolUse` | Runs the corresponding test file after each source file change |
+| SonarQube Scan on File Change | `PostToolUse` | Triggers a SonarQube scan immediately after a file is written |
+| Documentation Nudge on Session End | `Stop` | Surfaces a non-blocking reminder to run `/docs` if source files changed |
+| Auto-Checkpoint on Session End | `Stop` | Writes a `.claude/checkpoints/` savepoint automatically at session end |
+
+For full hook documentation, event types, configuration guide, and installation steps → [`docs/13-hooks-and-automation.md`](13-hooks-and-automation.md)
 
 ---
 
