@@ -1,6 +1,6 @@
 ﻿# AI Excellence Playbook
 
-![Version](https://img.shields.io/badge/version-v1.4-blue)
+![Version](https://img.shields.io/badge/version-v1.5-blue)
 
 > A practical reference for consistent AI tool selection and usage across engineering roles at Offshorly - developers (full-stack, backend, frontend), DevOps, QA, and designers.
 
